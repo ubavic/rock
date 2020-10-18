@@ -1,0 +1,510 @@
+@font-face {
+  font-family: 'NiokiBG';
+  src: url('/font/NiokiBG.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'NiokiBG';
+  src: url('/font/NiokiBG-Bold.otf') format('opentype');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'NiokiBG';
+  src: url('/font/NiokiBG-Italic.otf') format('opentype');
+  font-style: italic;
+}
+
+:root{
+  --serif-font-stack: DejaVu Serif, Georgia, serif;
+  --sans-font-stack: NiokiBG, Noto Sans, Helvetica, Arial, sans-serif;
+  --mono-font-stack: Consolas, Monaco, monospace;
+  --color-blue-1: #140505;
+  --color-blue-2: #290a0a;
+  --color-blue-3: #3d0f0f;
+  --color-blue-4: #771d1d;
+  --color-blue-5: #b12c2c;
+  --color-blue-6: #d45151;
+  --color-blue-7: #e28b8b;
+  --color-blue-8: #f1c5c5;
+  --color-gray-1: #333333;
+  --color-gray-2: #666666;
+  --color-gray-3: #999999;
+  --color-gray-4: #BBBBBB;
+  --color-gray-5: #EEEEEE;
+}
+
+body {
+  background-color: #3d0f0f;
+  background-image: url('/img/bgnoise.png');
+  font-family: var(--sans-font-stack);
+  margin: 0px;
+}
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2em 2em 2em 2em;
+  background-color: #FFF;
+  border-radius: 3px;
+  box-shadow: 0 0 5px #0009;
+}
+
+p {line-height: 1.4em}
+
+h1 {
+  margin: 2rem 0;
+  text-align: center;
+  color: #FFFFFF;
+  user-select: none;
+  text-shadow: 0 0 5px #000;
+}
+
+a {
+  color: var(--color-blue-4);
+  text-decoration: none;
+}
+
+a:hover {  
+  color: var(--color-blue-5);
+  text-decoration: underline;
+}
+
+hr {
+  border-style: solid;
+  color: #000;
+  border-width: 0 0 1px 0;
+}
+
+table {
+  margin: 2em auto 2em auto;
+  border-collapse: collapse;
+  border: 1px solid #000;
+}
+
+th {
+  font-weight: bold;
+  background-color: #EEE;
+  border: 1px solid #000;
+  padding: 0.5em 1em;
+}
+
+td {
+  border: 1px solid #000;
+  padding: 0.4em 1em;
+  overflow: auto;
+}
+
+li {
+  margin-bottom: 0.2em; 
+  margin-top: 0.2em;
+}
+
+pre {
+  background-color: #EEE;
+  color: #000;
+  font-size: 0.9em;
+  font-family: var(--mono-font-stack);
+  overflow-x: auto;
+  padding: 1em;
+}
+
+code, kbd {
+  background-color: #EEE;
+  color: #000;
+  font-size: 0.9em;
+  font-family: var(--mono-font-stack);
+}
+
+body > header {
+  color: #FFF;
+  padding: 0 calc((100% - 800px)/2 - 0.5em);
+  padding-top: 2em;
+}
+
+body > header > nav {
+  display: flex;
+  justify-content: flex-start;
+  user-select: none;
+}
+
+footer {
+  text-align: center;
+  font-size: 1em;
+  margin: 0;
+  color: #DDD;
+  padding: 2em 0 4em 0;
+  text-shadow: 0 0 5px #000;
+  user-select: none;
+}
+
+footer a {
+  color: #FFF;
+}
+
+footer a:hover {
+  color: #FFF;
+}
+
+figure {
+  margin: 2em 0 2em 0;
+}
+
+figure img {
+  display: block;
+  max-width: 100%;
+  margin: auto;
+}
+
+figcaption {
+  display: block;
+  max-width: 600px;
+  text-align: center;
+  font-style: italic;
+  font-size: 0.9em;
+  margin: 0.5em auto 1em auto;
+}
+
+figure > table {
+  margin-bottom: 0;
+}
+
+main *:focus {
+  outline: 1px solid var(--color-blue-6);
+  background-color: #EEE;
+}
+
+*::selection {
+  background-color: var(--color-blue-4);
+  color: #FFF;
+}
+
+*:target {
+  background-color: #FFF;
+  animation: target_animation 1s linear;
+  animation-timing-function: ease-in;
+}
+
+@keyframes target_animation {
+  from {background-color: var(--color-blue-4);}
+  to {background-color: #FFF;}
+}
+
+form {
+  margin: 1em 0;
+}
+
+textarea, input, select, button {
+  border: 1px solid var(--color-gray-2);
+  font-family: var(--sans-font-stack);
+  max-width: 100%;
+}
+
+textarea:focus, input:focus, select:focus, button:focus {
+  border: 1px solid var(--color-blue-5);
+  background-color: var(--color-gray-5);
+}
+
+textarea {
+  padding: 0.5em;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* CLASSES */
+
+.menuItem {
+  display: block;
+  text-shadow: 0 0 5px #000;
+  padding: 0.5em;
+  margin: 0;
+  color: #FFF;
+  transition: background-color 200ms;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.menuItem:hover {
+  color: #FFF;
+  text-decoration: none;
+  background-color: var(--color-blue-2);
+}
+
+.activeMenuItem {
+  background-color: #FFF;
+  text-shadow: none;
+  color: #000;
+}
+
+.activeMenuItem:hover{
+  background-color: #FFF;
+  color: #000;
+}
+
+#menuSwitch {
+  display: none;
+  cursor: pointer;
+}
+
+.examList {
+  margin: 1em 0;
+}
+
+.examListHeader {
+  display: flex;
+  flex-direction: row;
+  padding: 0.5em 0.5em;
+  background-color: var(--color-gray-4);
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.examListRow {
+  display: flex;
+  flex-direction: row;
+  padding: 0.5em 0.5em;
+  background-color: var(--color-gray-5);
+  transition: background-color 0.2s;
+  border-top: 1px solid var(--color-gray-4);
+}
+
+.examListRow:last-child {
+  border-bottom: 1px solid var(--color-gray-4);
+}
+
+.examListRow:hover {
+  text-decoration: none;
+  background-color: var(--color-gray-4);
+}
+
+.examListHeader > div, .examListRow > div {
+  padding: 0 0.5em;
+}
+
+.examListType {
+  width: 2em;
+}
+
+.examListSubject {
+  width: 15em;
+}
+
+.examListDate {
+  width: 7em;
+}
+
+.examTitle {
+  font-weight: normal;
+  text-align: center;
+  font-size: 1em;
+  margin-bottom: 1em;
+}
+
+.examTitle .class {
+  font-size: 2em;
+  font-weight: bold;
+  font-variant-caps: small-caps;
+}
+
+.problems {
+  margin: 2em 0;
+}
+
+.problem + .problem{
+  margin-top: 1em;
+}
+
+.problem > header {
+  background-color: var(--color-gray-5);
+  padding: 0.2em 0.5em;
+  border-radius: 3px;
+}
+
+.formRow {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin: 0.5em 0;
+}
+
+.formRowGroup {
+  margin-right: 1em;
+}
+
+.formRowElement {
+  margin-right: 0.5em;
+}
+
+.problemEntry {
+  margin: 1em 0 1em 0;
+  background-color: var(--color-gray-5);
+  padding: 0.5em;
+  border-radius: 3px;
+}
+
+.problemEntry header {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 0.5em;
+}
+
+button, .button {
+  cursor: pointer;
+  border-radius: 3px;
+  border: none;
+  transition: 0.2s background-color;
+}
+
+.button:hover, .button:active {
+  border: none;
+  text-decoration: none;
+}
+
+.button + .button {
+  margin-left: 0.5em;
+}
+
+.bigButton {
+  background-color: var(--color-blue-4);
+  color: #FFF;
+  padding: 0.5em 1em;
+}
+
+.bigButton:hover {
+  background-color: var(--color-blue-3);
+  color: #FFF;
+}
+
+.bigButton:active, .bigButton:focus {
+  background-color: var(--color-blue-2);
+}
+
+.smallButton {
+  background-color: #0002;
+  color: #000;
+  padding: 0.2em 0.5em;
+}
+
+.smallButton:hover {
+  background-color: var(--color-gray-3);
+  color: #000;
+}
+
+.smallButton:active, .smallButton:focus {
+  background-color: var(--color-gray-2);
+}
+
+.controlPanel {
+  display: flex;
+  flex-direction: row; 
+}
+
+.controlPanel > nav {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  background-color: var(--color-gray-5);
+  padding: 0em;
+  border-radius: 3px;
+  margin-right: 0.5em;
+}
+
+.controlPanel > nav > a {
+  padding: 0.2em 0.2em;
+}
+
+.controlPanel > nav > a:hover {
+  background-color: var(--color-gray-4);
+}
+
+.controlPanel > div {
+  display: none;
+  width: 100%;
+}
+
+@media screen and (max-width: 900px) and (min-width: 701px) {
+  main {
+    padding: 2em 1em;
+    border-radius: 0;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  main {
+    padding: 1em 0.5em;
+    width: auto;
+    overflow-x: auto;
+    border-radius: 0;
+  }
+
+  p {text-align: left;}
+  blockquote {margin-left: 0;}
+
+  ul, ol {
+    list-style-position: inside;
+    padding-left:0;
+  }
+
+  li ul, li ol {
+    padding-left: 1em;
+  }
+
+  body > header > nav {
+    flex-direction: column;
+  }
+
+  .menuItem {
+    display: none;
+    border-radius: 0;
+  }
+
+  #menuSwitch {
+    display: block;
+  }
+
+  .examListSubject {
+    display: none;
+  }
+
+  .controlPanel {
+    flex-direction: column;
+  }
+
+  .controlPanel > nav {
+    flex-direction: row;
+    width: 100%;
+    margin: 0 0 1em 0;
+  }
+}
+
+@media print {
+  body{
+    background-color: #FFF;
+    background-image: none;
+  }
+
+  main {
+    padding: 0;
+    width: auto;
+    font-family: "Times New Roman", Times, serif;
+    box-shadow: none;
+  }
+
+  body > header, body > footer {display: none;}
+
+  h2, h3, h4 {break-after: avoid;}
+  table, li, img, blockquote, figure, pre {break-inside: avoid;}
+  footer, figcaption {break-before: avoid;}
+
+  a {text-decoration: underline;}
+
+  pre {
+    border: 1px solid #000;
+    color: #333;
+  }
+}
