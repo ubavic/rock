@@ -1,6 +1,6 @@
 <main>
 	<h2>Претражи рокове</h2>
-	<form action="" style="margin: 1em 0;">
+	<form action="">
 		<div class="formRow">
 			<label for="subject" class="formRowElement">Предмет:</label>&nbsp;
 			<select name="subject" id="subject" class="formRowElement">
@@ -29,7 +29,6 @@
 
 getExams();
 document.getElementById("subject").onchange = () => {getExams()};
-
 
 function getExams () {
 	var subject = document.getElementById("subject").value;

@@ -3,6 +3,7 @@
 use App\Models\ExamModel;
 use App\Models\ProblemModel;
 use App\Models\SubjectModel;
+use App\Models\UserModel;
 
 
 class Exam extends BaseController
@@ -42,6 +43,10 @@ class Exam extends BaseController
 
 		$problemsModel = new ProblemModel();
 		$data["problems"] = $problemsModel->getProblems($ID);
+
+		$userModel = new UserModel();
+		$data["created_by"] = $userModel->getAbbr($data["exam"]->created_by);
+		$data["updated_by"] = $userModel->getAbbr($data["exam"]->updated_by);
 
 		echo view('template/header', $data);
 		echo view('exams/view');

@@ -31,6 +31,10 @@ class UserModel extends Model {
 		return $data;
 	}
 
+	public function getAbbr($ID) {
+		$user = $this->find($ID);
+		return "<abbr title=\"$user->email\">" . $user->name . '</abbr>';
+	}
 }
 
 

@@ -18,7 +18,6 @@ class SubjectModel extends Model{
 		return $str;
 	}
 
-
 	public function getSubject ($ID) {
 		$row = $this->find($ID);
 		$subject = (object) [

@@ -22,9 +22,11 @@
 			<?= $exam->modules_string ?>
 		</div>
 		<div style="margin-left: auto"></div>
-		<div>
-			Време израде: <?= $exam->duration ?> минута.
-		</div>
+		<?php if($exam->duration): ?>
+			<div>
+				Време израде: <?= $exam->duration ?> минута.
+			</div>
+		<?php endif; ?>
 	</div>
 	<?php if ($exam->note != NULL): ?>
 		<p>
@@ -51,9 +53,9 @@
 		?>
 		<div class="formRow" style="align-items: flex-end;">
 			<div style="font-style: italic; font-size: 0.9em">
-				Рок додат <?= $exam->created_at ?>.
+				Рок додат <?= $exam->created_at ?>, од <?= $created_by ?>.
 				<?php if($exam->created_at != $exam->updated_at): ?>
-					<br>Последњи пут измењен <?= $exam->updated_at ?>.
+					<br>Последњи пут измењен <?= $exam->updated_at ?>, од <?= $updated_by ?>.
 				<?php endif; ?>
 			</div>
 			<div style="margin-left:auto;"></div>
