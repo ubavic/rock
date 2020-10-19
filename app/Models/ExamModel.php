@@ -70,14 +70,6 @@ class ExamModel extends Model{
 		return (($this->db->table('subjects')->where('id', $ID)->get()->getResult())[0])->name;
 	}
 
-	public function getExams() {
-		return $this->findAll();
-	}
-	
-	public function getExam($ID){
-		return $this->find($ID);
-	}
-
 	public function getLastTenExams () {
 		return $this->orderBy('created_at', 'DESC')->limit(5)->findAll();
 	}

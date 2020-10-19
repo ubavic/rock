@@ -15,7 +15,7 @@ class Problem extends BaseController
 			return redirect()->to('/exam');
 
 		$model = new ExamModel();
-		$data["exams"] = $model->getExam($ID);
+		$data["exams"] = $model->find($ID);
 	}
 
 }

@@ -32,15 +32,10 @@ class Home extends BaseController
 
 	public function sitemap () {
 		$examModel = new ExamModel();
-		$data['exams'] = $examModel->getExams();
+		$data['exams'] = $examModel->findAll();
 
 		$this->response->setHeader('Content-Type', 'text/xml;charset=iso-8859-1');
         echo view("template/sitemap", $data);
 	}
-
-
-
-
-
 
 }

@@ -266,6 +266,7 @@ button {
 
 .examListRow {
   display: flex;
+  justify-content: flex-start;
   flex-direction: row;
   padding: 0.5em 0.5em;
   background-color: var(--color-gray-5);
@@ -288,14 +289,21 @@ button {
 
 .examListType {
   width: 2em;
+  flex-shrink: 0;
 }
 
 .examListSubject {
   width: 15em;
+  flex-shrink: 0;
 }
 
 .examListDate {
   width: 7em;
+}
+
+.examListModules {
+  flex-grow: 10;
+  text-align: right;
 }
 
 .examTitle {

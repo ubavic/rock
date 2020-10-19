@@ -12,7 +12,7 @@ class Exam extends BaseController
 		$data['TITLE'] = "Рокови";
 
 		$model = new ExamModel();
-		$data["exams"] = $model->getExams();
+		$data["exams"] = $model->findAll();
 
 		$subjectsModel = new SubjectModel();
 		$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList();
@@ -22,12 +22,23 @@ class Exam extends BaseController
 		echo view('template/footer');
 	}
 
+
+	public function getExams($subject) {
+		if ($subject == NULL)
+			$subject = 1;
+
+		$subject = intval($subject);
+		$examModel = new ExamModel();
+		$data['exams'] = $examModel->where('subject', $subject)->findAll();
+		echo view('exams/examListTemplate', $data);
+	}
+
 	public function view($ID = 0)
 	{
 		$data['TITLE'] = "Прегледај рок";
 
 		$examModel = new ExamModel();
-		$data["exam"] = $examModel->getExam($ID);
+		$data["exam"] = $examModel->find($ID);
 
 		$problemsModel = new ProblemModel();
 		$data["problems"] = $problemsModel->getProblems($ID);
@@ -126,7 +137,7 @@ class Exam extends BaseController
 		$model = new ExamModel();
 
 		$data['TITLE'] = "Измени рок";
-		$data['exam'] = $model->getExam($ID);
+		$data['exam'] = $model->find($ID);
 
 		$subjectsModel = new SubjectModel();
 		$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList();

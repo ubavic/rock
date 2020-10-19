@@ -55,8 +55,7 @@
 					<div class="examListType"><abbr title="Испит/колоквијум">Тип</abbr></div>
 					<div class="examListSubject">Предмет</div>
 					<div class="examListDate">Датум</div>
-					<div style="margin-left:auto"></div>
-					<div>Смер</div>
+					<div class="examListModules">Смер</div>
 				</div>
 				<?php if(empty($createdExams)): ?>
 					<div style="text-align: center; padding: 1em; max-width: 600px; margin: 0 auto;">
@@ -68,8 +67,7 @@
 							<div class="examListType"><?= ($exam->type == 0) ? 'И' : 'К' ?></div>
 							<div class="examListSubject"><?= $exam->subject_name ?></div>
 							<div class="examListDate"><?= $exam->date ?></div>
-							<div style="margin-left:auto"></div>
-							<div><?= $exam->modules_string ?></div>
+							<div class="examListModules"><?= $exam->modules_string ?></div>
 						</a>
 					<?php endforeach; ?>
 				<?php endif; ?>
@@ -82,8 +80,7 @@
 					<div class="examListType"><abbr title="Испит/колоквијум">Тип</abbr></div>
 					<div class="examListSubject">Предмет</div>
 					<div class="examListDate">Датум</div>
-					<div style="margin-left:auto"></div>
-					<div>Смер</div>
+					<div class="examListModules">Смер</div>
 				</div>
 				<?php if(empty($savedExams)): ?>
 					<div style="text-align: center; padding: 1em; max-width: 600px; margin: 0 auto;">
@@ -95,8 +92,7 @@
 							<div class="examListType"><?= ($exam->type == 0) ? 'И' : 'К' ?></div>
 							<div class="examListSubject"><?= $exam->subject ?></div>
 							<div class="examListDate"><?= $exam->date ?></div>
-							<div style="margin-left:auto"></div>
-							<div><?= $exam->modules ?></div>
+							<div class="examListModules"><?= $exam->modules ?></div>
 						</a>
 					<?php endforeach; ?>
 				<?php endif; ?>
