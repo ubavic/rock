@@ -36,6 +36,7 @@ $routes->get('exam/new', 'Exam::new', ['filter' => 'auth']);
 $routes->get('exam/edit/(:num)', 'Exam::edit/$1', ['filter' => 'auth']);
 $routes->get('user/login', 'User::login', ['filter' => 'noauth']);
 $routes->get('user/register', 'User::register', ['filter' => 'noauth']);
+$routes->get('/sitemap.xml', 'Home::sitemap');
 
 /**
  * --------------------------------------------------------------------
