@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title> <?= $TITLE ?> • МАТФ РОКОВИ</title>
-		<meta name="description" content="Rokovi na matematičkom fakultetu u Beogradu.">
+		<meta name="description" content="Сајт на коме можете прегледати досадашње испитне рокове и колоквијуме на Математичком факултету у Београду.">
 		<meta name="author" content="Nikola Ubavić">
 		<meta name="viewport" content="width=device-width, user-scalable=yes">
 		<link rel="stylesheet" type="text/css" href="/css/style.css">

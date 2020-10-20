@@ -10,12 +10,12 @@
 		<div id="controlPanelItem0" style="display:block">
 			<h3 style="margin-top:0">Профил</h3>
 			<?php if (isset($validation)): ?>
-				<div class="formRow" style="background-color:#A275D9; padding: 0.5em 0; border-radius: 3px">
+				<div class="formRow error">
 					<?= $validation->listErrors() ?>
 				</div>
 			<?php endif; ?>
 			<?php if (session()->get('success')): ?>
-				<div class="formRow" style="background-color:#8CC476; padding: 0.5em 0; border-radius: 3px">
+				<div class="formRow success">
 					<?= session()->get('success'); ?>
 				</div>
 			<?php endif; ?>

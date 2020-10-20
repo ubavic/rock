@@ -1,18 +1,21 @@
 @font-face {
   font-family: 'NiokiBG';
   src: url('/font/NiokiBG.otf') format('opentype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'NiokiBG';
   src: url('/font/NiokiBG-Bold.otf') format('opentype');
   font-weight: bold;
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'NiokiBG';
   src: url('/font/NiokiBG-Italic.otf') format('opentype');
   font-style: italic;
+  font-display: swap;
 }
 
 :root{
@@ -433,6 +436,20 @@ button, .button {
 .controlPanel > div {
   display: none;
   width: 100%;
+}
+
+.success {
+  background-color:#8CC476;
+  border: 1px solid #578346;
+  padding: 0.5em 0.5em;
+  border-radius: 3px;
+}
+
+.error {
+  background-color:#A275D9;
+  border: 1px solid #633A96;
+  padding: 0.5em 0.5em;
+  border-radius: 3px;
 }
 
 @media screen and (max-width: 900px) and (min-width: 701px) {

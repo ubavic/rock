@@ -2,7 +2,7 @@
 	<h2>Нови рок</h2>
 	<form action="" style="margin: 1em 0;" method="post" id="form">
 		<?php if (isset($validation)): ?>
-			<div class="formRow" style="background-color:#A275D9; padding: 0.5em 0; border-radius: 3px">
+			<div class="formRow error">
 				<?= $validation->listErrors() ?>
 			</div>
 		<?php endif; ?>

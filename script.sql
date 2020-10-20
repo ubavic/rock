@@ -22,6 +22,7 @@ CREATE TABLE `users`
  `can_delete`       tinyint unsigned NOT NULL DEFAULT 0 ,
  `can_edit`         tinyint unsigned NOT NULL DEFAULT 0 ,
  `can_manage_users` tinyint unsigned NOT NULL DEFAULT 0 ,
+ `ver_code`         int unsigned NULL DEFAULT NULL,
 
 PRIMARY KEY (`id`)
 );

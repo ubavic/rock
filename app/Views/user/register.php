@@ -1,8 +1,8 @@
 <main>
 	<form method="post" style="margin: 0 auto; width: 300px;">
-		<h2>Регистујте се</h2>
+		<h2>Региструјте се</h2>
 		<?php if(isset($validation)): ?>
-			<div class="formRow">
+			<div class="formRow error">
 				<?= $validation->listErrors() ?>
 			</div>
 		<?php endif; ?>
@@ -18,7 +18,7 @@
 			<label for="pass_confirm" class="formRowElement">Потврдите шифру:</label>
 			<input type="password" name="pass_confirm" id="pass_confirm" style="width: 300px;">
 		</div>
-		<p>Регистрацијом на овом сајту пристајете на <a href="/user/terms">услове регистрације</a>.</p>
+		<p>Регистрацијом пристајете на <a href="/user/terms">услове регистрације</a>.</p>
 		<div class="formRow" style="align-items: flex-end;">
 			<div style="margin-left: auto"></div>
 			<button type="submit" class="bigButton">Регистујте се</button>

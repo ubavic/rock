@@ -1,6 +1,6 @@
 {
-    "name": "MATF Rokovi",
-    "short_name": "Rokovi",
+    "name": "МАТФ Рокови",
+    "short_name": "Рокови",
     "icons": [
         {
             "src": "/img/android-chrome-192x192.png",
@@ -16,5 +16,16 @@
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
     "start_url": "https://rokovi.ubavic.rs",
-    "display": "standalone"
+    "display": "minimal-ui",
+    "categories": ["education"],
+    "shortcuts" : [
+        {
+          "name": "Рокови",
+          "url": "/exam"
+        },
+        {
+          "name": "Контролни панел",
+          "url": "/user/controlpanel"
+        }
+      ]
 }

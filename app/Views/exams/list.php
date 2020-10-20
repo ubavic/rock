@@ -21,7 +21,7 @@
 	</div>
 	<?php if($can_add): ?>
 		<div class="formRow" style="flex-direction: row-reverse;">
-			<a href="/exam/new" class="bigButton">Нови рок</a>
+			<a href="/exam/new" class="button bigButton">Нови рок</a>
 		</div>
 	<?php endif; ?>
 </main>

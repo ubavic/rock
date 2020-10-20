@@ -2,12 +2,12 @@
 	<form method="post" style="margin: 0 auto; width: 300px;">
 		<h2>Пријавите се</h2>
 		<?php if (isset($validation)): ?>
-			<div class="formRow" style="background-color:#A275D9; padding: 0.5em 0; border-radius: 3px">
+			<div class="formRow error">
 				<?= $validation->listErrors() ?>
 			</div>
 		<?php endif; ?>
 		<?php if (session()->get('success')): ?>
-			<div class="formRow" style="background-color:#8CC476; padding: 0.5em 0; border-radius: 3px">
+			<div class="formRow success">
 				<?= session()->get('success'); ?>
 			</div>
 		<?php endif; ?>

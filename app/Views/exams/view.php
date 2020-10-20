@@ -60,10 +60,10 @@
 			</div>
 			<div style="margin-left:auto;"></div>
 			<?php if($can_edit): ?>
-				<a href="/exam/edit/<?= $uri->getSegment(3) ?>" class="bigButton">Измени рок</a>
+				<a href="/exam/edit/<?= $uri->getSegment(3) ?>" class="button bigButton">Измени рок</a>
 			<?php endif; ?>
 			<?php if($can_delete): ?>
-            	<div onclick="<?= 'confirmDelete(\'/exam/delete/' . $exam->id .'\')'?>" class="bigButton">Обриши рок</div>
+            	<div onclick="<?= 'confirmDelete(\'/exam/delete/' . $exam->id .'\')'?>" class="button bigButton">Обриши рок</div>
 			<?php endif; ?>
         </div>
     <?php endif; ?>
