@@ -12,6 +12,9 @@ class Filters extends BaseConfig
 		'honeypot' => \CodeIgniter\Filters\Honeypot::class,
 		'auth'     => \App\Filters\Auth::class,
 		'noauth'   => \App\Filters\NoAuth::class,
+		'canAdd'   => \App\Filters\CanAdd::class,
+		'canDelete'   => \App\Filters\CanDelete::class,
+		'canEdit'   => \App\Filters\CanEdit::class,
 	];
 
 	// Always applied before every request

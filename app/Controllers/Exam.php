@@ -18,6 +18,12 @@ class Exam extends BaseController
 		$subjectsModel = new SubjectModel();
 		$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList();
 
+		$userModel = new UserModel();
+		if (session()->get('logged') and $userModel->find(session()->get('id'))->can_add)
+			$data['can_add'] = 1;
+		else
+			$data['can_add'] = 0;
+
 		echo view('template/header', $data);
 		echo view('exams/list');
 		echo view('template/footer');
@@ -47,6 +53,16 @@ class Exam extends BaseController
 		$userModel = new UserModel();
 		$data["created_by"] = $userModel->getAbbr($data["exam"]->created_by);
 		$data["updated_by"] = $userModel->getAbbr($data["exam"]->updated_by);
+
+		$data['can_edit'] = 0;
+		$data['can_delete'] = 0;
+
+		if (session()->get('logged')) {
+			if ($userModel->find(session()->get('id'))->can_edit)
+				$data['can_edit'] = 1;
+			if ($userModel->find(session()->get('id'))->can_delete)
+				$data['can_delete'] = 1;
+		}
 
 		echo view('template/header', $data);
 		echo view('exams/view');
@@ -173,5 +189,15 @@ class Exam extends BaseController
 
 	}
 
+
+	public function delete ($ID) {
+
+		$examModel = new ExamModel();
+		
+		$examModel->update($ID, ['updated_by' => session()->get('id')]);
+		$examModel->delete($ID);
+
+		return redirect()->to('/exam');
+	}
 
 }

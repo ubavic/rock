@@ -14,7 +14,7 @@ class ExamModel extends Model{
 								'note',
 								'additional_note',
 								'created_by',
-								'updated_by'
+								'updated_by',
 							];
 	protected $useTimestamps = true;
 	protected $createdField  = 'created_at';

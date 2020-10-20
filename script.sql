@@ -10,15 +10,18 @@ PRIMARY KEY (`id`)
 
 CREATE TABLE `users`
 (
- `id`         int unsigned NOT NULL AUTO_INCREMENT ,
- `name`       varchar(255) NOT NULL ,
- `email`      varchar(255) NOT NULL ,
- `hash`       varchar(255) NOT NULL ,
- `status`     tinyint NOT NULL ,
- `permission` int unsigned zerofill NOT NULL ,
- `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- `deleted_at` timestamp NULL DEFAULT NULL ,
+ `id`               int unsigned NOT NULL AUTO_INCREMENT ,
+ `name`             varchar(255) NOT NULL ,
+ `email`            varchar(255) NOT NULL ,
+ `hash`             varchar(255) NOT NULL ,
+ `status`           tinyint NOT NULL ,
+ `created_at`       timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+ `updated_at`       timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+ `deleted_at`       timestamp NULL DEFAULT NULL ,
+ `can_add`          tinyint unsigned NOT NULL DEFAULT 1 ,
+ `can_delete`       tinyint unsigned NOT NULL DEFAULT 0 ,
+ `can_edit`         tinyint unsigned NOT NULL DEFAULT 0 ,
+ `can_manage_users` tinyint unsigned NOT NULL DEFAULT 0 ,
 
 PRIMARY KEY (`id`)
 );

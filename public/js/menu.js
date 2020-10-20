@@ -40,11 +40,11 @@ function setControlPanel(panel) {
 	}
 }
 
-function confirmDelete() {
+function confirmDelete(url) {
 	if (confirm('Да ли сте сигурни да желите да обришете овај рок?')) {
-		console.log('Thing was saved to the database.');
+		window.location.href = url;
 	} else {
-		console.log('Thing was not saved to the database.');
+		console.log('Rok nije obrisan.');
 	}
 }
 

@@ -19,7 +19,7 @@
 		<div id="listData">
 		</div>
 	</div>
-	<?php if(session()->get('logged')): ?>
+	<?php if($can_add): ?>
 		<div class="formRow" style="flex-direction: row-reverse;">
 			<a href="/exam/new" class="bigButton">Нови рок</a>
 		</div>
