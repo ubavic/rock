@@ -204,16 +204,13 @@ class User extends BaseController
 			session()->setFlashdata('success', 'Већ сте успешно потврдили адресу. Можете се регистровати.');
 		} else if ($user->ver_code == $code){
 			session()->setFlashdata('success', 'Адреса је успешно потврђена.');
-			$userModel->save($ID, ['var_code' => NULL]);
+			$userModel->save(['id' => $ID, 'ver_code' => NULL]);
 		} else {
 			$userModel->sendVerificationMail($ID);
 			session()->setFlashdata('success', 'Дошло је до грешке приликом потврђивања адресе. Послат Вам је нови линк.');
 		}
 
-		$data['TITLE'] = 'Верификација адресе';
-		echo view('template/header', $data);
-		echo view('user/login');
-		echo view('template/footer');
+		return redirect()->to('/user/login');
 	}
 
 }

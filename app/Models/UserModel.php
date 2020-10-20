@@ -47,9 +47,9 @@ class UserModel extends Model {
 		$code = random_int (100000, 999999);
 		$this->save(['id' => $ID, 'ver_code' => $code]);
 
-		$message = 'Хвала Вам што сте се регистровали на сајт МАТФ Рокови.\n';
-		$message .= 'Кликом на следећи линк верификоваћетзе вашу адресу:\n';
-		$message .= (base_url() . "/user/$ID/$code\n\n" );
+		$message = "Хвала Вам што сте се регистровали на сајт МАТФ Рокови.\n";
+		$message .= "Кликом на следећи линк верификоваћетзе вашу адресу:\n";
+		$message .= (base_url() . "/user/verifty/$ID/$code\n\n" );
 		
 		$email = \Config\Services::email();
 
