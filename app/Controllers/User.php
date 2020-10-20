@@ -22,29 +22,28 @@ class User extends BaseController
 			'required' => 'Шифра је обавезна.',
 			'min_length' => 'Шифра мора имати најмање осам карактера.',
 			'max_length' => 'Шифра може имати највише 255 карактера.',
-			'validateUser' => "Email и/или шифра нису тачни."
+			'validateUser' => 'Email и/или шифра нису тачни.',
+			'validatedMail' => 'Морате верификовати мејл адресу кликом на линк који вам је послат.'
 		],
 		'pass_confirm' => [
 			'required_with' => 'Морате поновити шифру.',
 			'matches' => 'Шифре морају бити исте.'
-		]
+		],
 	];
 
-	public function index()
-	{
+	public function index(){
 		return redirect()->to('/user/login');
 	}
 	
-	public function login()
-	{
-		$data['TITLE'] = "Пријавите се";
+	public function login(){
+		$data['TITLE'] = 'Пријавите се';
 		helper(['form']);
 
 		if($this->request->getMethod() == 'post') {
 			$logModel = new LogModel();
 			$rules = [
 				'email'        => 'required|valid_email',
-				'password'     => 'required|validateUser[email,password]'
+				'password'     => 'required|validateUser[email,password]|validatedMail[email]'
 			];
 
 			if ($this->validate($rules, $this->errors)) {
@@ -81,9 +80,8 @@ class User extends BaseController
 		}
 	}
 
-	public function register()
-	{
-		$data['TITLE'] = "Региструјте се";
+	public function register(){
+		$data['TITLE'] = 'Региструјте се';
 		helper(['form']);
 
 		if($this->request->getMethod() == 'post') {
@@ -104,7 +102,9 @@ class User extends BaseController
 
 				$userModel = new UserModel();
 				$userModel->save($regData);
-				session()->setFlashdata('success', 'Регистрација је успешно обављена!');
+				$user = $userModel->where('email', $this->request->getVar('email'))->first();
+				$userModel->sendVerificationMail($user->id);
+				session()->setFlashdata('success', 'Да би сте завршили регистрацију, потврдите Вашу адресу, кликом на линк који Вам је послат.');
 
 				return redirect()->to('/user/login');
 			} else {
@@ -121,16 +121,16 @@ class User extends BaseController
 	}
 
 	public function controlpanel(){
-		$data['TITLE'] = "Кориснички контролни панел";
+		$data['TITLE'] = 'Кориснички контролни панел';
 		helper(['form']);
 
 		$userModel = new UserModel();
 
 		$examModel = new ExamModel();
-		$data["createdExams"] = $examModel->where('created_by', session()->get('id'))->findAll();
+		$data['createdExams'] = $examModel->where('created_by', session()->get('id'))->findAll();
 
 		if ($this->request->getMethod() == 'post') {
-			if ($this->request->getPost("name")) {
+			if ($this->request->getPost('name')) {
 				$rules = [
 					'name' => 'required|min_length[3]|max_length[255]',
 				];
@@ -145,7 +145,7 @@ class User extends BaseController
 				} else {
 					$data['validation'] = $this->validator;
 				}
-			} else if ($this->request->getPost("password")) {
+			} else if ($this->request->getPost('password')) {
 				$rules = [
 					'password'     => 'required|min_length[8]|max_length[255]',
 					'pass_confirm' => 'required_with[password]|matches[password]',
@@ -164,8 +164,8 @@ class User extends BaseController
 		}
 
 		$user = $userModel->find(session()->get('id'));
-		$data["name"] = $user->name;
-		$data["email"] = $user->email;
+		$data['name'] = $user->name;
+		$data['email'] = $user->email;
 
 		echo view('template/header', $data);
 		echo view('user/controlPanel');
@@ -189,11 +189,31 @@ class User extends BaseController
 	}
 
 	public function terms(){
-		$data['TITLE'] = "Услови регистрације";
+		$data['TITLE'] = 'Услови регистрације';
 
 		echo view('template/header', $data);
 		echo view('user/terms');
 		echo view('template/footer'); 
+	}
+
+	public function verify($ID, $code) {
+		$userModel = new UserModel();
+		$user = $userModel->find($ID);
+
+		if ($user->ver_code == NULL) {
+			session()->setFlashdata('success', 'Већ сте успешно потврдили адресу. Можете се регистровати.');
+		} else if ($user->ver_code == $code){
+			session()->setFlashdata('success', 'Адреса је успешно потврђена.');
+			$userModel->save($ID, ['var_code' => NULL]);
+		} else {
+			$userModel->sendVerificationMail($ID);
+			session()->setFlashdata('success', 'Дошло је до грешке приликом потврђивања адресе. Послат Вам је нови линк.');
+		}
+
+		$data['TITLE'] = 'Верификација адресе';
+		echo view('template/header', $data);
+		echo view('user/login');
+		echo view('template/footer');
 	}
 
 }
