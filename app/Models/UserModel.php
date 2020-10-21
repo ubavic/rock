@@ -48,8 +48,8 @@ class UserModel extends Model {
 		$this->save(['id' => $ID, 'ver_code' => $code]);
 
 		$message = "Хвала Вам што сте се регистровали на сајт МАТФ Рокови.\n";
-		$message .= "Кликом на следећи линк верификоваћетзе вашу адресу:\n";
-		$message .= (base_url() . "/user/verifty/$ID/$code\n\n" );
+		$message .= "Кликом на следећи линк потврдићете Вашу адресу:\n";
+		$message .= (base_url() . "/user/verify/$ID/$code\n\n" );
 		
 		$email = \Config\Services::email();
 

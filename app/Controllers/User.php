@@ -201,9 +201,9 @@ class User extends BaseController
 		$user = $userModel->find($ID);
 
 		if ($user->ver_code == NULL) {
-			session()->setFlashdata('success', 'Већ сте успешно потврдили адресу. Можете се регистровати.');
+			session()->setFlashdata('success', 'Већ сте успешно потврдили адресу. Можете се пријавити.');
 		} else if ($user->ver_code == $code){
-			session()->setFlashdata('success', 'Адреса је успешно потврђена.');
+			session()->setFlashdata('success', 'Адреса је успешно потврђена. Можете се пријавити.');
 			$userModel->save(['id' => $ID, 'ver_code' => NULL]);
 		} else {
 			$userModel->sendVerificationMail($ID);

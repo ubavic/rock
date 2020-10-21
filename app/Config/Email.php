@@ -96,7 +96,7 @@ class Email extends BaseConfig
 	 *
 	 * @var boolean
 	 */
-	public $wordWrap = true;
+	public $wordWrap = false;
 
 	/**
 	 * Character count to wrap at
