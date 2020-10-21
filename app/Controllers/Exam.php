@@ -93,7 +93,13 @@ class Exam extends BaseController
 					'additional_note' => NULL,
 					'type' => NULL,
 					'modules' => NULL,
-					'modules_array' => [0, 0, 0, 0, 0, 0, 0]
+					'ma' => 0,
+					'mi' => 0,
+					'ml' => 0,
+					'mm' => 0,
+					'mp' => 0,
+					'mr' => 0,
+					'ms' => 0,
 				];
 
 				$data['validation'] = $this->validator;
@@ -108,9 +114,15 @@ class Exam extends BaseController
 					'note' => $this->request->getVar('note'),
 					'additional_note' => $this->request->getVar('additional_note'),
 					'type' => empty($this->request->getVar('type')) ? 0 : 1,
-					'modules' => $model->getModulesInt($this->request->getVar('module')),
 					'created_by' => session()->get('id'),
 					'updated_by' => session()->get('id'),
+					'ma' => in_array(0, $this->request->getVar('module')),
+					'mi' => in_array(1, $this->request->getVar('module')),
+					'ml' => in_array(2, $this->request->getVar('module')),
+					'mm' => in_array(3, $this->request->getVar('module')),
+					'mp' => in_array(4, $this->request->getVar('module')),
+					'mr' => in_array(5, $this->request->getVar('module')),
+					'ms' => in_array(6, $this->request->getVar('module')),
 					]
 				);
 
@@ -138,7 +150,13 @@ class Exam extends BaseController
 				'additional_note' => NULL,
 				'type' => NULL,
 				'modules' => NULL,
-				'modules_array' => [0, 0, 0, 0, 0, 0, 0]
+				'ma' => 0,
+				'mi' => 0,
+				'ml' => 0,
+				'mm' => 0,
+				'mp' => 0,
+				'mr' => 0,
+				'ms' => 0,
 			];
 
 			echo view('template/header', $data);
@@ -180,7 +198,13 @@ class Exam extends BaseController
 				'note' => $this->request->getVar('note'),
 				'additional_note' => $this->request->getVar('additional_note'),
 				'type' => empty($this->request->getVar('type')) ? 0 : 1,
-				'modules' => $model->getModulesInt($this->request->getVar('module'))
+				'ma' => in_array(0, $this->request->getVar('module')),
+				'mi' => in_array(1, $this->request->getVar('module')),
+				'ml' => in_array(2, $this->request->getVar('module')),
+				'mm' => in_array(3, $this->request->getVar('module')),
+				'mp' => in_array(4, $this->request->getVar('module')),
+				'mr' => in_array(5, $this->request->getVar('module')),
+				'ms' => in_array(6, $this->request->getVar('module')),
 				]
 			);
 

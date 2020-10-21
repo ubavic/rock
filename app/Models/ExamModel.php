@@ -15,6 +15,13 @@ class ExamModel extends Model{
 								'additional_note',
 								'created_by',
 								'updated_by',
+								'ma',
+								'mi',
+								'ml',
+								'mm',
+								'mp',
+								'mr',
+								'ms',
 							];
 	protected $useTimestamps = true;
 	protected $createdField  = 'created_at';
@@ -23,47 +30,31 @@ class ExamModel extends Model{
 	protected $useSoftDeletes = true;
 	protected $afterFind = ['getMetadata'];
 
-	public function getModulesArray (int $a) {
-		$array = [];
-
-		for ($i = 0; $i < 7; $i++) {
-			if (fmod ($a, 2) == 1) {
-				$array[$i] = True;
-			} else {
-				$array[$i] = False;
-			}
-
-			$a = intdiv($a, 2);
-		}
-
-		return $array;
-	}
-
-	public function getModulesString (array $a) {
-		$modules = ['АА', 'И', 'МЛ', 'ММ', 'МП', 'МР', 'МС'];
+	public function getModulesString ($exam) {
 		$true_modules = [];
 
-		$j = 0;
-		for ($i = 0; $i < 7; $i++) {
-			if ($a[$i] == True) {
-				$true_modules[$j] = $modules[$i];
-				$j++;
-			}
-		}
+		if($exam->ma)
+			$true_modules = array_merge($true_modules, ['АА']);
+
+		if($exam->mi)
+			$true_modules = array_merge($true_modules, ['И']);
+
+		if($exam->ml)
+			$true_modules = array_merge($true_modules, ['МЛ']);
+
+		if($exam->mm)
+			$true_modules = array_merge($true_modules, ['ММ']);
+
+		if($exam->mp)
+			$true_modules = array_merge($true_modules, ['МП']);
+
+		if($exam->mr)
+			$true_modules = array_merge($true_modules, ['МР']);
+
+		if($exam->ms)
+			$true_modules = array_merge($true_modules, ['МС']);
 
 		return implode(", ", $true_modules);
-	}
-
-	public function getModulesInt (array $a) {
-		$s = 0;
-	
-		for ($i = 0; $i < 7; $i++) {
-			if (in_array($i, $a)) {
-				$s = $s + (2 ** $i);
-			}
-		}
-
-		return $s;
 	}
 
 	private function getClassName (int $ID) {
@@ -79,11 +70,11 @@ class ExamModel extends Model{
 		if(is_array($data['data'])){
 			foreach ($data['data'] as &$exam) {
 				$exam->subject_name = $this->getClassName(intval($exam->subject));
-				$exam->modules_string = $this->getModulesString($this->getModulesArray($exam->modules));
+				$exam->modules_string = $this->getModulesString($exam);
 			}
 		} else {
 			$data['data']->subject_name = $this->getClassName(intval($data['data']->subject));
-			$data['data']->modules_string = $this->getModulesString($this->getModulesArray($data['data']->modules));
+			$data['data']->modules_string = $this->getModulesString($data['data']);
 		}
 
 		return $data;
