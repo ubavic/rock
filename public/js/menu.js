@@ -50,8 +50,7 @@ function confirmDelete(url) {
 
 function newProblemEntry() {
 	var template = createElementFromHTML(problemEntryTemplate.replace(/K/g, "" + (problems + 1)));
-	var lastProblem = document.getElementById("p" + problems);
-	document.getElementById('form').insertBefore(template, document.getElementById('insertProblemEntry'))
+	document.getElementById('form').insertBefore(template, document.getElementById('insertProblemEntry'));
 	problems++;
 }
 
@@ -99,5 +98,17 @@ function renderProblem(i, render){
 		document.getElementById('p' + i).children[0].children[2].innerHTML = "Прегледај";
 		document.getElementById('p' + i).children[0].children[2].onclick = () => {renderProblem(i, true);}
 	}
+}
+
+function createProblems(data) {
+
+	for (let i = 0; i < data.length; i++) {
+		var template = createElementFromHTML(problemEntryTemplate.replace(/K/g, "" + (i + 1)));
+		document.getElementById('form').insertBefore(template, document.getElementById('insertProblemEntry'));
+		var pi = document.getElementById('p' + (i + 1));
+		pi.children[2].value = data[i].text;
+	}
+
+
 
 }

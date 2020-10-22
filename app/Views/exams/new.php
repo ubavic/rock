@@ -66,3 +66,10 @@
 		</div>
 	</form>
 </main>
+
+<?php if(isset($problems)): ?>
+	<script>
+		var problems = <?= $problems ?>;
+		createProblems(problems);
+	</script>
+<?php endif; ?>

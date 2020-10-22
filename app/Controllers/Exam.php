@@ -5,7 +5,6 @@ use App\Models\ProblemModel;
 use App\Models\SubjectModel;
 use App\Models\UserModel;
 
-
 class Exam extends BaseController
 {
 	public function index()
@@ -28,7 +27,6 @@ class Exam extends BaseController
 		echo view('exams/list');
 		echo view('template/footer');
 	}
-
 
 	public function getExams($subject) {
 		if ($subject == NULL)
@@ -75,6 +73,23 @@ class Exam extends BaseController
 		helper('form');
 		$model = new ExamModel();
 
+		$emptyExam = (object) [
+			'subject' => NULL,
+			'date' => NULL,
+			'duration' => NULL,
+			'note' => NULL,
+			'additional_note' => NULL,
+			'type' => NULL,
+			'modules' => NULL,
+			'ma' => 0,
+			'mi' => 0,
+			'ml' => 0,
+			'mm' => 0,
+			'mp' => 0,
+			'mr' => 0,
+			'ms' => 0,
+		];
+
 		$subjectsModel = new SubjectModel();
 		$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList();
 
@@ -85,23 +100,7 @@ class Exam extends BaseController
 			];
 
 			if (!$this->validate($rules)) {
-				$data['exam'] = (object) [
-					'subject' => NULL,
-					'date' => NULL,
-					'duration' => NULL,
-					'note' => NULL,
-					'additional_note' => NULL,
-					'type' => NULL,
-					'modules' => NULL,
-					'ma' => 0,
-					'mi' => 0,
-					'ml' => 0,
-					'mm' => 0,
-					'mp' => 0,
-					'mr' => 0,
-					'ms' => 0,
-				];
-
+				$data['exam'] = $emptyExam;
 				$data['validation'] = $this->validator;
 				echo view('template/header', $data);
 				echo view('exams/new');
@@ -142,22 +141,7 @@ class Exam extends BaseController
 			}
 		
 		} else {
-			$data['exam'] = (object) [
-				'subject' => NULL,
-				'date' => NULL,
-				'duration' => NULL,
-				'note' => NULL,
-				'additional_note' => NULL,
-				'type' => NULL,
-				'modules' => NULL,
-				'ma' => 0,
-				'mi' => 0,
-				'ml' => 0,
-				'mm' => 0,
-				'mp' => 0,
-				'mr' => 0,
-				'ms' => 0,
-			];
+			$data['exam'] = $emptyExam;
 
 			echo view('template/header', $data);
 			echo view('exams/new');
@@ -165,32 +149,18 @@ class Exam extends BaseController
 		}
 	}
 
+	public function edit($id = false) {
 
-	public function edit($ID = false) {
-
-		if ($ID == false) {
+		if ($id == false) {
 			return redirect()->to('/exam');
 		}
 
-		helper('form');
 		$model = new ExamModel();
+		$problemModel = new ProblemModel();
 
-		$data['TITLE'] = "Измени рок";
-		$data['exam'] = $model->find($ID);
-
-		$subjectsModel = new SubjectModel();
-		$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList();
-
-		if (!$this->validate([
-			'duration' => 'required',
-			'date' => 'required'
-		])) {
-			echo view('template/header', $data);
-			echo view('exams/new');
-			echo view('template/footer');
-		} else {
+		if ($this->request->getMethod() == 'post') {
 			$model -> save([
-				'id' => $ID,
+				'id' => $id,
 				'subject_id' => $this->request->getVar('subject_id'),
 				'subject' => $this->request->getVar('subject'),
 				'date' => $this->request->getVar('date'),
@@ -205,14 +175,34 @@ class Exam extends BaseController
 				'mp' => in_array(4, $this->request->getVar('module')),
 				'mr' => in_array(5, $this->request->getVar('module')),
 				'ms' => in_array(6, $this->request->getVar('module')),
-				]
-			);
+				]);
 
-			return redirect()->to('/exam/view/'. $ID);
+			$problems = $this->request->getVar('problems');
+			
+			foreach ($problems as $problem) {
+				$problemModel -> save([
+					'exam' => $id,
+					'text' => $problem
+				]);
+			}
+
+			return redirect()->to('/exam/view/'. $id);
+		} else {	
+			helper('form');
+
+			$data['TITLE'] = "Измени рок";
+			$data['exam'] = $model->find($id);
+
+			$subjectsModel = new SubjectModel();
+			$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList();
+
+			$data["problems"] = json_encode($problemModel->where('exam', $id)->findAll());
+
+			echo view('template/header', $data);
+			echo view('exams/new');
+			echo view('template/footer');
 		}
-
 	}
-
 
 	public function delete ($ID) {
 
