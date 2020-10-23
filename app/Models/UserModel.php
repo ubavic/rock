@@ -44,7 +44,7 @@ class UserModel extends Model {
 	}
 
 	public function sendVerificationMail($ID){
-		$code = random_int (100000, 999999);
+		$code = random_int(100000, 999999);
 		$this->save(['id' => $ID, 'ver_code' => $code]);
 
 		$message = "Хвала Вам што сте се регистровали на сајт МАТФ Рокови.\n";

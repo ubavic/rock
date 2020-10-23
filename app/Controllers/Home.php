@@ -7,16 +7,12 @@ use App\Models\UserModel;
 
 class Home extends BaseController
 {
-	public function index()
-	{
+	public function index(){
 		$data['TITLE'] = "Почетна";
 
 		$examModel = new ExamModel();
 		$data['exams'] = $examModel->getLastTenExams();
 		$data['numberOfExams'] = $examModel->countAll();
-
-		$subjectModel = new SubjectModel();
-		$data['numberOfSubjects'] = $subjectModel->countAll();
 
 		$problemModel = new ProblemModel();
 		$data['numberOfProblems'] = $problemModel->countAll();
@@ -29,7 +25,6 @@ class Home extends BaseController
 		echo view('template/footer');
 	}
 
-
 	public function sitemap () {
 		$examModel = new ExamModel();
 		$data['exams'] = $examModel->findAll();
@@ -37,5 +32,4 @@ class Home extends BaseController
 		$this->response->setHeader('Content-Type', 'text/xml;charset=iso-8859-1');
         echo view("template/sitemap", $data);
 	}
-
 }

@@ -15,7 +15,7 @@ class Exam extends BaseController
 		$data["exams"] = $model->findAll();
 
 		$subjectsModel = new SubjectModel();
-		$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList();
+		$data['subjectsList'] = $subjectsModel->getUsedSubjectsOptionList();
 
 		$userModel = new UserModel();
 		if (session()->get('logged') and $userModel->find(session()->get('id'))->can_add)
@@ -38,8 +38,7 @@ class Exam extends BaseController
 		echo view('exams/examListTemplate', $data);
 	}
 
-	public function view($ID = 0)
-	{
+	public function view($ID = 0){
 		$data['TITLE'] = "Прегледај рок";
 
 		$examModel = new ExamModel();
@@ -106,6 +105,10 @@ class Exam extends BaseController
 				echo view('exams/new');
 				echo view('template/footer');
 			} else {
+				$modules = $this->request->getVar('module');
+				if($modules == NULL)
+					$modules = [];
+
 				$model -> save([
 					'subject' => $this->request->getVar('subject'),
 					'date' => $this->request->getVar('date'),
@@ -115,13 +118,13 @@ class Exam extends BaseController
 					'type' => empty($this->request->getVar('type')) ? 0 : 1,
 					'created_by' => session()->get('id'),
 					'updated_by' => session()->get('id'),
-					'ma' => in_array(0, $this->request->getVar('module')),
-					'mi' => in_array(1, $this->request->getVar('module')),
-					'ml' => in_array(2, $this->request->getVar('module')),
-					'mm' => in_array(3, $this->request->getVar('module')),
-					'mp' => in_array(4, $this->request->getVar('module')),
-					'mr' => in_array(5, $this->request->getVar('module')),
-					'ms' => in_array(6, $this->request->getVar('module')),
+					'ma' => in_array(0, $modules),
+					'mi' => in_array(1, $modules),
+					'ml' => in_array(2, $modules),
+					'mm' => in_array(3, $modules),
+					'mp' => in_array(4, $modules),
+					'mr' => in_array(5, $modules),
+					'ms' => in_array(6, $modules),
 					]
 				);
 
@@ -150,15 +153,19 @@ class Exam extends BaseController
 	}
 
 	public function edit($id = false) {
-
 		if ($id == false) {
 			return redirect()->to('/exam');
 		}
 
 		$model = new ExamModel();
 		$problemModel = new ProblemModel();
+		$dbProblems = $problemModel->where('exam', $id)->findAll();
 
 		if ($this->request->getMethod() == 'post') {
+			$modules = $this->request->getVar('module');
+			if($modules == NULL)
+				$modules = [];
+
 			$model -> save([
 				'id' => $id,
 				'subject_id' => $this->request->getVar('subject_id'),
@@ -168,21 +175,22 @@ class Exam extends BaseController
 				'note' => $this->request->getVar('note'),
 				'additional_note' => $this->request->getVar('additional_note'),
 				'type' => empty($this->request->getVar('type')) ? 0 : 1,
-				'ma' => in_array(0, $this->request->getVar('module')),
-				'mi' => in_array(1, $this->request->getVar('module')),
-				'ml' => in_array(2, $this->request->getVar('module')),
-				'mm' => in_array(3, $this->request->getVar('module')),
-				'mp' => in_array(4, $this->request->getVar('module')),
-				'mr' => in_array(5, $this->request->getVar('module')),
-				'ms' => in_array(6, $this->request->getVar('module')),
+				'ma' => in_array(0, $modules),
+				'mi' => in_array(1, $modules),
+				'ml' => in_array(2, $modules),
+				'mm' => in_array(3, $modules),
+				'mp' => in_array(4, $modules),
+				'mr' => in_array(5, $modules),
+				'ms' => in_array(6, $modules),
 				]);
 
 			$problems = $this->request->getVar('problems');
 			
-			foreach ($problems as $problem) {
+			for ($i=0; $i < count($problems); $i++) { 
 				$problemModel -> save([
+					'id'   => $dbProblems[$i]->id,
 					'exam' => $id,
-					'text' => $problem
+					'text' => $problems[$i],
 				]);
 			}
 
@@ -196,7 +204,7 @@ class Exam extends BaseController
 			$subjectsModel = new SubjectModel();
 			$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList();
 
-			$data["problems"] = json_encode($problemModel->where('exam', $id)->findAll());
+			$data["problems"] = json_encode($dbProblems );
 
 			echo view('template/header', $data);
 			echo view('exams/new');

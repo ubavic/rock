@@ -5,27 +5,31 @@ use CodeIgniter\Model;
 class SubjectModel extends Model{
 	protected $table = 'subjects';
 	protected $allowedFields = ['name', 'code'];
-	
-	public function getAllSubjectsOptionList () {
-		$subjects = $this->findAll();
+	protected $returnType = 'object';
 
+
+	public function getUsedSubjectsOptionList() {
+		$subjects = $this->db->query('SELECT * FROM subjects WHERE id IN (SELECT subject FROM exams) ORDER BY name')->getResult();
 		$str = '';
 
 		foreach ($subjects as $subject) {
-			$str = $str . ('<option value="' . $subject['id'] . '">' . $subject['code'] . '  ' . $subject['name'] . '</option>');
+			$str = $str . ("<option value=\"$subject->id\">$subject->name ($subject->code)</option>");
 		}
 
 		return $str;
 	}
 
-	public function getSubject ($ID) {
-		$row = $this->find($ID);
-		$subject = (object) [
-			'name' => $row['class'],
-			'code' => $row['code']
-		];
 
-		return $subject;
+	public function getAllSubjectsOptionList() {
+		$subjects = $this->findAll();
+		$str = '';
+
+		foreach ($subjects as $subject) {
+			$str = $str . ('<option value="' . $subject->id . '">' . $subject->code . '  ' . $subject->name . '</option>');
+		}
+
+		return $str;
 	}
+
 
 }

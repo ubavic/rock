@@ -7,6 +7,7 @@ class ProblemModel extends Model{
 	protected $allowedFields = ['exam', 'text'];
 	protected $useTimestamps = false;
 	protected $useSoftDeletes = false;
+	protected $returnType = 'object';
 
 	public function getProblems($ID){
 		return $this->where('exam', $ID)->get()->getResult();

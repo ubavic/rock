@@ -326,6 +326,10 @@ button {
   margin: 2em 0;
 }
 
+.problem {
+  overflow-x: auto
+}
+
 .problem + .problem{
   margin-top: 1em;
 }

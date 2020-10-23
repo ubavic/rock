@@ -30,13 +30,6 @@
 	<h3>Статистика</h3>
 	<div style="display: flex; flex-direction: row; justify-content: space-around; flex-wrap: wrap">
 		<div style="text-align: center; margin: 0 1em">
-			ПРЕДМЕТА:
-			<div style="font-size: 2em; color: var(--color-blue-4); font-weight: bold;">
-				<?= $numberOfSubjects ?>
-			</div>
-			
-		</div>
-		<div style="text-align: center; margin: 0 1em">
 			РОКОВА:
 			<div style="font-size: 2em; color: var(--color-blue-4); font-weight: bold;">
 				<?= $numberOfExams ?>

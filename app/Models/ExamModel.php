@@ -71,10 +71,14 @@ class ExamModel extends Model{
 			foreach ($data['data'] as &$exam) {
 				$exam->subject_name = $this->getClassName(intval($exam->subject));
 				$exam->modules_string = $this->getModulesString($exam);
+				$exam->date = date_format(date_create($exam->date), 'd.m.Y.');
 			}
 		} else {
 			$data['data']->subject_name = $this->getClassName(intval($data['data']->subject));
 			$data['data']->modules_string = $this->getModulesString($data['data']);
+			$data['data']->date = date_format(date_create($data['data']->date), 'd.m.Y.');
+			$data['data']->created_at = date_format(date_create($data['data']->created_at), 'd.m.Y. у H.i');
+			$data['data']->updated_at = date_format(date_create($data['data']->updated_at), 'd.m.Y. у H.i');
 		}
 
 		return $data;
