@@ -10,7 +10,7 @@
 			<div class="formRowElement">
 				<label for="subject">Предмет:</label>
 			</div>
-			<select name="subject" id="subject" value="<?= $exam->subject ?>" class="formRowElement">
+			<select name="subject" id="subject" class="formRowElement">
 				<?= $subjectsList ?>
 			</select>
 			<div style="margin-left: auto"></div>

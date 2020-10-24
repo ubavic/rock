@@ -11,7 +11,7 @@ class Home extends BaseController
 		$data['TITLE'] = "Почетна";
 
 		$examModel = new ExamModel();
-		$data['exams'] = $examModel->getLastTenExams();
+		$data['exams'] = $examModel->orderBy('created_at', 'DESC')->limit(5)->find();
 		$data['numberOfExams'] = $examModel->countAll();
 
 		$problemModel = new ProblemModel();

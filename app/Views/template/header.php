@@ -17,6 +17,7 @@
 		<link rel="mask-icon" href="/img/safari-pinned-tab.svg" color="#771d1d">
 		<meta name="msapplication-TileColor" content="#ffffff">
 		<meta name="theme-color" content="#ffffff">
+		<meta property="og:image" content="https://rokovi.ubavic.rs/img/logo.png" />
 	</head>
 	<body>
 		<?php 

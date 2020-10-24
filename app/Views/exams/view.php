@@ -18,9 +18,11 @@
 		</div>
 	</div>
 	<div class="formRow">
-		<div>За смерове:
-			<?= $exam->modules_string ?>
-		</div>
+		<?php if($exam->modules_string): ?>
+			<div>
+				За смерове: <?= $exam->modules_string ?>
+			</div>
+		<?php endif ?>
 		<div style="margin-left: auto"></div>
 		<?php if($exam->duration): ?>
 			<div>

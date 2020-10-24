@@ -61,12 +61,7 @@ class ExamModel extends Model{
 		return (($this->db->table('subjects')->where('id', $ID)->get()->getResult())[0])->name;
 	}
 
-	public function getLastTenExams () {
-		return $this->orderBy('created_at', 'DESC')->limit(5)->findAll();
-	}
-
 	public function getMetadata (array $data) {
-
 		if(is_array($data['data'])){
 			foreach ($data['data'] as &$exam) {
 				$exam->subject_name = $this->getClassName(intval($exam->subject));
