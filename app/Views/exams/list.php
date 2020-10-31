@@ -1,12 +1,11 @@
 <main>
 	<h2>Претражи рокове</h2>
-	<form action="">
+	<form>
 		<div class="formRow">
 			<label for="subject" class="formRowElement">Предмет:</label>&nbsp;
 			<select name="subject" id="subject" class="formRowElement">
 					<?= $subjectsList ?>
 			</select>
-			</div>
 		</div>
 	</form>
 	<div class="examList">

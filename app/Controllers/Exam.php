@@ -75,11 +75,10 @@ class Exam extends BaseController
 		$emptyExam = (object) [
 			'subject' => NULL,
 			'date' => NULL,
-			'duration' => NULL,
+			'duration' => 0,
 			'note' => NULL,
 			'additional_note' => NULL,
 			'type' => NULL,
-			'modules' => NULL,
 			'ma' => 0,
 			'mi' => 0,
 			'ml' => 0,
