@@ -34,7 +34,7 @@ class Exam extends BaseController
 
 		$subject = intval($subject);
 		$examModel = new ExamModel();
-		$data['exams'] = $examModel->where('subject', $subject)->findAll();
+		$data['exams'] = $examModel->where('subject', $subject)->orderBy('date', 'desc')->findAll();
 		echo view('exams/examListTemplate', $data);
 	}
 
