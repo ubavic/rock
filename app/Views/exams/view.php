@@ -2,7 +2,7 @@
 	<div style="display: flex; flex-direction: row">
 		<div style="margin-left: auto"></div>
 		<div>
-			<?= $exam->date ?>
+			<?= $exam->date_string ?>
 		</div>
 	</div>
 	<div class="examTitle">

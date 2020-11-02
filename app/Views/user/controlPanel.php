@@ -66,7 +66,7 @@
 						<a href="<?= '/exam/view/' . $exam->id ?>" class="examListRow" >
 							<div class="examListType"><?= ($exam->type == 0) ? 'И' : 'К' ?></div>
 							<div class="examListSubject"><?= $exam->subject_name ?></div>
-							<div class="examListDate"><?= $exam->date ?></div>
+							<div class="examListDate"><?= $exam->date_string ?></div>
 							<div class="examListModules"><?= $exam->modules_string ?></div>
 						</a>
 					<?php endforeach; ?>
@@ -91,7 +91,7 @@
 						<a href="<?= '/exam/view/' . $exam->id ?>" class="examListRow" >
 							<div class="examListType"><?= ($exam->type == 0) ? 'И' : 'К' ?></div>
 							<div class="examListSubject"><?= $exam->subject ?></div>
-							<div class="examListDate"><?= $exam->date ?></div>
+							<div class="examListDate"><?= $exam->date_string ?></div>
 							<div class="examListModules"><?= $exam->modules ?></div>
 						</a>
 					<?php endforeach; ?>
