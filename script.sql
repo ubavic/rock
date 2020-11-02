@@ -62,10 +62,11 @@ CONSTRAINT `FK_70` FOREIGN KEY `fkIdx_70` (`updated_by`) REFERENCES `users` (`id
 
 CREATE TABLE `problems`
 (
- `id`   int unsigned NOT NULL AUTO_INCREMENT ,
- `exam` int unsigned NOT NULL ,
- `text` text NOT NULL ,
- 
+ `id`     int unsigned NOT NULL AUTO_INCREMENT ,
+ `exam`   int unsigned NOT NULL ,
+ `text`   text NOT NULL ,
+ `points` tinyint unsigned zerofill NOT NULL ,
+
 PRIMARY KEY (`id`),
 KEY `fkIdx_61` (`exam`),
 CONSTRAINT `FK_61` FOREIGN KEY `fkIdx_61` (`exam`) REFERENCES `exams` (`id`)

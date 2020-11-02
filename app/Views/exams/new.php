@@ -1,11 +1,6 @@
 <main>
 	<h2>Нови рок</h2>
-	<form action="" style="margin: 1em 0;" method="post" id="form">
-		<?php if (isset($validation)): ?>
-			<div class="formRow error">
-				<?= $validation->listErrors() ?>
-			</div>
-		<?php endif; ?>
+	<form style="margin: 1em 0;" method="post" id="form">
 		<div class="formRow">
 			<div class="formRowElement">
 				<label for="subject">Предмет:</label>
@@ -59,7 +54,9 @@
 			<textarea name="additional_note" id="additional_note" rows="5" placeholder="Додатне напомена садржи све остале информације о року (нпр ако неки од задатака има грешку поставци, итд...)."><?= $exam->additional_note ?></textarea>
 		</div>
 		<div class="formRow" style="flex-direction: row-reverse;" id="insertProblemEntry">
-			<div class="button smallButton" onclick="newProblemEntry()">Додај задатак</div>
+			<?php if($new): ?>
+				<div class="button smallButton" onclick="newProblemEntry()">Додај задатак</div>
+			<?php endif; ?>
 		</div>
 		<div class="formRow" style="flex-direction: row-reverse;">
 			<button type="submit" class="bigButton">Унеси</button>
@@ -67,7 +64,7 @@
 	</form>
 </main>
 
-<?php if(isset($problems)): ?>
+<?php if(!$new): ?>
 	<script>
 		var problems = <?= $problems ?>;
 		createProblems(problems);

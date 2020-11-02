@@ -10,6 +10,10 @@ var problemEntryTemplate = "<section class=\"problemEntry\" id=\"pK\">\
 </header>\
 <div id=\"problemDivK\"></div>\
 <textarea id=\"problemEntryK\" name=\"problems[]\" rows=\"5\" placeholder=\"Текст задатка\"></textarea>\
+<div class=\"formRow\">\
+<label class=\"formRowElement\">Поена:</label>\
+<input type=\"number\" name=\"points[]\" style=\"-webkit-appearance: none; -moz-appearance: textfield;\">\
+</div>\
 </section>";
 
 function swichMenu() {
@@ -79,7 +83,6 @@ function relabel(){
 		children[0].children[3].onclick = () => { deleteProblemEntry(i + 1); };
 		children[1].id = "problemDiv" + (i + 1);
 		children[2].id = "problemEntry" + (i + 1);
-		children[2].name = "problemEntry" + (i + 1);
 		elements[i].id = "p" + (i + 1);
 	}
 }
@@ -101,14 +104,11 @@ function renderProblem(i, render){
 }
 
 function createProblems(data) {
-
 	for (let i = 0; i < data.length; i++) {
 		var template = createElementFromHTML(problemEntryTemplate.replace(/K/g, "" + (i + 1)));
 		document.getElementById('form').insertBefore(template, document.getElementById('insertProblemEntry'));
 		var pi = document.getElementById('p' + (i + 1));
 		pi.children[2].value = data[i].text;
+		pi.children[3].children[1].value = data[i].points;
 	}
-
-
-
 }

@@ -4,7 +4,7 @@ use CodeIgniter\Model;
 
 class ProblemModel extends Model{
 	protected $table = 'problems';
-	protected $allowedFields = ['exam', 'text'];
+	protected $allowedFields = ['exam', 'text', 'points'];
 	protected $useTimestamps = false;
 	protected $useSoftDeletes = false;
 	protected $returnType = 'object';

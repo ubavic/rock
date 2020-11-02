@@ -20,12 +20,16 @@ class SubjectModel extends Model{
 	}
 
 
-	public function getAllSubjectsOptionList() {
+	public function getAllSubjectsOptionList($ID = 1) {
 		$subjects = $this->findAll();
 		$str = '';
 
 		foreach ($subjects as $subject) {
-			$str = $str . ('<option value="' . $subject->id . '">' . $subject->code . '  ' . $subject->name . '</option>');
+			if ($ID == $subject->id)
+				$select = 'selected="selected"';
+			else
+				$select = '';
+			$str = $str . ("<option $select value=\"$subject->id\">$subject->name ($subject->code)</option>");
 		}
 
 		return $str;

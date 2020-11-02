@@ -68,12 +68,9 @@ class Exam extends BaseController
 
 	public function new() {
 		$data['TITLE'] = "Нови рок";
-
-		helper('form');
 		$model = new ExamModel();
-
 		$emptyExam = (object) [
-			'subject' => NULL,
+			'subject' => 1,
 			'date' => NULL,
 			'duration' => 0,
 			'note' => NULL,
@@ -88,62 +85,52 @@ class Exam extends BaseController
 			'ms' => 0,
 		];
 
-		$subjectsModel = new SubjectModel();
-		$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList();
-
 		if($this->request->getMethod() == 'post') {
-			$rules = [
-				'duration' => 'required',
-				'date' => 'required'
-			];
+			$modules = $this->request->getVar('module');
+			if($modules == NULL)
+				$modules = [];
 
-			if (!$this->validate($rules)) {
-				$data['exam'] = $emptyExam;
-				$data['validation'] = $this->validator;
-				echo view('template/header', $data);
-				echo view('exams/new');
-				echo view('template/footer');
-			} else {
-				$modules = $this->request->getVar('module');
-				if($modules == NULL)
-					$modules = [];
+			$model -> save([
+				'subject' => $this->request->getVar('subject'),
+				'date' => $this->request->getVar('date'),
+				'duration' => $this->request->getVar('duration'),
+				'note' => $this->request->getVar('note'),
+				'additional_note' => $this->request->getVar('additional_note'),
+				'type' => empty($this->request->getVar('type')) ? 0 : 1,
+				'created_by' => session()->get('id'),
+				'updated_by' => session()->get('id'),
+				'ma' => in_array(0, $modules),
+				'mi' => in_array(1, $modules),
+				'ml' => in_array(2, $modules),
+				'mm' => in_array(3, $modules),
+				'mp' => in_array(4, $modules),
+				'mr' => in_array(5, $modules),
+				'ms' => in_array(6, $modules),
+				]
+			);
 
-				$model -> save([
-					'subject' => $this->request->getVar('subject'),
-					'date' => $this->request->getVar('date'),
-					'duration' => $this->request->getVar('duration'),
-					'note' => $this->request->getVar('note'),
-					'additional_note' => $this->request->getVar('additional_note'),
-					'type' => empty($this->request->getVar('type')) ? 0 : 1,
-					'created_by' => session()->get('id'),
-					'updated_by' => session()->get('id'),
-					'ma' => in_array(0, $modules),
-					'mi' => in_array(1, $modules),
-					'ml' => in_array(2, $modules),
-					'mm' => in_array(3, $modules),
-					'mp' => in_array(4, $modules),
-					'mr' => in_array(5, $modules),
-					'ms' => in_array(6, $modules),
-					]
-				);
+			$id = $model->where('created_by', session()->get('id'))->get()->getLastRow()->id;
 
-				$id = $model->where('created_by', session()->get('id'))->get()->getLastRow()->id;
+			$problemModel = new ProblemModel();
+			$problems = $this->request->getVar('problems');
+			$points = $this->request->getVar('points');
 
-				$problemModel = new ProblemModel();
-				$problems = $this->request->getVar('problems');
-
-				foreach ($problems as $problem) {
-					$problemModel -> save([
-						'exam' => $id,
-						'text' => $problem
-					]);
-				}
-
-				return redirect()->to('/exam/view/' . $id);
+			for ($i=0; $i < count($problems); $i++) { 
+				$problemModel -> save([
+					'exam' => $id,
+					'text' => $problems[$i],
+					'points' => $points[$i],
+				]);
 			}
-		
+
+			return redirect()->to('/exam/view/' . $id);
 		} else {
 			$data['exam'] = $emptyExam;
+			
+			$subjectsModel = new SubjectModel();
+			$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList();
+
+			$data["new"] = True;
 
 			echo view('template/header', $data);
 			echo view('exams/new');
@@ -184,12 +171,14 @@ class Exam extends BaseController
 				]);
 
 			$problems = $this->request->getVar('problems');
+			$points = $this->request->getVar('points');
 			
 			for ($i=0; $i < count($problems); $i++) { 
 				$problemModel -> save([
 					'id'   => $dbProblems[$i]->id,
 					'exam' => $id,
 					'text' => $problems[$i],
+					'points' => $points[$i],
 				]);
 			}
 
@@ -199,11 +188,10 @@ class Exam extends BaseController
 
 			$data['TITLE'] = "Измени рок";
 			$data['exam'] = $model->find($id);
-
 			$subjectsModel = new SubjectModel();
-			$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList();
-
-			$data["problems"] = json_encode($dbProblems );
+			$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList($data['exam']->subject);
+			$data["problems"] = json_encode($dbProblems);
+			$data["new"] = False;
 
 			echo view('template/header', $data);
 			echo view('exams/new');

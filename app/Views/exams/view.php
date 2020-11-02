@@ -43,7 +43,13 @@
 	<div class="problems">
 		<?php for ($i = 0; $i < count($problems); $i++): ?>
 			<section class="problem">
-				<header><a href="#p<?= $i + 1 ?>" id="p<?= $i + 1 ?>"><?= $i + 1 ?></a></header>
+				<header class="formRow">
+					<a href="#p<?= $i + 1 ?>" id="p<?= $i + 1 ?>"><?= $i + 1 ?></a>
+					<div style="margin-left:auto;"></div>
+					<?php if($problems[$i]->points != 0): ?>
+						<div><?= $problems[$i]->points?> поена</div>
+					<?php endif; ?>
+					</header>
 				<?= $problems[$i]->text ?>
 			</section>
 		<?php endfor; ?>
