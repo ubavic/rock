@@ -17,6 +17,7 @@ class User extends BaseController
 			'required' => 'E-mail је обавезан.',
 			'valid_email' => 'E-mail мора бити валидан.',
 			'is_unique' => 'Унети е-mail је већ искоришћен за регистарцију налога.',
+			'validateFacultyMail' => 'Регистрација се мора обавити са факултетским мејл налогом.'
 		],
 		'password' => [
 			'required' => 'Шифра је обавезна.',
@@ -86,7 +87,7 @@ class User extends BaseController
 
 		if($this->request->getMethod() == 'post') {
 			$rules = [
-				'email'        => 'required|valid_email|is_unique[users.email]',
+				'email'        => 'required|valid_email|is_unique[users.email]|validateFacultyMail[email]',
 				'password'     => 'required|min_length[8]|max_length[255]',
 				'pass_confirm' => 'required_with[password]|matches[password]',
 			];
