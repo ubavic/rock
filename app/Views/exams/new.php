@@ -46,12 +46,12 @@
 			</div>
 		</div>
 		<div class="formRow">
-			<label for="note">Напомена:</label><br>
-			<textarea name="note" id="note" rows="5" placeholder="Напомена садржи информације које су наведене на папиру са задацима а нису могле бити унете кроз форму."><?= $exam->note ?></textarea>
+			<label for="note">Текст:</label><br>
+			<textarea name="note" id="note" rows="5" placeholder="Ово поље садржи информације које су наведене на папиру са задацима а нису могле бити унете кроз форму."><?= $exam->note ?></textarea>
 		</div>
 		<div class="formRow">
 			<label for="additional_note">Додатна напомена:</label><br>
-			<textarea name="additional_note" id="additional_note" rows="5" placeholder="Додатне напомена садржи све остале информације о року (нпр ако неки од задатака има грешку поставци, итд...)."><?= $exam->additional_note ?></textarea>
+			<textarea name="additional_note" id="additional_note" rows="5" placeholder="Додатна напомена садржи све остале информације о року (нпр ако неки од задатака има грешку поставци, итд...)."><?= $exam->additional_note ?></textarea>
 		</div>
 		<div class="formRow" style="flex-direction: row-reverse;" id="insertProblemEntry">
 			<?php if($new): ?>

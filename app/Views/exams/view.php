@@ -32,12 +32,12 @@
 	</div>
 	<?php if ($exam->note != NULL): ?>
 		<p>
-			<strong>Напомена:</strong> <?= $exam->note ?>
+			<?= $exam->note ?>
 		</p>
 	<?php endif; ?>
 	<?php if ($exam->additional_note != NULL): ?>
 		<p>
-			<strong>Додатна напопомена:</strong> <?= $exam->additional_note ?>
+			<strong>Додатна напомена:</strong> <?= $exam->additional_note ?>
 		</p>
 	<?php endif; ?> 
 	<div class="problems">
