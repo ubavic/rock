@@ -154,13 +154,13 @@ class Exam extends BaseController
 
 			$model -> save([
 				'id' => $id,
-				'subject_id' => $this->request->getVar('subject_id'),
 				'subject' => $this->request->getVar('subject'),
 				'date' => $this->request->getVar('date'),
 				'duration' => $this->request->getVar('duration'),
 				'note' => $this->request->getVar('note'),
 				'additional_note' => $this->request->getVar('additional_note'),
 				'type' => empty($this->request->getVar('type')) ? 0 : 1,
+				'updated_by' => session()->get('id'),
 				'ma' => in_array(0, $modules),
 				'mi' => in_array(1, $modules),
 				'ml' => in_array(2, $modules),
