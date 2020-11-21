@@ -37,6 +37,7 @@ $routes->get('exam/delete/(:num)', 'Exam::delete/$1', ['filter' => 'canDelete'])
 $routes->get('exam/edit/(:num)', 'Exam::edit/$1', ['filter' => 'canEdit']);
 $routes->get('user/login', 'User::login', ['filter' => 'noauth']);
 $routes->get('user/register', 'User::register', ['filter' => 'noauth']);
+$routes->get('/transliterate', 'Home::transliterate');
 $routes->get('/sitemap.xml', 'Home::sitemap');
 
 /**

@@ -1,0 +1,26 @@
+lex
+  match  LATIN    /[A-Za-zĆćČčŠšĐđŽž,.():]+/
+  match  CYRL     /[АБВГДЕЂЖЗИЈКЛЉМНЊОПРСТЋУФХЦЧЏШабвгдђежзијклљмнњопрстћуфхцчџш,.():]+/
+  match  INLINE   /\\\(.*?\\\)/
+  match  DISPLAY  /\\\[.*?\\\]/
+  match  HTML     /<.[a-z]*?>/
+  match  SPACE    / /
+  match  NL       /\n/
+/lex
+
+group
+  | :LATIN    'return $ctx.latin($1)'
+  | :CYRL     'return $ctx.cyrl($1)'
+  | :INLINE   'return $1'
+  | :DISPLAY  'return $1'
+  | :HTML     'return $1'
+  | :SPACE    'return $1'
+  | :NL       "return ' '"
+  ;
+
+start
+  | (group as :l) then (start as :rhs)
+  |> 'return $.l + $.rhs'
+  | group
+  |> 'return $1'
+  ;

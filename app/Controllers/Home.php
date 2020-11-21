@@ -32,4 +32,12 @@ class Home extends BaseController
 		$this->response->setHeader('Content-Type', 'text/xml;charset=iso-8859-1');
         echo view("template/sitemap", $data);
 	}
+
+	public function transliterate () {
+		$data['TITLE'] = "Пресловљавање";
+
+		echo view('template/header', $data);
+		echo view('pages/transliterate');
+		echo view('template/footer');
+	}
 }
