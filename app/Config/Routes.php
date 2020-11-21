@@ -38,7 +38,8 @@ $routes->get('exam/edit/(:num)', 'Exam::edit/$1', ['filter' => 'canEdit']);
 $routes->get('user/login', 'User::login', ['filter' => 'noauth']);
 $routes->get('user/register', 'User::register', ['filter' => 'noauth']);
 $routes->get('/about', 'Home::about');
-$routes->get('/transliterate', 'Home::transliterate');
+$routes->get('/manual', 'Home::manual', ['filter' => 'auth']);
+$routes->get('/transliterate', 'Home::transliterate', ['filter' => 'auth']);
 $routes->get('/sitemap.xml', 'Home::sitemap');
 
 /**

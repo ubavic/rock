@@ -48,4 +48,12 @@ class Home extends BaseController
 		echo view('pages/about');
 		echo view('template/footer');
 	}
+
+	public function manual()
+	{
+		$data['TITLE'] = "Упутство";
+		echo view('template/header', $data);
+		echo view('pages/manual');
+		echo view('template/footer');
+	}
 }

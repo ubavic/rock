@@ -3,9 +3,11 @@
 	
 	<div class="controlPanel">
 		<nav>
-			<a href="#" onclick="setControlPanel(0)" id="controlPanelMenuItem1">Профил</a>
+			<a href="#" onclick="setControlPanel(0)" id="controlPanelMenuItem0">Профил</a>
 			<a href="#" onclick="setControlPanel(1)" id="controlPanelMenuItem1">Креирани рокови</a>
-			<a href="#" onclick="setControlPanel(2)" id="controlPanelMenuItem1">Сачувани рокови</a>
+			<a href="#" onclick="setControlPanel(2)" id="controlPanelMenuItem2">Сачувани рокови</a>
+			<div style="text-align:center;">•</div>
+			<a href="/manual">Упутство за додавање и измену рокова</a>
 		</nav>
 		<div id="controlPanelItem0" style="display:block">
 			<h3 style="margin-top:0">Профил</h3>
