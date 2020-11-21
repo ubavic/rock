@@ -40,4 +40,12 @@ class Home extends BaseController
 		echo view('pages/transliterate');
 		echo view('template/footer');
 	}
+
+	public function about()
+	{
+		$data['TITLE'] = "О пројекту";
+		echo view('template/header', $data);
+		echo view('pages/about');
+		echo view('template/footer');
+	}
 }
