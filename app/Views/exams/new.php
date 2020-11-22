@@ -59,7 +59,7 @@
 			<?php endif; ?>
 		</div>
 		<div class="formRow" style="flex-direction: row-reverse;">
-			<button type="submit" class="bigButton">Унеси</button>
+			<button type="submit" class="bigButton" onclick="window.onbeforeunload = null">Унеси</button>
 		</div>
 	</form>
 </main>
@@ -71,5 +71,6 @@
 		var problems = <?= $problems ?>;
 		modifyProblemTemplate();
 		createProblems(problems);
-	<?php endif; ?>
+	<?php endif;?>
+	window.onbeforeunload = function(evt) {return true;}
 </script>
