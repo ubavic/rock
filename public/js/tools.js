@@ -17,7 +17,7 @@ function latinToCyr (str) {
         .replace(/Nj/g, 'Њ')
         .replace(/nj/g, 'њ')
         .replace(/Dž/g, 'Џ')
-        .replace(/Dž/g, 'џ');
+        .replace(/dž/g, 'џ');
 
     return str.split('').map(function (char) { 
         return latCyr[char] || char; 
