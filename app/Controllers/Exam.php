@@ -53,7 +53,7 @@ class Exam extends BaseController
 		$data['can_delete'] = 0;
 
 		if (session()->get('logged')) {
-			if ($userModel->find(session()->get('id'))->can_edit)
+			if ($userModel->canEditExam(session()->get('id'), $ID))
 				$data['can_edit'] = 1;
 			if ($userModel->find(session()->get('id'))->can_delete)
 				$data['can_delete'] = 1;

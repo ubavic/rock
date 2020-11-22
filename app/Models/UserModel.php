@@ -63,6 +63,21 @@ class UserModel extends Model {
 		$email->send();
 	}
 
+	public function canEditExam($user_id, $exam_id){
+		$user = $this->find($user_id);
+
+		if($user->can_edit == 0)
+			return 0;
+
+		if($user->can_edit == 2)
+			return 1;
+
+		$examModel = new ExamModel();
+		if($examModel->find($exam_id)->created_by == $user_id)
+			return 1;
+
+		return 0;
+	}
 }
 
 

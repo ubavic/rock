@@ -13,7 +13,7 @@ class CanEdit implements FilterInterface
 			return redirect()->to('/user/login');
 
 		$userModel = new UserModel;
-		if(!$userModel->find(session()->get('id'))->can_edit)
+		if(!$userModel->canEditExam(session()->get('id'), $request->uri->getSegment(3)))
 			return redirect()->to('/exam');
 	}
 
