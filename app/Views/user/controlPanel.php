@@ -52,53 +52,10 @@
 		</div>
 		<div id="controlPanelItem1">
 			<h3 style="margin-top:0">Креирани рокови</h3>
-			<div class="examList">
-				<div class="examListHeader">
-					<div class="examListType"><abbr title="Испит/колоквијум">Тип</abbr></div>
-					<div class="examListSubject">Предмет</div>
-					<div class="examListDate">Датум</div>
-					<div class="examListModules">Смер</div>
-				</div>
-				<?php if(empty($createdExams)): ?>
-					<div style="text-align: center; padding: 1em; max-width: 600px; margin: 0 auto;">
-						Нисте креирали ниједан рок. 
-					</div>
-				<?php else: ?>
-					<?php foreach ($createdExams as $exam): ?>
-						<a href="<?= '/exam/view/' . $exam->id ?>" class="examListRow" >
-							<div class="examListType"><?= ($exam->type == 0) ? 'И' : 'К' ?></div>
-							<div class="examListSubject"><?= $exam->subject_name ?></div>
-							<div class="examListDate"><?= $exam->date_string ?></div>
-							<div class="examListModules"><?= $exam->modules_string ?></div>
-						</a>
-					<?php endforeach; ?>
-				<?php endif; ?>
-			</div>
+			<?= $createdExams ?>
 		</div>
 		<div id="controlPanelItem2">
 			<h3 style="margin-top:0">Сачувани рокови</h3>
-			<div class="examList">
-				<div class="examListHeader">
-					<div class="examListType"><abbr title="Испит/колоквијум">Тип</abbr></div>
-					<div class="examListSubject">Предмет</div>
-					<div class="examListDate">Датум</div>
-					<div class="examListModules">Смер</div>
-				</div>
-				<?php if(empty($savedExams)): ?>
-					<div style="text-align: center; padding: 1em; max-width: 600px; margin: 0 auto;">
-						Нисте сачували ниједан рок. 
-					</div>
-				<?php else: ?>
-					<?php foreach ($savedExams as $exam): ?>
-						<a href="<?= '/exam/view/' . $exam->id ?>" class="examListRow" >
-							<div class="examListType"><?= ($exam->type == 0) ? 'И' : 'К' ?></div>
-							<div class="examListSubject"><?= $exam->subject ?></div>
-							<div class="examListDate"><?= $exam->date_string ?></div>
-							<div class="examListModules"><?= $exam->modules ?></div>
-						</a>
-					<?php endforeach; ?>
-				<?php endif; ?>
-			</div>
 		</div>
 	</div>
 </main>

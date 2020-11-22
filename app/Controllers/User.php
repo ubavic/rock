@@ -128,7 +128,7 @@ class User extends BaseController
 		$userModel = new UserModel();
 
 		$examModel = new ExamModel();
-		$data['createdExams'] = $examModel->where('created_by', session()->get('id'))->findAll();
+		$data['createdExams'] = $examModel->generateTable($examModel->where('created_by', session()->get('id'))->findAll());
 
 		if ($this->request->getMethod() == 'post') {
 			if ($this->request->getPost('name')) {

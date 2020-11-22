@@ -61,7 +61,7 @@ class ExamModel extends Model{
 		return (($this->db->table('subjects')->where('id', $ID)->get()->getResult())[0])->name;
 	}
 
-	public function getMetadata (array $data) {
+	public function getMetadata ($data) {
 		if(is_array($data['data'])){
 			foreach ($data['data'] as &$exam) {
 				$exam->subject_name = $this->getClassName(intval($exam->subject));
@@ -77,5 +77,33 @@ class ExamModel extends Model{
 		}
 
 		return $data;
+	}
+
+	public function generateTable ($exams) {
+		$head ='<div class="examList">
+					<div class="examListHeader">
+						<div class="examListType"><abbr title="Колоквијум">Клк</abbr></div>
+						<div class="examListSubject">Предмет</div>
+						<div class="examListDate">Датум</div>
+						<div class="examListModules">Смер</div>
+					</div>';
+		$results = '';
+
+		if (empty($exams)){
+			$results = '<div style="text-align: center; padding: 1em; max-width: 600px; margin: 0 auto;">
+			Нема рокова који задовољавају критеријум.</div>';
+		} else {
+			foreach ($exams as $exam) {
+				$type = ($exam->type == 0) ? ' ' : 'К';
+				$results .= "<a href=\"/exam/view/$exam->id\" class=\"examListRow\">
+						<div class=\"examListType\">$type</div>
+						<div class=\"examListSubject\">$exam->subject_name</div>
+						<div class=\"examListDate\">$exam->date_string</div>
+						<div class=\"examListModules\">$exam->modules_string</div>
+					</a>";
+			}
+		}
+
+		return $head . $results . '</div>';
 	}
 }
