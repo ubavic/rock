@@ -39,8 +39,6 @@ class Exam extends BaseController
 	}
 
 	public function view($ID = 0){
-		$data['TITLE'] = "Прегледај рок";
-
 		$examModel = new ExamModel();
 		$data["exam"] = $examModel->find($ID);
 
@@ -60,6 +58,8 @@ class Exam extends BaseController
 			if ($userModel->find(session()->get('id'))->can_delete)
 				$data['can_delete'] = 1;
 		}
+
+		$data['TITLE'] = $data["exam"]->subject_name;
 
 		echo view('template/header', $data);
 		echo view('exams/view');
