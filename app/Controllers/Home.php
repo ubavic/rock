@@ -33,11 +33,11 @@ class Home extends BaseController
         echo view("template/sitemap", $data);
 	}
 
-	public function transliterate () {
-		$data['TITLE'] = "Пресловљавање";
+	public function tools() {
+		$data['TITLE'] = "Алати";
 
 		echo view('template/header', $data);
-		echo view('pages/transliterate');
+		echo view('pages/tools');
 		echo view('template/footer');
 	}
 

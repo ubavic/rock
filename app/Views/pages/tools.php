@@ -18,6 +18,6 @@
     </div>
     <script src="./js/pasukon.dist.min.js"></script>
     <script src="./js/grammar.js"></script>
-    <script src="./js/pr.js"></script>
+    <script src="./js/tools.js"></script>
     <script>window.onload = setup();</script>
 </main>

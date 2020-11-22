@@ -39,7 +39,7 @@ $routes->get('user/login', 'User::login', ['filter' => 'noauth']);
 $routes->get('user/register', 'User::register', ['filter' => 'noauth']);
 $routes->get('/about', 'Home::about');
 $routes->get('/manual', 'Home::manual', ['filter' => 'auth']);
-$routes->get('/transliterate', 'Home::transliterate', ['filter' => 'auth']);
+$routes->get('/tools', 'Home::tools', ['filter' => 'auth']);
 $routes->get('/sitemap.xml', 'Home::sitemap');
 
 /**
