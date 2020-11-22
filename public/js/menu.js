@@ -94,7 +94,7 @@ function renderProblem(i, render){
 		document.getElementById('problemDiv' + i).innerHTML = document.getElementById('problemEntry' + i).value;
 		document.getElementById('p' + i).children[0].children[2].innerHTML = "Измени";
 		document.getElementById('p' + i).children[0].children[2].onclick = () => {renderProblem(i, false);}
-		renderMathInElement(document.getElementById('problemDiv' + i), {});
+		renderMathInElement(document.getElementById('problemDiv' + i), {throwOnError: false});
 	} else {
 		document.getElementById('problemDiv' + i).style.display = "none";
 		document.getElementById('problemEntry' + i).style.display = "block";
