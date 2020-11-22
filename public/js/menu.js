@@ -112,3 +112,9 @@ function createProblems(data) {
 		pi.children[3].children[1].value = data[i].points;
 	}
 }
+
+function modifyProblemTemplate() {
+	problemEntryTemplate = problemEntryTemplate.replace(
+		"<div class=\"button smallButton\" onclick=\"deleteProblemEntry(K)\">Обриши</div>",
+		"<div class=\"button smallButton\" onclick=\"deleteProblemEntry(K)\" style=\"display: none\"></div>" );
+}

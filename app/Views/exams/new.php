@@ -63,10 +63,13 @@
 		</div>
 	</form>
 </main>
-
-<?php if(!$new): ?>
-	<script>
+<script>
+	<?php if($new): ?>
+		var newExam = 1;
+	<?php else: ?>
+		var newExam = 0;
 		var problems = <?= $problems ?>;
+		modifyProblemTemplate();
 		createProblems(problems);
-	</script>
-<?php endif; ?>
+	<?php endif; ?>
+</script>

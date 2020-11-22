@@ -149,7 +149,13 @@ class Exam extends BaseController
 
 		if ($this->request->getMethod() == 'post') {
 			$modules = $this->request->getVar('module');
-			if($modules == NULL)
+			$problems = $this->request->getVar('problems');
+			$points = $this->request->getVar('points');
+
+			if (sizeof($dbProblems) != sizeof($problems))
+				return redirect()->to('/exam/edit/'. $id);
+
+			if ($modules == NULL)
 				$modules = [];
 
 			$model -> save([
@@ -169,10 +175,7 @@ class Exam extends BaseController
 				'mr' => in_array(5, $modules),
 				'ms' => in_array(6, $modules),
 				]);
-
-			$problems = $this->request->getVar('problems');
-			$points = $this->request->getVar('points');
-			
+	
 			for ($i=0; $i < count($problems); $i++) { 
 				$problemModel -> save([
 					'id'   => $dbProblems[$i]->id,
