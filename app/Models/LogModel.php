@@ -2,7 +2,8 @@
 
 use CodeIgniter\Model;
 
-class LogModel extends Model{
+class LogModel extends Model
+{
 	protected $table = 'login_log';
 	protected $allowedFields = ['user', 'time', 'ip'];
 	protected $useTimestamps = false;

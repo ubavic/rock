@@ -6,7 +6,6 @@ use App\Models\LogModel;
 
 class User extends BaseController
 {
-
 	private $errors = [
 		'name' => [
 			'required' => 'Име је обавезно',
@@ -32,22 +31,26 @@ class User extends BaseController
 		],
 	];
 
-	public function index(){
+	public function index()
+	{
 		return redirect()->to('/user/login');
 	}
 	
-	public function login(){
+	public function login()
+	{
 		$data['TITLE'] = 'Пријавите се';
 		helper(['form']);
 
-		if($this->request->getMethod() == 'post') {
+		if ($this->request->getMethod() == 'post')
+		{
 			$logModel = new LogModel();
 			$rules = [
 				'email'        => 'required|valid_email',
 				'password'     => 'required|validateUser[email,password]|validatedMail[email]'
 			];
 
-			if ($this->validate($rules, $this->errors)) {
+			if ($this->validate($rules, $this->errors))
+			{
 				$loginData = [
 					'email' => $this->request->getVar('email'),
 					'password' => $this->request->getVar('password'),
@@ -63,7 +66,8 @@ class User extends BaseController
 				]);
 
 				return redirect()->to('/');
-			} else {
+			} else
+			{
 				$logModel->save([
 					'user' => NULL,
 					'ip' => $this->request->getIPAddress(),
@@ -74,25 +78,29 @@ class User extends BaseController
 				echo view('user/login');
 				echo view('template/footer');
 			}
-		} else {
+		} else
+		{
 			echo view('template/header', $data);
 			echo view('user/login');
 			echo view('template/footer');
 		}
 	}
 
-	public function register(){
+	public function register()
+	{
 		$data['TITLE'] = 'Региструјте се';
 		helper(['form']);
 
-		if($this->request->getMethod() == 'post') {
+		if ($this->request->getMethod() == 'post')
+		{
 			$rules = [
 				'email'        => 'required|valid_email|is_unique[users.email]|validateFacultyMail[email]',
 				'password'     => 'required|min_length[8]|max_length[255]',
 				'pass_confirm' => 'required_with[password]|matches[password]',
 			];
 
-			if ($this->validate($rules, $this->errors)) {
+			if ($this->validate($rules, $this->errors))
+			{
 				$regData = [
 					'name' => $this->request->getVar('email'),
 					'email' => $this->request->getVar('email'),
@@ -108,20 +116,23 @@ class User extends BaseController
 				session()->setFlashdata('success', 'Да би сте завршили регистрацију, потврдите Вашу адресу, кликом на линк који Вам је послат.');
 
 				return redirect()->to('/user/login');
-			} else {
+			} else
+			{
 				$data['validation'] = $this->validator;
 				echo view('template/header', $data);
 				echo view('user/register');
 				echo view('template/footer');
 			}
-		} else {
+		} else
+		{
 			echo view('template/header', $data);
 			echo view('user/register');
 			echo view('template/footer'); 
 		}
 	}
 
-	public function controlpanel(){
+	public function controlpanel()
+	{
 		$data['TITLE'] = 'Кориснички контролни панел';
 		helper(['form']);
 
@@ -130,29 +141,35 @@ class User extends BaseController
 		$examModel = new ExamModel();
 		$data['createdExams'] = $examModel->generateTable($examModel->where('created_by', session()->get('id'))->findAll());
 
-		if ($this->request->getMethod() == 'post') {
-			if ($this->request->getPost('name')) {
+		if ($this->request->getMethod() == 'post')
+		{
+			if ($this->request->getPost('name'))
+			{
 				$rules = [
 					'name' => 'required|min_length[3]|max_length[255]',
 				];
 
-				if ($this->validate($rules, $this->errors)) {
+				if ($this->validate($rules, $this->errors))
+				{
 					$userModel->save([
 						'id' => session()->get('id'),
 						'name' => $this->request->getVar('name'),
 					]);
 					session()->set('name', $this->request->getVar('name'));
 					session()->setFlashdata('success', 'Име је успешно промењено.');
-				} else {
+				} else
+				{
 					$data['validation'] = $this->validator;
 				}
-			} else if ($this->request->getPost('password')) {
+			} else if ($this->request->getPost('password'))
+			{
 				$rules = [
 					'password'     => 'required|min_length[8]|max_length[255]',
 					'pass_confirm' => 'required_with[password]|matches[password]',
 				];
 		
-				if ($this->validate($rules, $this->errors)) {
+				if ($this->validate($rules, $this->errors))
+				{
 					$userModel->save([
 						'id' => session()->get('id'),
 						'hash' => $this->request->getVar('password'),
@@ -173,7 +190,8 @@ class User extends BaseController
 		echo view('template/footer'); 
 	}
 
-	private function setUser($user) {
+	private function setUser($user)
+	{
 		$data = [
 			'id' => $user->id,
 			'name' => $user->name,
@@ -184,12 +202,14 @@ class User extends BaseController
 		return true;
 	}
 
-	public function logout () {
+	public function logout()
+	{
 		session()->destroy();
 		return redirect()->to('/');
 	}
 
-	public function terms(){
+	public function terms()
+	{
 		$data['TITLE'] = 'Услови регистрације';
 
 		echo view('template/header', $data);
@@ -197,21 +217,24 @@ class User extends BaseController
 		echo view('template/footer'); 
 	}
 
-	public function verify($ID, $code) {
+	public function verify($ID, $code)
+	{
 		$userModel = new UserModel();
 		$user = $userModel->find($ID);
 
-		if ($user->ver_code == NULL) {
+		if ($user->ver_code == NULL)
+		{
 			session()->setFlashdata('success', 'Већ сте успешно потврдили адресу. Можете се пријавити.');
-		} else if ($user->ver_code == $code){
+		} else if ($user->ver_code == $code)
+		{
 			session()->setFlashdata('success', 'Адреса је успешно потврђена. Можете се пријавити.');
 			$userModel->save(['id' => $ID, 'ver_code' => NULL]);
-		} else {
+		} else
+		{
 			$userModel->sendVerificationMail($ID);
 			session()->setFlashdata('success', 'Дошло је до грешке приликом потврђивања адресе. Послат Вам је нови линк.');
 		}
 
 		return redirect()->to('/user/login');
 	}
-
 }

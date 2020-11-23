@@ -2,7 +2,8 @@
 
 use CodeIgniter\Model;
 
-class ExamModel extends Model{
+class ExamModel extends Model
+{
 	protected $table = 'exams';
 	protected $returnType = 'object';
 	protected $primaryKey = 'id';
@@ -30,45 +31,51 @@ class ExamModel extends Model{
 	protected $useSoftDeletes = true;
 	protected $afterFind = ['getMetadata'];
 
-	public function getModulesString ($exam) {
+	public function getModulesString($exam)
+	{
 		$true_modules = [];
 
-		if($exam->ma)
+		if ($exam->ma)
 			$true_modules = array_merge($true_modules, ['АА']);
 
-		if($exam->mi)
+		if ($exam->mi)
 			$true_modules = array_merge($true_modules, ['И']);
 
-		if($exam->ml)
+		if ($exam->ml)
 			$true_modules = array_merge($true_modules, ['МЛ']);
 
-		if($exam->mm)
+		if ($exam->mm)
 			$true_modules = array_merge($true_modules, ['ММ']);
 
-		if($exam->mp)
+		if ($exam->mp)
 			$true_modules = array_merge($true_modules, ['МП']);
 
-		if($exam->mr)
+		if ($exam->mr)
 			$true_modules = array_merge($true_modules, ['МР']);
 
-		if($exam->ms)
+		if ($exam->ms)
 			$true_modules = array_merge($true_modules, ['МС']);
 
 		return implode(", ", $true_modules);
 	}
 
-	private function getClassName (int $ID) {
+	private function getClassName(int $ID)
+	{
 		return (($this->db->table('subjects')->where('id', $ID)->get()->getResult())[0])->name;
 	}
 
-	public function getMetadata ($data) {
-		if(is_array($data['data'])){
-			foreach ($data['data'] as &$exam) {
+	public function getMetadata($data)
+	{
+		if (is_array($data['data']))
+		{
+			foreach ($data['data'] as &$exam)
+			{
 				$exam->subject_name = $this->getClassName(intval($exam->subject));
 				$exam->modules_string = $this->getModulesString($exam);
 				$exam->date_string = date_format(date_create($exam->date), 'd.m.Y.');
 			}
-		} else {
+		} else
+		{
 			$data['data']->subject_name = $this->getClassName(intval($data['data']->subject));
 			$data['data']->modules_string = $this->getModulesString($data['data']);
 			$data['data']->date_string = date_format(date_create($data['data']->date), 'd.m.Y.');
@@ -79,7 +86,8 @@ class ExamModel extends Model{
 		return $data;
 	}
 
-	public function generateTable ($exams) {
+	public function generateTable($exams)
+	{
 		$head ='<div class="examList">
 					<div class="examListHeader">
 						<div class="examListType"><abbr title="Колоквијум">Клк</abbr></div>
@@ -89,11 +97,14 @@ class ExamModel extends Model{
 					</div>';
 		$results = '';
 
-		if (empty($exams)){
+		if (empty($exams))
+		{
 			$results = '<div style="text-align: center; padding: 1em; max-width: 600px; margin: 0 auto;">
 			Нема рокова који задовољавају критеријум.</div>';
-		} else {
-			foreach ($exams as $exam) {
+		} else
+		{
+			foreach ($exams as $exam)
+			{
 				$type = ($exam->type == 0) ? ' ' : 'К';
 				$results .= "<a href=\"/exam/view/$exam->id\" class=\"examListRow\">
 						<div class=\"examListType\">$type</div>

@@ -9,8 +9,8 @@ class ProblemModel extends Model{
 	protected $useSoftDeletes = false;
 	protected $returnType = 'object';
 
-	public function getProblems($ID){
+	public function getProblems($ID)
+	{
 		return $this->where('exam', $ID)->get()->getResult();
 	}
-
 }

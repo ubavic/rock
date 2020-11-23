@@ -7,7 +7,8 @@ use App\Models\UserModel;
 
 class Home extends BaseController
 {
-	public function index(){
+	public function index()
+	{
 		$data['TITLE'] = "Почетна";
 
 		$examModel = new ExamModel();
@@ -25,7 +26,8 @@ class Home extends BaseController
 		echo view('template/footer');
 	}
 
-	public function sitemap () {
+	public function sitemap()
+	{
 		$examModel = new ExamModel();
 		$data['exams'] = $examModel->findAll();
 
@@ -33,7 +35,8 @@ class Home extends BaseController
         echo view("template/sitemap", $data);
 	}
 
-	public function tools() {
+	public function tools()
+	{
 		$data['TITLE'] = "Алати";
 
 		echo view('template/header', $data);

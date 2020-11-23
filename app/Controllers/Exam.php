@@ -28,7 +28,8 @@ class Exam extends BaseController
 		echo view('template/footer');
 	}
 
-	public function getExams($subject) {
+	public function getExams($subject)
+	{
 		if ($subject == NULL)
 			$subject = 1;
 
@@ -38,7 +39,8 @@ class Exam extends BaseController
 		echo view('exams/examListTemplate', $data);
 	}
 
-	public function view($ID = 0){
+	public function view($ID = 0)
+	{
 		$examModel = new ExamModel();
 		$data["exam"] = $examModel->find($ID);
 
@@ -66,7 +68,8 @@ class Exam extends BaseController
 		echo view('template/footer');
 	}
 
-	public function new() {
+	public function new()
+	{
 		$data['TITLE'] = "Нови рок";
 		$model = new ExamModel();
 		$emptyExam = (object) [
@@ -85,9 +88,10 @@ class Exam extends BaseController
 			'ms' => 0,
 		];
 
-		if($this->request->getMethod() == 'post') {
+		if ($this->request->getMethod() == 'post')
+		{
 			$modules = $this->request->getVar('module');
-			if($modules == NULL)
+			if ($modules == NULL)
 				$modules = [];
 
 			$model -> save([
@@ -115,7 +119,8 @@ class Exam extends BaseController
 			$problems = $this->request->getVar('problems');
 			$points = $this->request->getVar('points');
 
-			for ($i=0; $i < count($problems); $i++) { 
+			for ($i=0; $i < count($problems); $i++)
+			{ 
 				$problemModel -> save([
 					'exam' => $id,
 					'text' => $problems[$i],
@@ -124,7 +129,8 @@ class Exam extends BaseController
 			}
 
 			return redirect()->to('/exam/view/' . $id);
-		} else {
+		} else
+		{
 			$data['exam'] = $emptyExam;
 			
 			$subjectsModel = new SubjectModel();
@@ -138,16 +144,17 @@ class Exam extends BaseController
 		}
 	}
 
-	public function edit($id = false) {
-		if ($id == false) {
+	public function edit($id = false)
+	{
+		if ($id == false)
 			return redirect()->to('/exam');
-		}
 
 		$model = new ExamModel();
 		$problemModel = new ProblemModel();
 		$dbProblems = $problemModel->where('exam', $id)->findAll();
 
-		if ($this->request->getMethod() == 'post') {
+		if ($this->request->getMethod() == 'post')
+		{
 			$modules = $this->request->getVar('module');
 			$problems = $this->request->getVar('problems');
 			$points = $this->request->getVar('points');
@@ -176,7 +183,8 @@ class Exam extends BaseController
 				'ms' => in_array(6, $modules),
 				]);
 	
-			for ($i=0; $i < count($problems); $i++) { 
+			for ($i=0; $i < count($problems); $i++)
+			{ 
 				$problemModel -> save([
 					'id'   => $dbProblems[$i]->id,
 					'exam' => $id,
@@ -202,10 +210,9 @@ class Exam extends BaseController
 		}
 	}
 
-	public function delete ($ID) {
-
+	public function delete ($ID)
+	{
 		$examModel = new ExamModel();
-		
 		$examModel->update($ID, ['updated_by' => session()->get('id')]);
 		$examModel->delete($ID);
 
