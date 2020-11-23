@@ -42,10 +42,14 @@ class UserModel extends Model
 		return $data;
 	}
 
-	public function getAbbr($ID)
+	public function getAbbr($user_id)
 	{
-		$user = $this->find($ID);
-		return "<abbr title=\"$user->email\">" . $user->name . '</abbr>';
+		$user = $this->find($user_id);
+
+		if (is_null($user))
+			return "<i>Непознат корисник</i>";
+
+		return "<a href=\"/user/$user_id\">$user->name</a>";
 	}
 
 	public function sendVerificationMail($ID)
