@@ -142,15 +142,12 @@ class User extends BaseController
 		}
 	}
 
-	public function controlpanel()
+	public function settings()
 	{
-		$data['TITLE'] = 'Кориснички контролни панел';
+		$data['TITLE'] = 'Подешавања';
 		helper(['form']);
 
 		$userModel = new UserModel();
-
-		$examModel = new ExamModel();
-		$data['createdExams'] = $examModel->generateTable($examModel->where('created_by', session()->get('id'))->findAll());
 
 		if ($this->request->getMethod() == 'post')
 		{
@@ -197,8 +194,43 @@ class User extends BaseController
 		$data['email'] = $user->email;
 
 		echo view('template/header', $data);
-		echo view('user/controlPanel');
+		echo view('user/controlPanel/settings');
 		echo view('template/footer'); 
+	}
+
+	public function exams(){
+		$data['TITLE'] = 'Додати рокови';
+
+		$examModel = new ExamModel();
+		$data['createdExams'] = $examModel->generateTable($examModel->where('created_by', session()->get('id'))->findAll());
+
+		echo view('template/header', $data);
+		echo view('user/controlPanel/exams');
+		echo view('template/footer');
+	}
+
+	public function saved(){
+		$data['TITLE'] = 'Сачувани рокови';
+
+		echo view('template/header', $data);
+		echo view('user/controlPanel/saved');
+		echo view('template/footer');
+	}
+
+	public function all(){
+		$data['TITLE'] = 'Сви корисници';
+
+		echo view('template/header', $data);
+		echo view('user/controlPanel/all');
+		echo view('template/footer');
+	}
+
+	public function log(){
+		$data['TITLE'] = 'Списак пријављивања';
+
+		echo view('template/header', $data);
+		echo view('user/controlPanel/log');
+		echo view('template/footer');
 	}
 
 	private function setUser($user)
@@ -206,7 +238,8 @@ class User extends BaseController
 		$data = [
 			'id' => $user->id,
 			'name' => $user->name,
-			'logged' => true
+			'logged' => true,
+			'can_manage_users' => $user->can_manage_users
 		];
 
 		session()->set($data);

@@ -438,8 +438,12 @@ button, .button {
   background-color: var(--color-gray-4);
 }
 
+.controlPanel > nav > div {
+  margin-top: 0.5em;
+  padding: 0.2em 0.2em;
+}
+
 .controlPanel > div {
-  display: none;
   width: 100%;
 }
 

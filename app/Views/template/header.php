@@ -33,7 +33,7 @@
 				<a href="/about" title="Информације о пројекту." class="menuItem <?= ($uri->getSegment(1) == 'about' ? 'activeMenuItem' : null) ?>">О Пројекту</a>
 				<div style="margin-left: auto"></div>
 				<?php if(session()->get('logged')): ?>
-					<a href="/user/controlpanel" title="Контролни панел" class="menuItem <?= ($uri->getSegment(1) == 'user' ? 'activeMenuItem' : null) ?>">Контролни панел</a>
+					<a href="/user/settings" title="Контролни панел" class="menuItem <?= ($uri->getSegment(1) == 'user' ? 'activeMenuItem' : null) ?>">Контролни панел</a>
 				<?php else: ?>
 					<a href="/user/login" title="Пријава и регистација" class="menuItem">Пријавите се</a>
 				<?php endif; ?>

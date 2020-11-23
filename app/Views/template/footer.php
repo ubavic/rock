@@ -4,7 +4,7 @@
 				<a href="/exam">Рокови</a> • 
 				<a href="/about">О пројекту</a> 
 				<?php if(session()->get('logged')): ?>
-				• <a href="/user/controlpanel" title="Контролни панел">Контролни панел</a>
+				• <a href="/user/settings" title="Контролни панел">Контролни панел</a>
 				<?php endif; ?>
 			</div>
 			<?php if(session()->get('logged')): ?>

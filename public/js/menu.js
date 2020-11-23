@@ -34,16 +34,6 @@ function swichMenu() {
 	}
 }
 
-function setControlPanel(panel) {
-	for (let i = 0; i < 3; i++) {
-		if (i == panel) {
-			document.getElementById('controlPanelItem' + i).style.display = "block";
-		} else {
-			document.getElementById('controlPanelItem' + i).removeAttribute("style");
-		}
-	}
-}
-
 function confirmDelete(url) {
 	if (confirm('Да ли сте сигурни да желите да обришете овај рок?')) {
 		window.location.href = url;
