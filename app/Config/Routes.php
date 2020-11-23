@@ -31,16 +31,19 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
-$routes->get('user/controlpanel', 'User::controlpanel', ['filter' => 'auth']);
-$routes->get('exam/new', 'Exam::new', ['filter' => 'canAdd']);
-$routes->get('exam/delete/(:num)', 'Exam::delete/$1', ['filter' => 'canDelete']);
-$routes->get('exam/edit/(:num)', 'Exam::edit/$1', ['filter' => 'canEdit']);
-$routes->get('user/login', 'User::login', ['filter' => 'noauth']);
-$routes->get('user/register', 'User::register', ['filter' => 'noauth']);
 $routes->get('/about', 'Home::about');
 $routes->get('/manual', 'Home::manual', ['filter' => 'auth']);
 $routes->get('/tools', 'Home::tools', ['filter' => 'auth']);
 $routes->get('/sitemap.xml', 'Home::sitemap');
+
+$routes->get('exam/(:num)', 'Exam::index/$1');
+$routes->get('exam/new', 'Exam::new', ['filter' => 'canAdd']);
+$routes->get('exam/delete/(:num)', 'Exam::delete/$1', ['filter' => 'canDelete']);
+$routes->get('exam/edit/(:num)', 'Exam::edit/$1', ['filter' => 'canEdit']);
+
+$routes->get('user/controlpanel', 'User::controlpanel', ['filter' => 'auth']);
+$routes->get('user/login', 'User::login', ['filter' => 'noauth']);
+$routes->get('user/register', 'User::register', ['filter' => 'noauth']);
 
 /**
  * --------------------------------------------------------------------

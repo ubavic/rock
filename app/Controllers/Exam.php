@@ -7,18 +7,17 @@ use App\Models\UserModel;
 
 class Exam extends BaseController
 {
-	public function index()
+	public function index($subject_id = 1)
 	{
+		$exam_model = new ExamModel();
+		$user_model = new UserModel();
+		$subject_model = new SubjectModel();
+
 		$data['TITLE'] = "Рокови";
+		$data['subjectsList'] = $subject_model->getUsedSubjectsOptionList($subject_id);
+		$data['exam_table'] = $exam_model->generateTable($exam_model->where('subject', $subject_id)->orderBy('date', 'desc')->findAll());
 
-		$model = new ExamModel();
-		$data["exams"] = $model->findAll();
-
-		$subjectsModel = new SubjectModel();
-		$data['subjectsList'] = $subjectsModel->getUsedSubjectsOptionList();
-
-		$userModel = new UserModel();
-		if (session()->get('logged') and $userModel->find(session()->get('id'))->can_add)
+		if (session()->get('logged') and $user_model->find(session()->get('id'))->can_add)
 			$data['can_add'] = 1;
 		else
 			$data['can_add'] = 0;
@@ -26,17 +25,6 @@ class Exam extends BaseController
 		echo view('template/header', $data);
 		echo view('exams/list');
 		echo view('template/footer');
-	}
-
-	public function getExams($subject)
-	{
-		if ($subject == NULL)
-			$subject = 1;
-
-		$subject = intval($subject);
-		$examModel = new ExamModel();
-		$data['exams'] = $examModel->where('subject', $subject)->orderBy('date', 'desc')->findAll();
-		echo view('exams/examListTemplate', $data);
 	}
 
 	public function view($ID = 0)
@@ -119,24 +107,21 @@ class Exam extends BaseController
 			$problems = $this->request->getVar('problems');
 			$points = $this->request->getVar('points');
 
-			for ($i=0; $i < count($problems); $i++)
-			{ 
+			for ($i=0; $i < count($problems); $i++) 
 				$problemModel -> save([
 					'exam' => $id,
 					'text' => $problems[$i],
 					'points' => $points[$i],
 				]);
-			}
 
 			return redirect()->to('/exam/view/' . $id);
 		} else
 		{
 			$data['exam'] = $emptyExam;
+			$data["new"] = True;
 			
 			$subjectsModel = new SubjectModel();
 			$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList();
-
-			$data["new"] = True;
 
 			echo view('template/header', $data);
 			echo view('exams/new');
@@ -194,7 +179,8 @@ class Exam extends BaseController
 			}
 
 			return redirect()->to('/exam/view/'. $id);
-		} else {	
+		} else
+		{	
 			helper('form');
 
 			$data['TITLE'] = "Измени рок";
@@ -210,7 +196,7 @@ class Exam extends BaseController
 		}
 	}
 
-	public function delete ($ID)
+	public function delete($ID)
 	{
 		$examModel = new ExamModel();
 		$examModel->update($ID, ['updated_by' => session()->get('id')]);

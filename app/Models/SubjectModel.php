@@ -8,25 +8,32 @@ class SubjectModel extends Model
 	protected $allowedFields = ['name', 'code'];
 	protected $returnType = 'object';
 
-	public function getUsedSubjectsOptionList()
+	public function getUsedSubjectsOptionList($subject_id = 1)
 	{
 		$subjects = $this->db->query('SELECT * FROM subjects WHERE id IN (SELECT subject FROM exams) ORDER BY name')->getResult();
 		$str = '';
 
 		foreach ($subjects as $subject)
-			$str = $str . ("<option value=\"$subject->id\">$subject->name ($subject->code)</option>");
+		{
+			if ($subject_id == $subject->id)
+				$select = 'selected="selected"';
+			else
+				$select = '';
+
+			$str = $str . ("<option $select value=\"$subject->id\">$subject->name ($subject->code)</option>");
+		}
 
 		return $str;
 	}
 
-	public function getAllSubjectsOptionList($ID = 1)
+	public function getAllSubjectsOptionList($subject_id = 1)
 	{
 		$subjects = $this->findAll();
 		$str = '';
 
 		foreach ($subjects as $subject)
 		{
-			if ($ID == $subject->id)
+			if ($subject_id == $subject->id)
 				$select = 'selected="selected"';
 			else
 				$select = '';
