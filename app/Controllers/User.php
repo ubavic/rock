@@ -31,9 +31,20 @@ class User extends BaseController
 		],
 	];
 
-	public function index()
+	public function index($user_id)
 	{
-		return redirect()->to('/user/login');
+		$userModel = new UserModel();
+		$user = $userModel->find($user_id);
+
+		if (is_null($user))
+			return redirect()->to('/user/controlpanel');
+
+		$data['TITLE'] = 'Кориснички профил';
+		$data['user'] = $user;
+
+		echo view('template/header', $data);
+		echo view('user/profile');
+		echo view('template/footer');
 	}
 	
 	public function login()
