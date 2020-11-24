@@ -15,5 +15,6 @@
 					<div style="font-family: var(--mono-font-stack);"><?= $entry->ip; ?></div>
 				</div>	
 			<?php endforeach; ?>
+		</div>
 	</div>
 <?= $this->endSection(); ?>

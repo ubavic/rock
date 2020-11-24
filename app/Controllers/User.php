@@ -223,6 +223,15 @@ class User extends BaseController
 	{
 		$data['TITLE'] = 'Сви корисници';
 
+		$user_model = new UserModel();
+		$users = $user_model->findAll();
+
+		foreach ($users as $user){
+				$user->user_link = $user_model->getAbbr($user->id);
+		}
+
+		$data['users'] = $users;
+
 		echo view('template/header', $data);
 		echo view('user/controlPanel/all');
 		echo view('template/footer');
