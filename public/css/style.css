@@ -328,7 +328,7 @@ button {
 }
 
 .problem {
-  overflow-x: auto
+  overflow-x: auto;
 }
 
 .problem + .problem{
