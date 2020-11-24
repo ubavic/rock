@@ -423,6 +423,7 @@ button, .button {
 .controlPanel > nav {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   width: 200px;
   background-color: var(--color-gray-5);
   padding: 0em;
@@ -513,6 +514,10 @@ button, .button {
     flex-direction: row;
     width: 100%;
     margin: 0 0 1em 0;
+  }
+
+  .controlPanel > nav > div {
+    display: none;
   }
 }
 

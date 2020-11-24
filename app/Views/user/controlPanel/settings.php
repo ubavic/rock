@@ -12,7 +12,7 @@
 			<?= session()->get('success'); ?>
 		</div>
 	<?php endif; ?>
-	<form action="/user/controlpanel" method="post">
+	<form action="/user/settings" method="post">
 		<p>У наредној форми можете променити своје име. Ваше име, као и Ваш <i>e-mail</i>, је видљиво само другим члановима сајта. Пожељно је, али не и обавезно, да за име упишете Ваше лично име, на ћирилици.</p>
 		<div class="formRow">
 			<label for="name" style="width: 4em;">Име</label>
@@ -27,7 +27,7 @@
 		</div>
 	</form>
 	<h4>Промени шифру</h4>
-	<form action="/user/controlpanel" method="post">
+	<form action="/user/settings" method="post">
 		<div class="formRow">
 			<label for="password" style="width: 8em;">Шифра</label>
 			<input type="password" name="password" id="password" style="width: 20em;">
