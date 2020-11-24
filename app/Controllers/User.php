@@ -198,7 +198,8 @@ class User extends BaseController
 		echo view('template/footer'); 
 	}
 
-	public function exams(){
+	public function exams()
+	{
 		$data['TITLE'] = 'Додати рокови';
 
 		$examModel = new ExamModel();
@@ -209,7 +210,8 @@ class User extends BaseController
 		echo view('template/footer');
 	}
 
-	public function saved(){
+	public function saved()
+	{
 		$data['TITLE'] = 'Сачувани рокови';
 
 		echo view('template/header', $data);
@@ -217,7 +219,8 @@ class User extends BaseController
 		echo view('template/footer');
 	}
 
-	public function all(){
+	public function all()
+	{
 		$data['TITLE'] = 'Сви корисници';
 
 		echo view('template/header', $data);
@@ -225,8 +228,22 @@ class User extends BaseController
 		echo view('template/footer');
 	}
 
-	public function log(){
+	public function log()
+	{
 		$data['TITLE'] = 'Списак пријављивања';
+
+		$user_model = new UserModel();
+		$log_model = new LogModel();
+		$logs = $log_model->orderBy('time', 'DESC')->limit(20)->find();
+
+		foreach ($logs as $entry){
+			if ($entry->user != 0)
+				$entry->user_link = $user_model->getAbbr($entry->user);
+			else
+				$entry->user_link = 'Нерегистрован корисник';
+		}
+
+		$data['logs'] = $logs;
 
 		echo view('template/header', $data);
 		echo view('user/controlPanel/log');
