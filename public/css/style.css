@@ -254,11 +254,11 @@ button {
   cursor: pointer;
 }
 
-.examList {
+.tableList {
   margin: 1em 0;
 }
 
-.examListHeader {
+.tableListHeader {
   display: flex;
   flex-direction: row;
   padding: 0.5em 0.5em;
@@ -267,7 +267,7 @@ button {
   border-top-right-radius: 3px;
 }
 
-.examListRow {
+.tableListRow {
   display: flex;
   justify-content: flex-start;
   flex-direction: row;
@@ -277,16 +277,16 @@ button {
   border-top: 1px solid var(--color-gray-4);
 }
 
-.examListRow:last-child {
+.tableListRow:last-child {
   border-bottom: 1px solid var(--color-gray-4);
 }
 
-.examListRow:hover {
+.tableListRow:hover {
   text-decoration: none;
   background-color: var(--color-gray-4);
 }
 
-.examListHeader > div, .examListRow > div {
+.tableListHeader > div, .tableListRow > div {
   padding: 0 0.5em;
 }
 

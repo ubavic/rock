@@ -88,8 +88,8 @@ class ExamModel extends Model
 
 	public function generateTable($exams)
 	{
-		$head ='<div class="examList">
-					<div class="examListHeader">
+		$head ='<div class="tableList">
+					<div class="tableListHeader">
 						<div class="examListType"><abbr title="Колоквијум">Клк</abbr></div>
 						<div class="examListSubject">Предмет</div>
 						<div class="examListDate">Датум</div>
@@ -106,7 +106,7 @@ class ExamModel extends Model
 			foreach ($exams as $exam)
 			{
 				$type = ($exam->type == 0) ? ' ' : 'К';
-				$results .= "<a href=\"/exam/view/$exam->id\" class=\"examListRow\">
+				$results .= "<a href=\"/exam/view/$exam->id\" class=\"tableListRow\">
 						<div class=\"examListType\">$type</div>
 						<div class=\"examListSubject\">$exam->subject_name</div>
 						<div class=\"examListDate\">$exam->date_string</div>
