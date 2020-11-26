@@ -7,15 +7,13 @@ use App\Models\UserModel;
 
 class Exam extends BaseController
 {
-	public function index($subject_id = 1)
+	public function index()
 	{
-		$exam_model = new ExamModel();
 		$user_model = new UserModel();
 		$subject_model = new SubjectModel();
 
 		$data['TITLE'] = "Рокови";
-		$data['subjectsList'] = $subject_model->getUsedSubjectsOptionList($subject_id);
-		$data['exam_table'] = $exam_model->generateTable($exam_model->where('subject', $subject_id)->orderBy('date', 'desc')->findAll());
+		$data['subject_list'] = $subject_model->getUsedSubjectCount();
 
 		if (session()->get('logged') and $user_model->find(session()->get('id'))->can_add)
 			$data['can_add'] = 1;
@@ -24,6 +22,27 @@ class Exam extends BaseController
 
 		echo view('template/header', $data);
 		echo view('exams/list');
+		echo view('template/footer');
+	}
+
+	public function subject($subject_id = 1)
+	{
+		$exam_model = new ExamModel();
+		$user_model = new UserModel();
+		$subject_model = new SubjectModel();
+
+		$data['subject'] = $subject_model->find($subject_id);
+		$data['TITLE'] = $data['subject']->name;
+
+		$data['exam_table'] = $exam_model->generateTable($exam_model->where('subject', $subject_id)->orderBy('date', 'desc')->findAll());
+
+		if (session()->get('logged') and $user_model->find(session()->get('id'))->can_add)
+			$data['can_add'] = 1;
+		else
+			$data['can_add'] = 0;
+
+		echo view('template/header', $data);
+		echo view('exams/subject');
 		echo view('template/footer');
 	}
 
@@ -38,6 +57,9 @@ class Exam extends BaseController
 		$userModel = new UserModel();
 		$data["created_by"] = $userModel->getAbbr($data["exam"]->created_by);
 		$data["updated_by"] = $userModel->getAbbr($data["exam"]->updated_by);
+
+		$subject_model = new SubjectModel();
+		$data['subject'] = $subject_model->find($data["exam"]->subject);
 
 		$data['can_edit'] = 0;
 		$data['can_delete'] = 0;
@@ -204,5 +226,4 @@ class Exam extends BaseController
 
 		return redirect()->to('/exam');
 	}
-
 }

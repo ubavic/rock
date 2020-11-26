@@ -36,7 +36,7 @@ $routes->get('/manual', 'Home::manual', ['filter' => 'auth']);
 $routes->get('/tools', 'Home::tools', ['filter' => 'auth']);
 $routes->get('/sitemap.xml', 'Home::sitemap');
 
-$routes->get('exam/(:num)', 'Exam::index/$1');
+$routes->get('exam/(:num)', 'Exam::subject/$1');
 $routes->get('exam/new', 'Exam::new', ['filter' => 'canAdd']);
 $routes->get('exam/delete/(:num)', 'Exam::delete/$1', ['filter' => 'canDelete']);
 $routes->get('exam/edit/(:num)', 'Exam::edit/$1', ['filter' => 'canEdit']);

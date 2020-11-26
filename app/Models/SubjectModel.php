@@ -43,4 +43,12 @@ class SubjectModel extends Model
 
 		return $str;
 	}
+
+	public function getUsedSubjectCount()
+	{
+		return $this->db->
+			query('SELECT * FROM (SELECT COUNT(id) AS count, subject FROM exams GROUP BY subject) AS exam LEFT JOIN subjects ON exam.subject = subjects.id')
+			->getResult();
+	}
+
 }

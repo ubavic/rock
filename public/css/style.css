@@ -415,6 +415,13 @@ button, .button {
   background-color: var(--color-gray-2);
 }
 
+.breadcrumb {
+  background-color: var(--color-gray-5);
+  padding: 0.2em;
+  border-radius: 3px;
+  margin: 0 0 1em 0;
+}
+
 .controlPanel {
   display: flex;
   flex-direction: row; 
