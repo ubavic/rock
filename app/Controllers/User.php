@@ -124,7 +124,7 @@ class User extends BaseController
 				$userModel->save($regData);
 				$user = $userModel->where('email', $this->request->getVar('email'))->first();
 				$userModel->sendVerificationMail($user->id);
-				session()->setFlashdata('success', 'Да би сте завршили регистрацију, потврдите Вашу адресу, кликом на линк који Вам је послат.');
+				session()->setFlashdata('success', 'Да би сте завршили регистрацију потврдите Вашу адресу кликом на линк који Вам је послат.');
 
 				return redirect()->to('/user/login');
 			} else

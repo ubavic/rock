@@ -356,6 +356,10 @@ button {
   margin-right: 0.5em;
 }
 
+.verticalRowSpacer{
+  margin-left:auto;
+}
+
 .problemEntry {
   margin: 1em 0 1em 0;
   background-color: var(--color-gray-5);
@@ -525,32 +529,5 @@ button, .button {
 
   .controlPanel > nav > div {
     display: none;
-  }
-}
-
-@media print {
-  body{
-    background-color: #FFF;
-    background-image: none;
-  }
-
-  main {
-    padding: 0;
-    width: auto;
-    font-family: "Times New Roman", Times, serif;
-    box-shadow: none;
-  }
-
-  body > header, body > footer {display: none;}
-
-  h2, h3, h4 {break-after: avoid;}
-  table, li, img, blockquote, figure, pre {break-inside: avoid;}
-  footer, figcaption {break-before: avoid;}
-
-  a {text-decoration: underline;}
-
-  pre {
-    border: 1px solid #000;
-    color: #333;
   }
 }

@@ -1,0 +1,58 @@
+@media print {
+    body{
+      background-color: #FFF;
+      background-image: none;
+    }
+  
+    main {
+      padding: 0;
+      width: auto;
+      font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      box-shadow: none;
+    }
+  
+    body > header, body > footer {display: none;}
+  
+    h2, h3, h4 {break-after: avoid;}
+    table, li, img, blockquote, figure, pre {break-inside: avoid;}
+    footer, figcaption {break-before: avoid;}
+  
+    .breadcrumb { display: none;}
+    .problem {break-inside: avoid;}
+  
+    .problem > header {
+      padding: 0;
+      background-color: #FFF;
+    }
+  
+    .problem > header > a {
+      color: #000;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  
+    .problem > header > .verticalRowSpacer {
+      margin: 0;
+      width: 0.5em;
+    }
+  
+    .problem > header > .points::before{
+      content: '(';
+    }
+  
+    .problem > header > .points::after{
+      content: ')';
+    }
+  
+    a {text-decoration: underline;}
+  
+    pre {
+      border: 1px solid #000;
+      color: #333;
+    }
+  
+    .katex {
+      font-size: 1em;
+    }
+  }
+  

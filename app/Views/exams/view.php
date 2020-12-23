@@ -24,7 +24,11 @@
 	<div class="formRow">
 		<?php if($exam->modules_string): ?>
 			<div>
-				За смерове: <?= $exam->modules_string ?>
+				<?php if(strlen($exam->modules_string) > 4): ?>
+					За смерове <?= $exam->modules_string ?>.
+				<?php else: ?>
+					За смер <?= $exam->modules_string ?>.
+				<?php endif; ?>
 			</div>
 		<?php endif ?>
 		<div style="margin-left: auto"></div>
@@ -49,9 +53,9 @@
 			<section class="problem">
 				<header class="formRow">
 					<a href="#p<?= $i + 1 ?>" id="p<?= $i + 1 ?>"><?= $i + 1 ?></a>
-					<div style="margin-left:auto;"></div>
+					<div class="verticalRowSpacer"></div>
 					<?php if($problems[$i]->points != 0): ?>
-						<div><?= $problems[$i]->points?> поена</div>
+						<div class="points"><?= $problems[$i]->points?> поена</div>
 					<?php endif; ?>
 					</header>
 				<?= $problems[$i]->text ?>

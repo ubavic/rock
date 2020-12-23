@@ -4,11 +4,12 @@
 		<meta charset="UTF-8">
 		<title> <?= $TITLE ?> • МАТФ РОКОВИ</title>
 		<meta name="description" content="Сајт на коме можете прегледати досадашње испитне рокове и колоквијуме на Математичком факултету у Београду.">
-		<meta name="author" content="Nikola Ubavić">
+		<meta name="author" content="MATF Rokovi">
 		<meta name="viewport" content="width=device-width, user-scalable=yes">
 		<link rel="stylesheet" type="text/css" href="/css/style.css">
 		<link rel="stylesheet" type="text/css" href="/katex/katex.min.css">
 		<link rel="stylesheet" type="text/css" href="/katex/copy-tex.min.css">
+		<link rel="stylesheet" type="text/css" media="print" href="/css/print.css">
 		<script src="/js/menu.js"></script>
 		<link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
 		<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
