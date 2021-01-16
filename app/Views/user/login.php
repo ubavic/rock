@@ -20,9 +20,16 @@
 			<input type="password" name="password" id="password" style="width: 300px;" value="">
 		</div>
 		<div class="formRow" style="align-items: flex-end;">
-			<a href="/user/register">Регистујте се</a>
 			<div style="margin-left: auto"></div>
 			<button type="submit" class="bigButton">Пријавите се</button>
+		</div>
+		<br>
+		<hr>
+		<div style="text-align: center; font-variant: italic; padding: 1em;">
+			<a href="/user/register">Регистујте се</a>
+		</div>
+		<div style="text-align: center; font-variant: italic; padding: 1em;">
+			<a href="/user/passwordReset">Заборавили сте шифру?</a>
 		</div>
 	</form>
 </main>

@@ -73,6 +73,27 @@ class UserModel extends Model
 		$email->send();
 	}
 
+	public function sendNewPassword($ID)
+	{
+		$pass = "MATF" . random_int(10000000, 99999999) . "ROKOVI";
+		$this->save(['id' => $ID, 'hash' => $pass]);
+
+		$message = "Ваша нова шифра је\n";
+		$message .= $pass;
+		$message .= "\nАко ви нисте затражили промену шифре, обратите се администратору!\n";
+		
+		$email = \Config\Services::email();
+
+		$user = $this->find($ID);
+		$email->setFrom('rokovi@ubavic.rs', 'MATF Rokovi');
+		$email->setTo($user->email);
+
+		$email->setSubject('Nova lozinka');
+		$email->setMessage($message);
+
+		$email->send();
+	}
+
 	public function canEditExam($user_id, $exam_id)
 	{
 		$user = $this->find($user_id);

@@ -307,4 +307,35 @@ class User extends BaseController
 
 		return redirect()->to('/user/login');
 	}
+
+
+	public function resetPassword(){
+		$data['TITLE'] = 'Повратак шифре';
+		helper(['form']);
+
+		$userModel = new UserModel();
+
+		if ($this->request->getMethod() == 'post')
+		{
+			$rules = ['email' => 'required|valid_email'];
+		
+			if ($this->validate($rules, $this->errors))
+			{
+				$user = $userModel->where('email', $this->request->getVar('email'))->first();
+				if ($user != NULL){
+					$userModel->sendNewPassword($user->id);
+					session()->setFlashdata('success', 'Ваша нова шифра Вам је послата на мејл.');
+				}
+
+				return redirect()->to('/user/login');
+
+			} else {
+				$data['validation'] = $this->validator;
+			}
+		}
+
+		echo view('template/header', $data);
+		echo view('user/passwordReset');
+		echo view('template/footer'); 
+	}
 }
