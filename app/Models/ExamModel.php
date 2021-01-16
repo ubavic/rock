@@ -36,25 +36,25 @@ class ExamModel extends Model
 		$true_modules = [];
 
 		if ($exam->ma)
-			$true_modules = array_merge($true_modules, ['АА']);
+			$true_modules = array_merge($true_modules, ['А']);
 
 		if ($exam->mi)
 			$true_modules = array_merge($true_modules, ['И']);
 
 		if ($exam->ml)
-			$true_modules = array_merge($true_modules, ['МЛ']);
+			$true_modules = array_merge($true_modules, ['Л']);
 
 		if ($exam->mm)
-			$true_modules = array_merge($true_modules, ['ММ']);
+			$true_modules = array_merge($true_modules, ['М']);
 
 		if ($exam->mp)
-			$true_modules = array_merge($true_modules, ['МП']);
+			$true_modules = array_merge($true_modules, ['Н']);
 
 		if ($exam->mr)
-			$true_modules = array_merge($true_modules, ['МР']);
+			$true_modules = array_merge($true_modules, ['Р']);
 
 		if ($exam->ms)
-			$true_modules = array_merge($true_modules, ['МС']);
+			$true_modules = array_merge($true_modules, ['В']);
 
 		return implode(", ", $true_modules);
 	}

@@ -22,7 +22,7 @@
 	<div class="formRow">
 		<?php if($exam->modules_string): ?>
 			<div>
-				<?php if(strlen($exam->modules_string) > 4): ?>
+				<?php if(strlen($exam->modules_string) > 2): ?>
 					За смерове <?= $exam->modules_string ?>.
 				<?php else: ?>
 					За смер <?= $exam->modules_string ?>.

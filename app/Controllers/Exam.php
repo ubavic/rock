@@ -84,7 +84,7 @@ class Exam extends BaseController
 		else
 			$description = 'Колоквијум из предмета ' . $exam->subject_name;
 
-		if(strlen($exam->modules_string) > 4)
+		if(strlen($exam->modules_string) > 2)
 			$description .= ' за смерове ' . $exam->modules_string;
 		else if (strlen($exam->modules_string) > 0)
 			$description .= ' за смер ' . $exam->modules_string;
