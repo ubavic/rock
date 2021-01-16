@@ -3,7 +3,11 @@
 	<head>
 		<meta charset="UTF-8">
 		<title> <?= $TITLE ?> • МАТФ РОКОВИ</title>
-		<meta name="description" content="Сајт на коме можете прегледати досадашње испитне рокове и колоквијуме на Математичком факултету у Београду.">
+		<?php if(isset($DESCRIPTION)): ?>
+			<meta name="description" content="<?= $DESCRIPTION ?>">
+		<?php else: ?>
+			<meta name="description" content="Сајт на коме можете прегледати досадашње испитне рокове и колоквијуме на Математичком факултету у Београду.">
+		<?php endif; ?>
 		<meta name="author" content="MATF Rokovi">
 		<meta name="viewport" content="width=device-width, user-scalable=yes">
 		<link rel="stylesheet" type="text/css" href="/css/style.css">

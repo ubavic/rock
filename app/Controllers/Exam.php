@@ -12,7 +12,8 @@ class Exam extends BaseController
 		$user_model = new UserModel();
 		$subject_model = new SubjectModel();
 
-		$data['TITLE'] = "Рокови";
+		$data['TITLE'] = 'Рокови';
+		$data['DESCRIPTION'] = 'Списак свих предмета за које постоји постављен рок.';
 		$data['subject_list'] = $subject_model->getUsedSubjectCount();
 
 		if (session()->get('logged') and $user_model->find(session()->get('id'))->can_add)
@@ -33,6 +34,7 @@ class Exam extends BaseController
 
 		$data['subject'] = $subject_model->find($subject_id);
 		$data['TITLE'] = $data['subject']->name;
+		$data['DESCRIPTION'] = 'Списак свих рокова из предмета' . $data['subject']->name . '.';
 
 		$data['exam_table'] = $exam_model->generateTable($exam_model->where('subject', $subject_id)->orderBy('date', 'desc')->findAll());
 
@@ -49,17 +51,18 @@ class Exam extends BaseController
 	public function view($ID = 0)
 	{
 		$examModel = new ExamModel();
-		$data["exam"] = $examModel->find($ID);
+		$exam = $examModel->find($ID);
+		$data['exam'] = $exam;
 
 		$problemsModel = new ProblemModel();
-		$data["problems"] = $problemsModel->getProblems($ID);
+		$data['problems'] = $problemsModel->getProblems($ID);
 
 		$userModel = new UserModel();
-		$data["created_by"] = $userModel->getAbbr($data["exam"]->created_by);
-		$data["updated_by"] = $userModel->getAbbr($data["exam"]->updated_by);
+		$data['created_by'] = $userModel->getAbbr($exam->created_by);
+		$data['updated_by'] = $userModel->getAbbr($exam->updated_by);
 
 		$subject_model = new SubjectModel();
-		$data['subject'] = $subject_model->find($data["exam"]->subject);
+		$data['subject'] = $subject_model->find($exam->subject);
 
 		$data['can_edit'] = 0;
 		$data['can_delete'] = 0;
@@ -71,7 +74,27 @@ class Exam extends BaseController
 				$data['can_delete'] = 1;
 		}
 
-		$data['TITLE'] = $data["exam"]->subject_name;
+		$data['TITLE'] = $exam->subject_name;
+
+		if (isset($exam->date))
+			$data['TITLE'] .= (" • " . $exam->date_string);
+
+		if ($exam->type == 0)
+			$description = 'Писмени испит из предмета ' . $exam->subject_name;
+		else
+			$description = 'Колоквијум из предмета ' . $exam->subject_name;
+
+		if(strlen($exam->modules_string) > 4)
+			$description .= ' за смерове ' . $exam->modules_string;
+		else if (strlen($exam->modules_string) > 0)
+			$description .= ' за смер ' . $exam->modules_string;
+
+		if (isset($exam->date))
+			$description .= ' одржан ' . $exam->date_string . ' године на Математичком факултету у Београду.';
+		else
+			$description .= ' одржан на Математичком факултету у Београду.';
+
+		$data['DESCRIPTION'] = $description;
 
 		echo view('template/header', $data);
 		echo view('exams/view');
@@ -80,7 +103,7 @@ class Exam extends BaseController
 
 	public function new()
 	{
-		$data['TITLE'] = "Нови рок";
+		$data['TITLE'] = 'Нови рок';
 		$model = new ExamModel();
 		$emptyExam = (object) [
 			'subject' => 1,
