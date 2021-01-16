@@ -1,6 +1,6 @@
 <main>
 	<form method="post" style="margin: 0 auto; width: 300px;">
-		<h2>Пријавите се</h2>
+		<h1>Пријавите се</h1>
 		<?php if (isset($validation)): ?>
 			<div class="formRow error">
 				<?= $validation->listErrors() ?>

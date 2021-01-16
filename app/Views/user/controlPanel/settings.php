@@ -1,7 +1,7 @@
 <?= $this->extend('user/controlPanel/layout'); ?>
 <?= $this->section('content'); ?>
 <div>
-	<h3 style="margin-top:0">Профил</h3>
+	<h2 style="margin-top:0">Профил</h2>
 	<?php if (isset($validation)): ?>
 		<div class="formRow error">
 			<?= $validation->listErrors() ?>

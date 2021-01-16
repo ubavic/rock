@@ -1,7 +1,7 @@
 <?= $this->extend('user/controlPanel/layout'); ?>
 <?= $this->section('content'); ?>
 	<div>
-		<h3 style="margin-top:0">Креирани рокови</h3>
+		<h2 style="margin-top:0">Креирани рокови</h2>
 		<?= $createdExams ?>
 	</div>
 <?= $this->endSection(); ?>

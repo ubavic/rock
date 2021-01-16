@@ -1,5 +1,5 @@
 <main>
-	<h2>Кориснички контролни панел</h2>
+	<h1>Кориснички контролни панел</h1>
 	<div class="controlPanel">
         <nav>
         	<a href="/user/settings">Подешавања</a>

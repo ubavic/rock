@@ -1,9 +1,9 @@
 <main>
-	<h2>Испитни рокови</h2>
+	<h1>Испитни рокови</h1>
 	<p>На овом сајту можете пронаћи испитне рокове одржане на Математичком факултету у Београду. Испитне рокове можете претраживати на страници <a href="/exam">Рокови</a>.</p>
-	<h3>Последње додати рокови</h3>
+	<h2>Последње додати рокови</h2>
 	<?= $examsTable ?>
-	<h3>Статистика</h3>
+	<h2>Статистика</h2>
 	<div style="display: flex; flex-direction: row; justify-content: space-around; flex-wrap: wrap">
 		<div style="text-align: center; margin: 0 1em">
 			РОКОВА:

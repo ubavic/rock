@@ -9,8 +9,8 @@
 			<?= $exam->date_string ?>
 		</div>
 	</div>
-	<div class="examTitle">
-		<div class="heading">
+	<h1 class="examTitle">
+		<div>
 			<?php if ($exam->type == 0): ?>
 				Писмени испит из предмета
 			<?php else: ?>
@@ -20,7 +20,7 @@
 		<div class="class">
 		   <?= $exam->subject_name ?>
 		</div>
-	</div>
+	</h1>
 	<div class="formRow">
 		<?php if($exam->modules_string): ?>
 			<div>

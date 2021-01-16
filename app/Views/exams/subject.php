@@ -2,7 +2,7 @@
     <div class="breadcrumb">
         <a href="/exam"><i>Сви рокови</i></a>:
     </div>
-	<h2><?= $subject->name ?> (<?= $subject->code ?>)</h2>
+	<h1><?= $subject->name ?> (<?= $subject->code ?>)</h1>
 	<div class="tableList">
 		<?= $exam_table ?>
 	</div>

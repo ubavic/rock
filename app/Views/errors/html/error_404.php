@@ -7,7 +7,7 @@
 </head>
 <body>
 	<header>
-		<h1>МАТФ РОКОВИ</h1>
+		<a href="/" class="title">МАТФ РОКОВИ</a>
 		<nav>
 			<a href="/" title="Вратите се на почетну." class="menuItem">Почетна</a>
 			<a href="/exam" title="Претражите све доступне рокове." class="menuItem">Рокови</a>
@@ -15,7 +15,7 @@
 		</nav>
 	</header>
 	<main>
-		<h2>404 - <i>File Not Found</i></h2>
+		<h1>404 - <i>File Not Found</i></h1>
 		<p>
 			<?php if (! empty($message) && $message !== '(null)') : ?>
 				<?= esc($message) ?>

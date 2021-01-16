@@ -1,5 +1,5 @@
 <main>
-	<h2>Претражи рокове</h2>
+	<h1>Претражи рокове</h1>
 	<div class="tableList">
 		<div class="tableListHeader">
 			<div style="width: 4em">Шифра</div>

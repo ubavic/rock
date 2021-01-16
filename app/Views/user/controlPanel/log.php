@@ -1,7 +1,7 @@
 <?= $this->extend('user/controlPanel/layout'); ?>
 <?= $this->section('content'); ?>
 	<div>
-		<h3 style="margin-top:0">Списак пријављивања</h3>
+		<h2 style="margin-top:0">Списак пријављивања</h2>
 		<div class="tableList">
 			<div class="tableListHeader">
 				<div style="width:15em;">Корисник</div>

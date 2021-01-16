@@ -1,5 +1,5 @@
 <main>
-	<h2>Нови рок</h2>
+	<h1>Нови рок</h1>
 	<form style="margin: 1em 0;" method="post" id="form">
 		<div class="formRow">
 			<div class="formRowElement">
