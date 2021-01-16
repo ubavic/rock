@@ -10,16 +10,14 @@
 		</div>
 	</div>
 	<h1 class="examTitle">
-		<div>
-			<?php if ($exam->type == 0): ?>
-				Писмени испит из предмета
-			<?php else: ?>
-				Колоквијум из предмета
-			<?php endif; ?>
-		</div>
-		<div class="class">
+		<?php if ($exam->type == 0): ?>
+			Писмени испит из предмета
+		<?php else: ?>
+			Колоквијум из предмета
+		<?php endif; ?>
+		<span class="class">
 		   <?= $exam->subject_name ?>
-		</div>
+		</span>
 	</h1>
 	<div class="formRow">
 		<?php if($exam->modules_string): ?>
