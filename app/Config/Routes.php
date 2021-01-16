@@ -49,6 +49,7 @@ $routes->get('user/all', 'User::all', ['filter' => 'auth']);
 $routes->get('user/log', 'User::log', ['filter' => 'auth']);
 $routes->get('user/login', 'User::login', ['filter' => 'noauth']);
 $routes->get('user/register', 'User::register', ['filter' => 'noauth']);
+$routes->get('user/resetPassword', 'User::resetPassword', ['filter' => 'noauth']);
 
 /**
  * --------------------------------------------------------------------

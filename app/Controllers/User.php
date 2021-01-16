@@ -309,7 +309,8 @@ class User extends BaseController
 	}
 
 
-	public function resetPassword(){
+	public function resetPassword()
+	{
 		$data['TITLE'] = 'Повратак шифре';
 		helper(['form']);
 
