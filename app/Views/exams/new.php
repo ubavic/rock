@@ -1,5 +1,9 @@
 <main>
-	<h1>Нови рок</h1>
+	<?php if($new): ?>
+		<h1>Нови рок</h1>
+	<?php else: ?>
+	 	<h1>Измени рок</h1>
+	<?php endif;?>
 	<form style="margin: 1em 0;" method="post" id="form">
 		<div class="formRow">
 			<div class="formRowElement">

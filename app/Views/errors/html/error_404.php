@@ -7,7 +7,7 @@
 </head>
 <body>
 	<header>
-		<a href="/" class="title">МАТФ РОКОВИ</a>
+		<a href="/" id="title">МАТФ РОКОВИ</a>
 		<nav>
 			<a href="/" title="Вратите се на почетну." class="menuItem">Почетна</a>
 			<a href="/exam" title="Претражите све доступне рокове." class="menuItem">Рокови</a>

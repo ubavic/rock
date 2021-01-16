@@ -30,7 +30,7 @@
 			$uri->setSilent();
 		?>
 		<header>
-			<div class="title">МАТФ РОКОВИ</div>
+			<div id="title">МАТФ РОКОВИ</div>
 			<nav>
 				<div onclick="swichMenu()" title="Отвори мени" class="menuItem" id="menuSwitch">Мени</div>
 				<a href="/" title="Вратите се на почетну." class="menuItem <?= ($uri->getSegment(1) == null ? 'activeMenuItem' : null) ?>">Почетна</a>

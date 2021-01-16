@@ -213,7 +213,7 @@ button {
 
 /* CLASSES */
 
-.title {
+#title {
   margin: 2rem 0;
   text-align: center;
   color: #FFFFFF;
@@ -481,6 +481,10 @@ button, .button {
     padding: 2em 1em;
     border-radius: 0;
   }
+
+  #title {
+    margin: 1rem 0;
+  }
 }
 
 @media screen and (max-width: 700px) {
@@ -492,6 +496,7 @@ button, .button {
   }
 
   p {text-align: left;}
+
   blockquote {margin-left: 0;}
 
   ul, ol {
@@ -505,6 +510,10 @@ button, .button {
 
   body > header > nav {
     flex-direction: column;
+  }
+
+  #title {
+    margin: 0.5rem 0;
   }
 
   .menuItem {
