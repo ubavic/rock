@@ -34,7 +34,7 @@ class Exam extends BaseController
 
 		$data['subject'] = $subject_model->find($subject_id);
 		$data['TITLE'] = $data['subject']->name;
-		$data['DESCRIPTION'] = 'Списак свих рокова из предмета' . $data['subject']->name . '.';
+		$data['DESCRIPTION'] = 'Списак свих рокова из предмета ' . $data['subject']->name . '.';
 
 		$data['exam_table'] = $exam_model->generateTable($exam_model->where('subject', $subject_id)->orderBy('date', 'desc')->findAll());
 

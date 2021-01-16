@@ -14,7 +14,7 @@
 		</div>
 		<div class="formRow">
 			<label for="type" class="formRowElement">Колоквијум:</label>
-			<input type="checkbox" id="type" name="type[]" value="1" class="formRowElement">
+			<input type="checkbox" id="type" name="type[]" value="0" <?= ($exam->type) ? 'checked' : '' ?> class="formRowElement">
 			<div style="margin-left: auto"></div>
 			<label for="duration" class="formRowElement"><abbr title="Ако трајање није познато, унети 0">Трајање:</abbr></label>
 			<input type="number" name="duration" id="duration" value="<?= $exam->duration ?>" style="-webkit-appearance: none; -moz-appearance: textfield;">
