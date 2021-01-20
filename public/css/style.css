@@ -53,6 +53,14 @@ main {
   box-shadow: 0 0 5px #0009;
 }
 
+h1 {
+  margin-top: 0;
+}
+
+.problem > header > h2 {
+  font-size: 1em;
+}
+
 p {line-height: 1.4em}
 
 a {

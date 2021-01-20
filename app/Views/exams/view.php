@@ -5,60 +5,47 @@
     </div>
 	<div style="display: flex; flex-direction: row">
 		<div style="margin-left: auto"></div>
-		<div>
-			<?= $exam->date_string ?>
-		</div>
+		<div><?= $exam->date_string ?></div>
 	</div>
 	<h1 class="examTitle">
-		<?php if ($exam->type == 0): ?>
-			Писмени испит из предмета
+	<?php if ($exam->type == 0): ?>
+		Писмени испит из предмета
+	<?php else: ?>
+		Колоквијум из предмета
+	<?php endif; ?>
+		<span class="class"><?= $exam->subject_name ?></span>
+	<?php if($exam->modules_string): ?>
+		<div>
+		<?php if(strlen($exam->modules_string) > 2): ?>
+			За смерове <?= $exam->modules_string ?>.
 		<?php else: ?>
-			Колоквијум из предмета
+			За смер <?= $exam->modules_string ?>.
 		<?php endif; ?>
-		<span class="class">
-		   <?= $exam->subject_name ?>
-		</span>
+		</div>
+	<?php endif ?>
 	</h1>
-	<div class="formRow">
-		<?php if($exam->modules_string): ?>
-			<div>
-				<?php if(strlen($exam->modules_string) > 2): ?>
-					За смерове <?= $exam->modules_string ?>.
-				<?php else: ?>
-					За смер <?= $exam->modules_string ?>.
-				<?php endif; ?>
-			</div>
-		<?php endif ?>
-		<div style="margin-left: auto"></div>
-		<?php if($exam->duration): ?>
-			<div>
-				Време израде: <?= $exam->duration ?> минута.
-			</div>
-		<?php endif; ?>
-	</div>
+	<?php if($exam->duration): ?>
+	<p>Време израде: <?= $exam->duration ?> минута.</p>
+	<?php endif; ?>
 	<?php if ($exam->note != NULL): ?>
-		<p>
-			<?= $exam->note ?>
-		</p>
+	<p><?= $exam->note ?></p>
 	<?php endif; ?>
 	<?php if ($exam->additional_note != NULL): ?>
-		<p>
-			<strong>Додатна напомена:</strong> <?= $exam->additional_note ?>
-		</p>
+	<p><strong>Додатна напомена:</strong> <?= $exam->additional_note ?></p>
 	<?php endif; ?> 
 	<div class="problems">
 		<?php for ($i = 0; $i < count($problems); $i++): ?>
 			<section class="problem">
 				<header class="formRow">
-					<a href="#p<?= $i + 1 ?>" id="p<?= $i + 1 ?>"><?= $i + 1 ?></a>
+					<h2><a href="#p<?= $i + 1 ?>" id="p<?= $i + 1 ?>"><?= $i + 1 ?></a></h2>
 					<div class="verticalRowSpacer"></div>
 					<?php if($problems[$i]->points != 0): ?>
-						<div class="points"><?= $problems[$i]->points?> поена</div>
+					<div class="points"><?= $problems[$i]->points?> поена</div>
 					<?php endif; ?>
-					</header>
+				</header>
 				<?= $problems[$i]->text ?>
 			</section>
-		<?php endfor; ?>
+		<?php endfor;?>
 	</div>
 	<?php if(session()->get('logged')): ?>
 		<?php 
