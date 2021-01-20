@@ -67,14 +67,15 @@
 		</div>
 	</form>
 </main>
+<script src="/js/menu.js"></script>
 <script>
 	<?php if($new): ?>
-		var newExam = 1;
+	var newExam = 1;
 	<?php else: ?>
-		var newExam = 0;
-		var problems = <?= $problems ?>;
-		modifyProblemTemplate();
-		createProblems(problems);
+	var newExam = 0;
+	var problems = <?= $problems ?>;
+	modifyProblemTemplate();
+	createProblems(problems);
 	<?php endif;?>
 	window.onbeforeunload = function(evt) {return true;}
 </script>

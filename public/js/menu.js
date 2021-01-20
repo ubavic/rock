@@ -1,4 +1,3 @@
-var menuStatus = 0;
 var problems = 0;
 
 var problemEntryTemplate = "<section class=\"problemEntry\" id=\"pK\">\
@@ -15,24 +14,6 @@ var problemEntryTemplate = "<section class=\"problemEntry\" id=\"pK\">\
 <input type=\"number\" name=\"points[]\" style=\"-webkit-appearance: none; -moz-appearance: textfield;\">\
 </div>\
 </section>";
-
-function swichMenu() {
-	var items = document.getElementsByClassName("menuItem");
-
-	if (menuStatus == 1) {
-		for (var i = 1; i < items.length; i++) {
-			items[i].removeAttribute("style");
-		}
-		document.getElementById("menuSwitch").style.backgroundColor = "transparent";
-		menuStatus = 0;
-	} else {
-		for (var i = 1; i < items.length; i++) {
-			items[i].style.display = "inline-block";
-		}
-		document.getElementById("menuSwitch").style.backgroundColor = "var(--color-blue-2)";
-		menuStatus = 1;
-	}
-}
 
 function confirmDelete(url) {
 	if (confirm('Да ли сте сигурни да желите да обришете овај рок?')) {
