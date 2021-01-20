@@ -59,9 +59,13 @@ h1 {
 
 .problem > header > h2 {
   font-size: 1em;
+  margin: 0;
 }
 
-p {line-height: 1.4em}
+p {
+  line-height: 1.4em
+  margin: 0.5em 0;
+}
 
 a {
   color: var(--color-blue-4);
@@ -320,14 +324,14 @@ button {
   text-align: right;
 }
 
-.examTitle {
+#examTitle {
   font-weight: normal;
   text-align: center;
   font-size: 1em;
-  margin-bottom: 1em;
+  margin: 1em 1em;
 }
 
-.examTitle .class {
+#examTitle .class {
   display: block;
   font-size: 2em;
   font-weight: bold;

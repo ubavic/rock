@@ -7,7 +7,7 @@
 		<div style="margin-left: auto"></div>
 		<div><?= $exam->date_string ?></div>
 	</div>
-	<h1 class="examTitle">
+	<h1 id="examTitle">
 	<?php if ($exam->type == 0): ?>
 		Писмени испит из предмета
 	<?php else: ?>
@@ -15,14 +15,12 @@
 	<?php endif; ?>
 		<span class="class"><?= $exam->subject_name ?></span>
 	<?php if($exam->modules_string): ?>
-		<div>
 		<?php if(strlen($exam->modules_string) > 2): ?>
 			За смерове <?= $exam->modules_string ?>.
 		<?php else: ?>
 			За смер <?= $exam->modules_string ?>.
 		<?php endif; ?>
-		</div>
-	<?php endif ?>
+	<?php endif; ?>
 	</h1>
 	<?php if($exam->duration): ?>
 	<p>Време израде: <?= $exam->duration ?> минута.</p>
