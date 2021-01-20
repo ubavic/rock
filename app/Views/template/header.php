@@ -3,11 +3,11 @@
 	<head>
 		<meta charset="UTF-8">
 		<title><?= $TITLE ?> • МАТФ РОКОВИ</title>
-		<?php if(isset($DESCRIPTION)): ?>
+<?php if(isset($DESCRIPTION)): ?>
 		<meta name="description" content="<?= $DESCRIPTION ?>">
-		<?php else: ?>
+<?php else: ?>
 		<meta name="description" content="Сајт на коме можете прегледати досадашње испитне рокове и колоквијуме на Математичком факултету у Београду.">
-		<?php endif; ?>
+<?php endif; ?>
 		<meta name="author" content="MATF Rokovi">
 		<meta name="viewport" content="width=device-width, user-scalable=yes">
 		<link rel="stylesheet" type="text/css" href="/css/style.css">
@@ -43,10 +43,10 @@
 		</script>
 	</head>
 	<body>
-		<?php 
-			$uri = service('uri');
-			$uri->setSilent();
-		?>
+<?php 
+	$uri = service('uri');
+	$uri->setSilent();
+?>
 		<header>
 			<div id="title">МАТФ РОКОВИ</div>
 			<nav>
@@ -55,10 +55,10 @@
 				<a href="/exam" title="Претражите све доступне рокове." class="menuItem <?= ($uri->getSegment(1) == 'exam' ? 'activeMenuItem' : null) ?>">Рокови</a>
 				<a href="/about" title="Информације о пројекту." class="menuItem <?= ($uri->getSegment(1) == 'about' ? 'activeMenuItem' : null) ?>">О Пројекту</a>
 				<div style="margin-left: auto"></div>
-				<?php if(session()->get('logged')): ?>
+<?php if(session()->get('logged')): ?>
 				<a href="/user/settings" title="Контролни панел" class="menuItem <?= ($uri->getSegment(1) == 'user' ? 'activeMenuItem' : null) ?>">Контролни панел</a>
-				<?php else: ?>
+<?php else: ?>
 				<a href="/user/login" title="Пријава и регистација" class="menuItem">Пријавите се</a>
-				<?php endif; ?>
+<?php endif;?>
 			</nav>
 		</header>
