@@ -13,7 +13,6 @@ class ExamModel extends Model
 								'modules',
 								'duration',
 								'note',
-								'additional_note',
 								'created_by',
 								'updated_by',
 								'ma',

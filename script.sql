@@ -36,7 +36,6 @@ CREATE TABLE `exams`
  `date`            date NOT NULL ,
  `duration`        int NOT NULL ,
  `note`            text NULL ,
- `additional_note` text NULL ,
  `created_at`      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
  `updated_at`      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
  `deleted_at`      timestamp NULL ,

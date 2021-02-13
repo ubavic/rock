@@ -28,9 +28,6 @@
 	<?php if ($exam->note != NULL): ?>
 	<p><?= $exam->note ?></p>
 	<?php endif; ?>
-	<?php if ($exam->additional_note != NULL): ?>
-	<p><strong>Додатна напомена:</strong> <?= $exam->additional_note ?></p>
-	<?php endif; ?> 
 	<div class="problems">
 		<?php for ($i = 0; $i < count($problems); $i++): ?>
 			<section class="problem">
