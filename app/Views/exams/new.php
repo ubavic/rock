@@ -63,7 +63,6 @@
 		</div>
 	</form>
 </main>
-<script src="/js/menu.js"></script>
 <script>
 	var problems = 0;
 
