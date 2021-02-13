@@ -3,11 +3,11 @@
 	<head>
 		<meta charset="UTF-8">
 		<title><?= $TITLE ?> • МАТФ РОКОВИ</title>
-<?php if(isset($DESCRIPTION)): ?>
-		<meta name="description" content="<?= $DESCRIPTION ?>">
-<?php else: ?>
-		<meta name="description" content="Сајт на коме можете прегледати досадашње испитне рокове и колоквијуме на Математичком факултету у Београду.">
-<?php endif; ?>
+		<?php if(isset($DESCRIPTION)): ?>
+			<meta name="description" content="<?= $DESCRIPTION ?>">
+		<?php else: ?>
+			<meta name="description" content="Сајт на коме можете прегледати досадашње испитне рокове и колоквијуме на Математичком факултету у Београду.">
+		<?php endif; ?>
 		<meta name="author" content="MATF Rokovi">
 		<meta name="viewport" content="width=device-width, user-scalable=yes">
 		<link rel="stylesheet" type="text/css" href="/css/style.css">
@@ -53,12 +53,12 @@
 				<div onclick="swichMenu()" title="Отвори мени" class="menuItem" id="menuSwitch">Мени</div>
 				<a href="/" title="Вратите се на почетну." class="menuItem <?= ($uri->getSegment(1) == null ? 'activeMenuItem' : null) ?>">Почетна</a>
 				<a href="/exam" title="Претражите све доступне рокове." class="menuItem <?= ($uri->getSegment(1) == 'exam' ? 'activeMenuItem' : null) ?>">Рокови</a>
-				<a href="/about" title="Информације о пројекту." class="menuItem <?= ($uri->getSegment(1) == 'about' ? 'activeMenuItem' : null) ?>">О Пројекту</a>
+				<a href="/about" title="Информације о пројекту." class="menuItem <?= ($uri->getSegment(1) == 'about' ? 'activeMenuItem' : null) ?>">О&nbsp;Пројекту</a>
 				<div style="margin-left: auto"></div>
-<?php if(session()->get('logged')): ?>
-				<a href="/user/settings" title="Контролни панел" class="menuItem <?= ($uri->getSegment(1) == 'user' ? 'activeMenuItem' : null) ?>">Контролни панел</a>
-<?php else: ?>
-				<a href="/user/login" title="Пријава и регистација" class="menuItem">Пријавите се</a>
-<?php endif;?>
+				<?php if(session()->get('logged')): ?>
+					<a href="/user/settings" title="Контролни панел" class="menuItem <?= ($uri->getSegment(1) == 'user' ? 'activeMenuItem' : null) ?>">Контролни&nbsp;панел</a>
+				<?php else: ?>
+					<a href="/user/login" title="Пријава и регистација" class="menuItem">Пријавите&nbsp;се</a>
+				<?php endif;?>
 			</nav>
 		</header>
