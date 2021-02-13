@@ -291,12 +291,16 @@ button {
   flex-direction: row;
   padding: 0.5em 0.5em;
   background-color: var(--color-gray-5);
-  transition: background-color 0.2s;
   border-top: 1px solid var(--color-gray-4);
 }
 
 .tableListRow:last-child {
   border-bottom: 1px solid var(--color-gray-4);
+}
+
+.tableListRow:visited{
+  background-color: #e7dff1;
+  color: #5F1D77;
 }
 
 .tableListRow:hover {
