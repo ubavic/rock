@@ -24,10 +24,10 @@
 			<button type="submit" class="bigButton">Пријавите се</button>
 		</div>
 		<br>
-		<div style="text-align: center; font-style: italic; padding: 0.5em;">
-			<a href="/user/register">Регистујте се</a>
+		<div style="padding: 0.5em;">
+			<a href="/user/register">Региструјте се</a>
 		</div>
-		<div style="text-align: center; font-style: italic; padding: 0.5em;">
+		<div style="padding: 0.5em;">
 			<a href="/user/resetPassword">Заборавили сте шифру?</a>
 		</div>
 	</form>

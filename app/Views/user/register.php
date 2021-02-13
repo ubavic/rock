@@ -21,7 +21,7 @@
 		<?php endif; ?>
 		<div class="formRow" style="align-items: flex-end;">
 			<div style="margin-left: auto"></div>
-			<button type="submit" class="bigButton">Регистујте се</button>
+			<button type="submit" class="bigButton">Региструјте се</button>
 		</div>
 	</form>
 </main>
