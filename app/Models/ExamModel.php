@@ -75,6 +75,9 @@ class ExamModel extends Model
 			}
 		} else
 		{
+			if(is_null($data['data']))
+				return $data;
+
 			$data['data']->subject_name = $this->getClassName(intval($data['data']->subject));
 			$data['data']->modules_string = $this->getModulesString($data['data']);
 			$data['data']->date_string = date_format(date_create($data['data']->date), 'd.m.Y.');

@@ -52,6 +52,15 @@ class Exam extends BaseController
 	{
 		$examModel = new ExamModel();
 		$exam = $examModel->find($ID);
+		if (is_null($exam)){
+			$this->response->setStatusCode(404);
+			$data['TITLE'] = 'Тражени рок није пронађен!';
+			$data['DESCRIPTION'] = 'Тражени рок није пронађен!';
+			echo view('template/header', $data);
+			echo view('exams/not_found', $data);
+			echo view('template/footer');
+			return;
+		}
 		$data['exam'] = $exam;
 
 		$problemsModel = new ProblemModel();
