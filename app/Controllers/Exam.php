@@ -110,12 +110,12 @@ class Exam extends BaseController
 		echo view('template/footer');
 	}
 
-	public function new()
+	public function new($subject = 1)
 	{
 		$data['TITLE'] = 'Нови рок';
 		$model = new ExamModel();
 		$emptyExam = (object) [
-			'subject' => 1,
+			'subject' => intval($subject),
 			'date' => NULL,
 			'duration' => 0,
 			'note' => NULL,
@@ -173,7 +173,7 @@ class Exam extends BaseController
 			$data["new"] = True;
 			
 			$subjectsModel = new SubjectModel();
-			$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList();
+			$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList($data['exam']->subject);
 
 			echo view('template/header', $data);
 			echo view('exams/new');
