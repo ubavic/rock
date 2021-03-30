@@ -20,7 +20,7 @@ $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override('Home::notFound');
-$routes->setAutoRoute(false);
+$routes->setAutoRoute(true);
 
 /**
  * --------------------------------------------------------------------
