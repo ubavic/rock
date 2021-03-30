@@ -54,4 +54,11 @@ class Home extends BaseController
 		$data['TITLE'] = "Упутство";
 		echo view('pages/manual', $data);
 	}
+
+	public function notFound()
+	{
+		$data['TITLE'] = "404";
+		$this->output->set_status_header('404');
+		echo view('pages/404', $data);
+	}
 }
