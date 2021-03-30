@@ -1,4 +1,5 @@
-<main>
+<?= $this->extend('page'); ?>
+<?= $this->section('content'); ?>
     <div class="breadcrumb">
         <a href="/exam"><i>Сви рокови</i></a>:
     </div>
@@ -11,4 +12,4 @@
 			<a href="/exam/new/<?= $subject->id ?>" class="button bigButton">Нови рок</a>
 		</div>
 	<?php endif; ?>
-</main>
+<?= $this->endSection(); ?>

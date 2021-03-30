@@ -1,4 +1,5 @@
-<main>
+<?= $this->extend('page'); ?>
+<?= $this->section('content'); ?>
 	<h1>Претражи рокове</h1>
 	<div class="tableList">
 		<div class="tableListHeader">
@@ -19,4 +20,4 @@
 			<a href="/exam/new" class="button bigButton">Нови рок</a>
 		</div>
 	<?php endif; ?>
-</main>
+<?= $this->endSection(); ?>

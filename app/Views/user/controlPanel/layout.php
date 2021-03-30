@@ -3,7 +3,8 @@
     $uri->setSilent();
     $color = 'style="background-color: var(--color-gray-4)"';
 ?>
-<main>
+<?= $this->extend('page'); ?>
+<?= $this->section('content'); ?>
 	<h1>Кориснички контролни панел</h1>
 	<div class="controlPanel">
         <nav>
@@ -21,4 +22,4 @@
         </nav>
         <?= $this->renderSection('cp_content'); ?>
     </div>
-</main>
+<?= $this->endSection(); ?>

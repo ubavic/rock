@@ -21,9 +21,7 @@ class Exam extends BaseController
 		else
 			$data['can_add'] = 0;
 
-		echo view('template/header', $data);
-		echo view('exams/list');
-		echo view('template/footer');
+		echo view('exams/list', $data);
 	}
 
 	public function subject($subject_id = 1)
@@ -43,9 +41,7 @@ class Exam extends BaseController
 		else
 			$data['can_add'] = 0;
 
-		echo view('template/header', $data);
-		echo view('exams/subject');
-		echo view('template/footer');
+		echo view('exams/subject', $data);
 	}
 
 	public function view($ID = 0)
@@ -56,9 +52,7 @@ class Exam extends BaseController
 			$this->response->setStatusCode(404);
 			$data['TITLE'] = 'Тражени рок није пронађен!';
 			$data['DESCRIPTION'] = 'Тражени рок није пронађен!';
-			echo view('template/header', $data);
 			echo view('exams/not_found', $data);
-			echo view('template/footer');
 			return;
 		}
 		$data['exam'] = $exam;
@@ -105,9 +99,7 @@ class Exam extends BaseController
 
 		$data['DESCRIPTION'] = $description;
 
-		echo view('template/header', $data);
-		echo view('exams/view');
-		echo view('template/footer');
+		echo view('exams/view', $data);
 	}
 
 	public function new($subject = 1)
@@ -175,9 +167,7 @@ class Exam extends BaseController
 			$subjectsModel = new SubjectModel();
 			$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList($data['exam']->subject);
 
-			echo view('template/header', $data);
-			echo view('exams/new');
-			echo view('template/footer');
+			echo view('exams/new', $data);
 		}
 	}
 
@@ -241,9 +231,7 @@ class Exam extends BaseController
 			$data["problems"] = json_encode($dbProblems);
 			$data["new"] = False;
 
-			echo view('template/header', $data);
-			echo view('exams/new');
-			echo view('template/footer');
+			echo view('exams/new', $data);
 		}
 	}
 

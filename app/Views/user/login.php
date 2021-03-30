@@ -1,4 +1,5 @@
-<main>
+<?= $this->extend('page'); ?>
+<?= $this->section('content'); ?>
 	<form method="post" style="margin: 0 auto; width: 300px;">
 		<h1>Пријавите се</h1>
 		<?php if (isset($validation)): ?>
@@ -31,4 +32,4 @@
 			<a href="/user/resetPassword">Заборавили сте шифру?</a>
 		</div>
 	</form>
-</main>
+<?= $this->endSection(); ?>

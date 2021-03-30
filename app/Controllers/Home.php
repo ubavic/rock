@@ -21,9 +21,7 @@ class Home extends BaseController
 		$userModel = new UserModel();
 		$data['numberOfUsers'] = $userModel->countAll();
 		
-		echo view('template/header', $data);
-		echo view('pages/home');
-		echo view('template/footer');
+		echo view('pages/home', $data);
 	}
 
 	public function sitemap()
@@ -39,24 +37,18 @@ class Home extends BaseController
 	{
 		$data['TITLE'] = "Алати";
 
-		echo view('template/header', $data);
-		echo view('pages/tools');
-		echo view('template/footer');
+		echo view('pages/tools', $data);
 	}
 
 	public function about()
 	{
 		$data['TITLE'] = "О пројекту";
-		echo view('template/header', $data);
-		echo view('pages/about');
-		echo view('template/footer');
+		echo view('pages/about', $data);
 	}
 
 	public function manual()
 	{
 		$data['TITLE'] = "Упутство";
-		echo view('template/header', $data);
-		echo view('pages/manual');
-		echo view('template/footer');
+		echo view('pages/manual', $data);
 	}
 }

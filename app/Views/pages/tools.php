@@ -1,4 +1,5 @@
-<main>
+<?= $this->extend('page'); ?>
+<?= $this->section('content'); ?>
     <h1>Aлати</h1>
     <p>Ово су алати намењени побољшавању кодова задатака. Опис сваког алата се налази на крају ове странице.</p>
     <div class="formRow">
@@ -21,4 +22,4 @@
     <script src="./js/grammar.js"></script>
     <script src="./js/tools.js"></script>
     <script>window.onload = setup();</script>
-</main>
+<?= $this->endSection(); ?>

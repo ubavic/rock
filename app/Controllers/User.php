@@ -42,9 +42,7 @@ class User extends BaseController
 		$data['TITLE'] = 'Кориснички профил';
 		$data['user'] = $user;
 
-		echo view('template/header', $data);
-		echo view('user/profile');
-		echo view('template/footer');
+		echo view('user/profile', $data);
 	}
 	
 	public function login()
@@ -85,15 +83,12 @@ class User extends BaseController
 				]);
 
 				$data['validation'] = $this->validator;
-				echo view('template/header', $data);
-				echo view('user/login');
-				echo view('template/footer');
+
+				echo view('user/login', $data);
 			}
 		} else
 		{
-			echo view('template/header', $data);
-			echo view('user/login');
-			echo view('template/footer');
+			echo view('user/login', $data);
 		}
 	}
 
@@ -130,15 +125,12 @@ class User extends BaseController
 			} else
 			{
 				$data['validation'] = $this->validator;
-				echo view('template/header', $data);
-				echo view('user/register');
-				echo view('template/footer');
+
+				echo view('user/register', $data);
 			}
 		} else
 		{
-			echo view('template/header', $data);
-			echo view('user/register');
-			echo view('template/footer'); 
+			echo view('user/register', $data);
 		}
 	}
 
@@ -193,9 +185,7 @@ class User extends BaseController
 		$data['name'] = $user->name;
 		$data['email'] = $user->email;
 
-		echo view('template/header', $data);
-		echo view('user/controlPanel/settings');
-		echo view('template/footer'); 
+		echo view('user/controlPanel/settings', $data);
 	}
 
 	public function exams()
@@ -205,18 +195,14 @@ class User extends BaseController
 		$examModel = new ExamModel();
 		$data['createdExams'] = $examModel->generateTable($examModel->where('created_by', session()->get('id'))->findAll());
 
-		echo view('template/header', $data);
-		echo view('user/controlPanel/exams');
-		echo view('template/footer');
+		echo view('user/controlPanel/exams', $data);
 	}
 
 	public function saved()
 	{
 		$data['TITLE'] = 'Сачувани рокови';
 
-		echo view('template/header', $data);
-		echo view('user/controlPanel/saved');
-		echo view('template/footer');
+		echo view('user/controlPanel/saved', $data);
 	}
 
 	public function all()
@@ -232,9 +218,7 @@ class User extends BaseController
 
 		$data['users'] = $users;
 
-		echo view('template/header', $data);
-		echo view('user/controlPanel/all');
-		echo view('template/footer');
+		echo view('user/controlPanel/all', $data);
 	}
 
 	public function log()
@@ -254,9 +238,7 @@ class User extends BaseController
 
 		$data['logs'] = $logs;
 
-		echo view('template/header', $data);
-		echo view('user/controlPanel/log');
-		echo view('template/footer');
+		echo view('user/controlPanel/log', $data);
 	}
 
 	private function setUser($user)
@@ -282,9 +264,7 @@ class User extends BaseController
 	{
 		$data['TITLE'] = 'Услови регистрације';
 
-		echo view('template/header', $data);
-		echo view('user/terms');
-		echo view('template/footer'); 
+		echo view('user/terms', $data);
 	}
 
 	public function verify($ID, $code)
@@ -335,8 +315,6 @@ class User extends BaseController
 			}
 		}
 
-		echo view('template/header', $data);
-		echo view('user/passwordReset');
-		echo view('template/footer'); 
+		echo view('user/passwordReset', $data);
 	}
 }
