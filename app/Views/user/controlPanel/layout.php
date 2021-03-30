@@ -19,6 +19,6 @@
             <a href="/tools">Алати</a>
         	<a href="/manual">Упутство</a>
         </nav>
-        <?= $this->renderSection('content'); ?>
+        <?= $this->renderSection('cp_content'); ?>
     </div>
 </main>

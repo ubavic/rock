@@ -1,5 +1,5 @@
 <?= $this->extend('user/controlPanel/layout'); ?>
-<?= $this->section('content'); ?>
+<?= $this->section('cp_content'); ?>
 <div>
 	<h2 style="margin-top:0">Профил</h2>
 	<?php if (isset($validation)): ?>
