@@ -26,6 +26,13 @@
         <priority>0.1</priority>
 		<changefreq>yearly</changefreq>
     </url>
+    <?php foreach($subjects as $subject) : ?>
+		<url>
+			<loc><?= base_url() . '/exam/' . $subject->id ?></loc>
+			<priority>0.4</priority>
+			<changefreq>monthly</changefreq>
+		</url>
+	<?php endforeach; ?>
 	<?php foreach($exams as $exam) : ?>
 		<url>
 			<loc><?= base_url() . '/exam/view/' . $exam->id ?></loc>

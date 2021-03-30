@@ -29,8 +29,11 @@ class Home extends BaseController
 		$examModel = new ExamModel();
 		$data['exams'] = $examModel->findAll();
 
+		$subjectModel = new SubjectModel();
+		$data['subjects'] = $subjectModel->findAll();
+
 		$this->response->setHeader('Content-Type', 'text/xml;charset=iso-8859-1');
-        echo view("template/sitemap", $data);
+        echo view("sitemap", $data);
 	}
 
 	public function tools()
