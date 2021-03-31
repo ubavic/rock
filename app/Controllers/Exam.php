@@ -158,6 +158,8 @@ class Exam extends BaseController
 					'points' => $points[$i],
 				]);
 
+			session()->setFlashdata('success', 'Рок је успешно додат.');
+
 			return redirect()->to('/exam/view/' . $id);
 		} else
 		{
@@ -219,6 +221,8 @@ class Exam extends BaseController
 				]);
 			}
 
+			session()->setFlashdata('success', 'Рок је успешно измењен.');
+
 			return redirect()->to('/exam/view/'. $id);
 		} else
 		{	
@@ -240,6 +244,8 @@ class Exam extends BaseController
 		$examModel = new ExamModel();
 		$examModel->update($ID, ['updated_by' => session()->get('id')]);
 		$examModel->delete($ID);
+
+		session()->setFlashdata('success', 'Рок је успешно обрисан.');
 
 		return redirect()->to('/exam');
 	}
