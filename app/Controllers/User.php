@@ -251,12 +251,16 @@ class User extends BaseController
 		];
 
 		session()->set($data);
+		session()->setFlashdata('success', 'Успешно сте се пријавили.');
+		
 		return true;
 	}
 
 	public function logout()
 	{
 		session()->destroy();
+		session()->setFlashdata('success', 'Успешно сте се одјавили.');
+
 		return redirect()->to('/');
 	}
 

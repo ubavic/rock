@@ -70,6 +70,11 @@
 			</nav>
 		</header>
 		<main>
+			<?php if (session()->get('success')): ?>
+			<div class="formRow success">
+				<?= session()->get('success'); ?>
+			</div>
+			<?php endif; ?>
 			<?= $this->renderSection('content'); ?>
 		</main>
 		<footer>

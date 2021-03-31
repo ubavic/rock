@@ -7,11 +7,6 @@
 				<?= $validation->listErrors() ?>
 			</div>
 		<?php endif; ?>
-		<?php if (session()->get('success')): ?>
-			<div class="formRow success">
-				<?= session()->get('success'); ?>
-			</div>
-		<?php endif; ?>
 		<div class="formRow">
 			<label for="email" class="formRowElement"><em>E-mail</em>:</label>
 			<input name="email" id="email" style="width: 300px;" value="<?= set_value('email') ?>">
