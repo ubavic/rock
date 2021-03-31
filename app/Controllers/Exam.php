@@ -262,7 +262,7 @@ class Exam extends BaseController
 
 		session()->setFlashdata('success', 'Рок је успешно обрисан.');
 
-		return redirect()->to('/exam' . $subject);
+		return redirect()->to('/exam/' . $subject);
 	}
 
 
