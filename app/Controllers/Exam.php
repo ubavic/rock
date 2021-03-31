@@ -48,13 +48,8 @@ class Exam extends BaseController
 	{
 		$examModel = new ExamModel();
 		$exam = $examModel->find($ID);
-		if (is_null($exam)){
-			$this->response->setStatusCode(404);
-			$data['TITLE'] = 'Тражени рок није пронађен!';
-			$data['DESCRIPTION'] = 'Тражени рок није пронађен!';
-			echo view('exams/not_found', $data);
-			return;
-		}
+		if (is_null($exam))
+			$this->notFound();
 		$data['exam'] = $exam;
 
 		$problemsModel = new ProblemModel();
@@ -242,11 +237,25 @@ class Exam extends BaseController
 	public function delete($ID)
 	{
 		$examModel = new ExamModel();
+		if (is_null($exam))
+			$this->notFound();
+
 		$examModel->update($ID, ['updated_by' => session()->get('id')]);
 		$examModel->delete($ID);
 
 		session()->setFlashdata('success', 'Рок је успешно обрисан.');
 
 		return redirect()->to('/exam');
+	}
+
+
+	private function notFound()
+	{
+		$this->response->setStatusCode(404);
+		
+		$data['TITLE'] = 'Тражени рок није пронађен!';
+		$data['DESCRIPTION'] = 'Тражени рок није пронађен!';
+		
+		echo view('exams/not_found', $data);
 	}
 }
