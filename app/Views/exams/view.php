@@ -61,6 +61,13 @@
 			<?php endif; ?>
 			<?php if($can_delete): ?>
             	<div onclick="<?= 'confirmDelete(\'/exam/delete/' . $exam->id .'\')'?>" class="button bigButton">Обриши рок</div>
+				<script type="text/javascript">
+					function confirmDelete(url) {
+						if (confirm('Да ли сте сигурни да желите да обришете овај рок?')) {
+							window.location.href = url;
+						}
+					}
+				</script>
 			<?php endif; ?>
         </div>
     <?php endif; ?>

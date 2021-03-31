@@ -82,14 +82,6 @@
 		</div>\
 		</section>";
 
-		function confirmDelete(url) {
-			if (confirm('Да ли сте сигурни да желите да обришете овај рок?')) {
-				window.location.href = url;
-			} else {
-				console.log('Rok nije obrisan.');
-			}
-		}
-
 		function newProblemEntry() {
 			var template = createElementFromHTML(problemEntryTemplate.replace(/K/g, "" + (problems + 1)));
 			document.getElementById('form').insertBefore(template, document.getElementById('insertProblemEntry'));
