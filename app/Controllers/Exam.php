@@ -48,8 +48,11 @@ class Exam extends BaseController
 	{
 		$examModel = new ExamModel();
 		$exam = $examModel->find($ID);
-		if (is_null($exam))
+		if (is_null($exam)){
 			$this->notFound();
+			return;
+		}
+
 		$data['exam'] = $exam;
 
 		$problemsModel = new ProblemModel();
@@ -174,6 +177,12 @@ class Exam extends BaseController
 			return redirect()->to('/exam');
 
 		$model = new ExamModel();
+		$exam = $model->find($id);
+		if (is_null($exam)){
+			$this->notFound();
+			return;
+		}
+
 		$problemModel = new ProblemModel();
 		$dbProblems = $problemModel->where('exam', $id)->findAll();
 
@@ -224,9 +233,11 @@ class Exam extends BaseController
 			helper('form');
 
 			$data['TITLE'] = "Измени рок";
-			$data['exam'] = $model->find($id);
+			$data['exam'] = $exam;
+
 			$subjectsModel = new SubjectModel();
 			$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList($data['exam']->subject);
+
 			$data["problems"] = json_encode($dbProblems);
 			$data["new"] = False;
 
@@ -237,8 +248,10 @@ class Exam extends BaseController
 	public function delete($ID)
 	{
 		$examModel = new ExamModel();
-		if (is_null($exam))
+		if (is_null($exam)){
 			$this->notFound();
+			return;
+		}
 
 		$examModel->update($ID, ['updated_by' => session()->get('id')]);
 		$examModel->delete($ID);
