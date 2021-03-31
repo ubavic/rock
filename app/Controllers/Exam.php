@@ -229,14 +229,14 @@ class Exam extends BaseController
 
 			return redirect()->to('/exam/view/'. $id);
 		} else
-		{	
+		{
 			helper('form');
 
 			$data['TITLE'] = "Измени рок";
 			$data['exam'] = $exam;
 
 			$subjectsModel = new SubjectModel();
-			$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList($data['exam']->subject);
+			$data['subjectsList'] = $subjectsModel->getAllSubjectsOptionList($exam->subject);
 
 			$data["problems"] = json_encode($dbProblems);
 			$data["new"] = False;
@@ -248,17 +248,21 @@ class Exam extends BaseController
 	public function delete($ID)
 	{
 		$examModel = new ExamModel();
+
+		$exam = $examModel->find($ID);
 		if (is_null($exam)){
 			$this->notFound();
 			return;
 		}
+
+		$subject = $exam->subject;
 
 		$examModel->update($ID, ['updated_by' => session()->get('id')]);
 		$examModel->delete($ID);
 
 		session()->setFlashdata('success', 'Рок је успешно обрисан.');
 
-		return redirect()->to('/exam');
+		return redirect()->to('/exam' . $subject);
 	}
 
 
