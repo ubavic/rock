@@ -58,7 +58,7 @@ class Home extends BaseController
 	public function notFound()
 	{
 		$data['TITLE'] = "404";
-		$this->output->set_status_header('404');
+		$this->response->setStatusCode(404);
 		echo view('pages/404', $data);
 	}
 }
