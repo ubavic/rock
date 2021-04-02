@@ -258,9 +258,7 @@ class User extends BaseController
 
 	public function logout()
 	{
-		session()->destroy();
-		
-		$session = session();
+		session()->remove(['id', 'name', 'logged', 'can_manage_users']);
 		session()->setFlashdata('success', 'Успешно сте се одјавили.');
 
 		return redirect()->to('/');
