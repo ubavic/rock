@@ -71,9 +71,14 @@
 		</header>
 		<main>
 			<?php if (session()->get('success')): ?>
-			<div class="formRow success">
-				<?= session()->get('success'); ?>
-			</div>
+				<div class="formRow success">
+					<?= session()->get('success'); ?>
+				</div>
+			<?php endif; ?>
+			<?php if (session()->get('error')): ?>
+				<div class="formRow error">
+					<?= session()->get('error'); ?>
+				</div>
 			<?php endif; ?>
 			<?= $this->renderSection('content'); ?>
 		</main>

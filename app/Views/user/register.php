@@ -15,11 +15,6 @@
 			<label for="pass_confirm" class="formRowElement">Потврдите шифру:</label>
 			<input type="password" name="pass_confirm" id="pass_confirm" style="width: 300px;">
 		</div>
-		<?php if(isset($validation)): ?>
-			<div class="formRow error">
-				<?= $validation->listErrors() ?>
-			</div>
-		<?php endif; ?>
 		<div class="formRow" style="align-items: flex-end;">
 			<div style="margin-left: auto"></div>
 			<button type="submit" class="bigButton">Региструјте се</button>

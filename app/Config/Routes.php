@@ -48,8 +48,11 @@ $routes->get('user/saved', 'User::saved', ['filter' => 'auth']);
 $routes->get('user/all', 'User::all', ['filter' => 'auth']);
 $routes->get('user/log', 'User::log', ['filter' => 'auth']);
 $routes->get('user/login', 'User::login', ['filter' => 'noauth']);
+$routes->post('user/login', 'User::loginPost', ['filter' => 'noauth']);
 $routes->get('user/register', 'User::register', ['filter' => 'noauth']);
+$routes->post('user/register', 'User::registerPost', ['filter' => 'noauth']);
 $routes->get('user/resetPassword', 'User::resetPassword', ['filter' => 'noauth']);
+$routes->post('user/resetPassword', 'User::resetPasswordPost', ['filter' => 'noauth']);
 
 /**
  * --------------------------------------------------------------------

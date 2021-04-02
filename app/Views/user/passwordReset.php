@@ -7,11 +7,6 @@
 			<label for="email" class="formRowElement"><em>E-mail</em>:</label>
 			<input name="email" id="email" style="width: 300px;">
 		</div>
-		<?php if(isset($validation)): ?>
-			<div class="formRow error">
-				<?= $validation->listErrors() ?>
-			</div>
-		<?php endif; ?>
 		<div class="formRow" style="align-items: flex-end;">
 			<div style="margin-left: auto"></div>
 			<button type="submit" class="bigButton">Пошаљи захтев</button>

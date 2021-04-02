@@ -2,14 +2,9 @@
 <?= $this->section('content'); ?>
 	<form method="post" style="margin: 0 auto; width: 300px;">
 		<h1>Пријавите се</h1>
-		<?php if (isset($validation)): ?>
-			<div class="formRow error">
-				<?= $validation->listErrors() ?>
-			</div>
-		<?php endif; ?>
 		<div class="formRow">
 			<label for="email" class="formRowElement"><em>E-mail</em>:</label>
-			<input name="email" id="email" style="width: 300px;" value="<?= set_value('email') ?>">
+			<input name="email" id="email" style="width: 300px;" value="">
 		</div>
 		<div class="formRow">
 			<label for="password" class="formRowElement">Шифра:</label>

@@ -49,88 +49,83 @@ class User extends BaseController
 	{
 		$data['TITLE'] = 'Пријавите се';
 		helper(['form']);
+		
+		echo view('user/login', $data);
+	}
 
-		if ($this->request->getMethod() == 'post')
+	public function loginPost(){
+		helper(['form']);
+		$logModel = new LogModel();
+		$rules = [
+			'email'        => 'required|valid_email',
+			'password'     => 'required|validateUser[email,password]|validatedMail[email]'
+		];
+
+		if ($this->validate($rules, $this->errors))
 		{
-			$logModel = new LogModel();
-			$rules = [
-				'email'        => 'required|valid_email',
-				'password'     => 'required|validateUser[email,password]|validatedMail[email]'
+			$loginData = [
+				'email' => $this->request->getVar('email'),
+				'password' => $this->request->getVar('password'),
 			];
+			$userModel = new UserModel();
+			$user = $userModel->where('email', $this->request->getVar('email'))->first();
+			$this->setUser($user);
+			$logModel->save([
+				'user' => $user->id,
+				'ip' => $this->request->getIPAddress(),
+			]);
 
-			if ($this->validate($rules, $this->errors))
-			{
-				$loginData = [
-					'email' => $this->request->getVar('email'),
-					'password' => $this->request->getVar('password'),
-				];
-				
-				$userModel = new UserModel();
-				$user = $userModel->where('email', $this->request->getVar('email'))->first();
-				$this->setUser($user);
-
-				$logModel->save([
-					'user' => $user->id,
-					'ip' => $this->request->getIPAddress(),
-				]);
-
-				return redirect()->to('/');
-			} else
-			{
-				$logModel->save([
-					'user' => NULL,
-					'ip' => $this->request->getIPAddress(),
-				]);
-
-				$data['validation'] = $this->validator;
-
-				echo view('user/login', $data);
-			}
-		} else
+			return redirect()->to('/');
+		}
+		else
 		{
-			echo view('user/login', $data);
+			$logModel->save([
+				'user' => NULL,
+				'ip' => $this->request->getIPAddress(),
+			]);
+			session()->setFlashdata('error', $this->validator->listErrors());
+
+			return redirect()->to('/user/login');
 		}
 	}
 
 	public function register()
 	{
 		$data['TITLE'] = 'Региструјте се';
+		echo view('user/register', $data);
+	}
+
+	public function registerPost()
+	{
+		$data['TITLE'] = 'Региструјте се';
 		helper(['form']);
+		$rules = [
+			'email'        => 'required|valid_email|is_unique[users.email]|validateFacultyMail[email]',
+			'password'     => 'required|min_length[8]|max_length[255]',
+			'pass_confirm' => 'required_with[password]|matches[password]',
+		];
 
-		if ($this->request->getMethod() == 'post')
+		if ($this->validate($rules, $this->errors))
 		{
-			$rules = [
-				'email'        => 'required|valid_email|is_unique[users.email]|validateFacultyMail[email]',
-				'password'     => 'required|min_length[8]|max_length[255]',
-				'pass_confirm' => 'required_with[password]|matches[password]',
+			$regData = [
+				'name' => $this->request->getVar('email'),
+				'email' => $this->request->getVar('email'),
+				'hash' => $this->request->getVar('password'),
+				'status' => 0,
+				'permission' => 0
 			];
+			$userModel = new UserModel();
+			$userModel->save($regData);
+			$user = $userModel->where('email', $this->request->getVar('email'))->first();
+			$userModel->sendVerificationMail($user->id);
+			session()->setFlashdata('success', 'Да би сте завршили регистрацију потврдите Вашу адресу кликом на линк који Вам је послат.');
 
-			if ($this->validate($rules, $this->errors))
-			{
-				$regData = [
-					'name' => $this->request->getVar('email'),
-					'email' => $this->request->getVar('email'),
-					'hash' => $this->request->getVar('password'),
-					'status' => 0,
-					'permission' => 0
-				];
-
-				$userModel = new UserModel();
-				$userModel->save($regData);
-				$user = $userModel->where('email', $this->request->getVar('email'))->first();
-				$userModel->sendVerificationMail($user->id);
-				session()->setFlashdata('success', 'Да би сте завршили регистрацију потврдите Вашу адресу кликом на линк који Вам је послат.');
-
-				return redirect()->to('/user/login');
-			} else
-			{
-				$data['validation'] = $this->validator;
-
-				echo view('user/register', $data);
-			}
-		} else
+			return redirect()->to('/user/login');
+		}
+		else
 		{
-			echo view('user/register', $data);
+			session()->setFlashdata('error', $this->validator->listErrors());
+			return redirect()->to('/user/register');
 		}
 	}
 
@@ -286,39 +281,38 @@ class User extends BaseController
 		} else
 		{
 			$userModel->sendVerificationMail($ID);
-			session()->setFlashdata('success', 'Дошло је до грешке приликом потврђивања адресе. Послат Вам је нови линк.');
+			session()->setFlashdata('error', 'Дошло је до грешке приликом потврђивања адресе. Послат Вам је нови линк.');
 		}
 
 		return redirect()->to('/user/login');
 	}
 
-
 	public function resetPassword()
 	{
 		$data['TITLE'] = 'Повратак шифре';
-		helper(['form']);
-
-		$userModel = new UserModel();
-
-		if ($this->request->getMethod() == 'post')
-		{
-			$rules = ['email' => 'required|valid_email'];
-		
-			if ($this->validate($rules, $this->errors))
-			{
-				$user = $userModel->where('email', $this->request->getVar('email'))->first();
-				if ($user != NULL){
-					$userModel->sendNewPassword($user->id);
-					session()->setFlashdata('success', 'Ваша нова шифра Вам је послата на мејл.');
-				}
-
-				return redirect()->to('/user/login');
-
-			} else {
-				$data['validation'] = $this->validator;
-			}
-		}
-
 		echo view('user/passwordReset', $data);
+	}
+
+	public function resetPasswordPost()
+	{
+		helper(['form']);
+		$userModel = new UserModel();
+		$rules = ['email' => 'required|valid_email'];
+
+		if ($this->validate($rules, $this->errors))
+		{
+			$user = $userModel->where('email', $this->request->getVar('email'))->first();
+			if ($user != NULL)
+			{
+				$userModel->sendNewPassword($user->id);
+				session()->setFlashdata('success', 'Ваша нова шифра Вам је послата на мејл.');
+			}
+			return redirect()->to('/user/login');
+		}
+		else
+		{
+			session()->setFlashdata('error', $this->validator->listErrors());
+			return redirect()->to('/user/resetPassword');
+		}
 	}
 }
