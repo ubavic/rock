@@ -1,0 +1,59 @@
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-blue-8: #140505;
+    --color-blue-7: #290a0a;
+    --color-blue-6: #3d0f0f;
+    --color-blue-5: #771d1d;
+    --color-blue-4: #b12c2c;
+    --color-blue-3: #d45151;
+    --color-blue-2: #e28b8b;
+    --color-blue-1: #f1c5c5;
+    --color-gray-5: #333333;
+    --color-gray-4: #666666;
+    --color-gray-3: #999999;
+    --color-gray-2: #BBBBBB;
+    --color-gray-1: #EEEEEE;
+    --color-back: #262222;
+    --color-text: #EEE;
+  }
+
+  body {
+    background-image: none;
+    background-color: #131313;
+  }
+
+  .success {
+    background-color:#4e723e;
+    border: 1px solid #315c20;
+  }
+
+  .error {
+    background-color:#63497e;
+    border: 1px solid #402364;
+  }
+
+  .tableListRow:visited {
+    background-color: #312d36;
+    color: #9250aa;
+  }
+
+  .tableListRow:hover {
+    background-color: var(--color-gray-5);
+    color: var(--color-blue-3);
+  }
+
+  .tableListRow:visited:hover {
+    background-color: #312d36;
+    color: #ba58dd;
+  }
+
+  .menuItem:hover {
+    color: #FFF;
+    background-color: #311f1f;
+  }
+
+  .activeMenuItem:hover {
+    background-color: var(--color-back);
+    color: var(--color-text);
+  }
+}

@@ -35,11 +35,14 @@
   --color-gray-3: #999999;
   --color-gray-4: #BBBBBB;
   --color-gray-5: #EEEEEE;
+  --color-text: #000000;
+  --color-back: #FFFFFF;
 }
 
 body {
-  background-color: #3d0f0f;
+  background-color: var(--color-blue-3);
   background-image: url('/img/bgnoise.png');
+  background-attachment: fixed;
   font-family: var(--sans-font-stack);
   margin: 0px;
 }
@@ -48,7 +51,8 @@ main {
   max-width: 800px;
   margin: 0 auto;
   padding: 2em 2em 2em 2em;
-  background-color: #FFF;
+  background-color: var(--color-back);
+  color: var(--color-text);
   border-radius: 3px;
   box-shadow: 0 0 5px #0009;
 }
@@ -72,14 +76,14 @@ a {
   text-decoration: none;
 }
 
-a:hover {  
+a:hover {
   color: var(--color-blue-5);
   text-decoration: underline;
 }
 
 hr {
   border-style: solid;
-  color: #000;
+  color: var(--color-text);
   border-width: 0 0 1px 0;
 }
 
@@ -91,7 +95,7 @@ table {
 
 th {
   font-weight: bold;
-  background-color: #EEE;
+  background-color: var(--color-gray-5);
   border: 1px solid #000;
   padding: 0.5em 1em;
 }
@@ -112,19 +116,22 @@ li {
 }
 
 pre {
-  background-color: #EEE;
-  color: #000;
+  background-color: var(--color-gray-5);
+  color: var(--color-text);
   font-size: 0.9em;
   font-family: var(--mono-font-stack);
   overflow-x: auto;
   padding: 1em;
+  border-radius: 3px;
 }
 
 code, kbd {
-  background-color: #EEE;
-  color: #000;
+  background-color: var(--color-gray-5);
+  color: var(--color-text);
   font-size: 0.9em;
   font-family: var(--mono-font-stack);
+  padding: 0 0.2em;
+  border-radius: 3px;
 }
 
 body > header {
@@ -251,20 +258,20 @@ button {
 }
 
 .menuItem:hover {
-  color: #FFF;
+  color: var(--color-back);
   text-decoration: none;
   background-color: var(--color-blue-2);
 }
 
 .activeMenuItem {
-  background-color: #FFF;
+  background-color: var(--color-back);
   text-shadow: none;
-  color: #000;
+  color: var(--color-text);
 }
 
-.activeMenuItem:hover{
-  background-color: #FFF;
-  color: #000;
+.activeMenuItem:hover {
+  background-color: var(--color-back);
+  color: var(--color-text);
 }
 
 #menuSwitch {
@@ -298,7 +305,7 @@ button {
   border-bottom: 1px solid var(--color-gray-4);
 }
 
-.tableListRow:visited{
+.tableListRow:visited {
   background-color: #e7dff1;
   color: #5F1D77;
 }
@@ -354,7 +361,7 @@ button {
   overflow-x: auto;
 }
 
-.problem + .problem{
+.problem + .problem {
   margin-top: 1em;
 }
 
@@ -379,7 +386,7 @@ button {
   margin-right: 0.5em;
 }
 
-.verticalRowSpacer{
+.verticalRowSpacer {
   margin-left:auto;
 }
 
