@@ -49,7 +49,10 @@ class User extends BaseController
 	{
 		$data['TITLE'] = 'Пријавите се';
 		helper(['form']);
-		
+
+		if (strcmp(previous_url(), base_url() . "/user/login"))
+			session()->setFlashdata('back_to', str_replace(base_url(), "", previous_url()));
+
 		echo view('user/login', $data);
 	}
 
@@ -75,7 +78,10 @@ class User extends BaseController
 				'ip' => $this->request->getIPAddress(),
 			]);
 
-			return redirect()->to('/');
+			if (!is_null(session()->getFlashdata('back_to')))
+				return redirect()->to(session()->getFlashdata('back_to'));
+			else
+				return redirect()->to('/');
 		}
 		else
 		{
