@@ -48,7 +48,7 @@
 			$uri = service('uri');
 			$uri->setSilent();
 		?>
-		<div class="formRow" style="align-items: flex-end;">
+		<div class="formRow no-print" style="align-items: flex-end;">
 			<div style="font-style: italic; font-size: 0.9em">
 				Рок додат <?= $exam->created_at ?>, од <?= $created_by ?>.
 				<?php if($exam->created_at != $exam->updated_at): ?>

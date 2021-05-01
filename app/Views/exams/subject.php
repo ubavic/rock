@@ -8,7 +8,7 @@
 		<?= $exam_table ?>
 	</div>
 	<?php if($can_add): ?>
-		<div class="formRow" style="flex-direction: row-reverse;">
+		<div class="formRow no-print" style="flex-direction: row-reverse;">
 			<a href="/exam/new/<?= $subject->id ?>" class="button bigButton">Нови рок</a>
 		</div>
 	<?php endif; ?>
