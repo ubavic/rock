@@ -403,9 +403,10 @@ button, .button {
   transition: 0.2s background-color;
 }
 
-.button:hover, .button:active {
+.button:hover, .button:active, .button:focus, button:hover, button:active, button:focus {
   border: none;
   text-decoration: none;
+  outline: none;
 }
 
 .button + .button {
