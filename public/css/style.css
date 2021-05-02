@@ -495,6 +495,7 @@ button, .button {
   border: 1px solid #578346;
   padding: 0.5em 0.5em;
   border-radius: 3px;
+  margin: 0.5em 0;
 }
 
 .error {
@@ -502,6 +503,7 @@ button, .button {
   border: 1px solid #633A96;
   padding: 0.5em 0.5em;
   border-radius: 3px;
+  margin: 0.5em 0;
 }
 
 @media screen and (max-width: 900px) and (min-width: 701px) {

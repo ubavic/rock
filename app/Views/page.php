@@ -72,12 +72,12 @@
 		</header>
 		<main>
 			<?php if (session()->get('success')): ?>
-				<div class="formRow success">
+				<div class="success">
 					<?= session()->get('success'); ?>
 				</div>
 			<?php endif; ?>
 			<?php if (session()->get('error')): ?>
-				<div class="formRow error">
+				<div class="error">
 					<?= session()->get('error'); ?>
 				</div>
 			<?php endif; ?>
