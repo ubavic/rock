@@ -90,21 +90,22 @@ class ExamModel extends Model
 
 	public function generateTable($exams)
 	{
-		$head ='<div class="tableList">
+		if (empty($exams))
+		{
+			return '<div style="text-align: center; padding: 1em; max-width: 600px; margin: 0 auto; font-style: italic;">
+			Нема рокова који задовољавају критеријум.</div>';
+		}
+		else
+		{
+			$head ='<div class="tableList">
 					<div class="tableListHeader">
 						<div class="examListType"><abbr title="Колоквијум">Клк</abbr></div>
 						<div class="examListSubject">Предмет</div>
 						<div class="examListDate">Датум</div>
 						<div class="examListModules">Смер</div>
 					</div>';
-		$results = '';
+			$results = '';
 
-		if (empty($exams))
-		{
-			$results = '<div style="text-align: center; padding: 1em; max-width: 600px; margin: 0 auto;">
-			Нема рокова који задовољавају критеријум.</div>';
-		} else
-		{
 			foreach ($exams as $exam)
 			{
 				$type = ($exam->type == 0) ? ' ' : 'К';
@@ -115,8 +116,8 @@ class ExamModel extends Model
 						<div class=\"examListModules\">$exam->modules_string</div>
 					</a>";
 			}
-		}
 
-		return $head . $results . '</div>';
+			return $head . $results . '</div>';
+		}
 	}
 }

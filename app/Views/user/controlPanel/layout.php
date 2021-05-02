@@ -9,7 +9,6 @@
 	<div class="controlPanel">
         <nav>
         	<a href="/user/settings" <?=($uri->getSegment(2) == 'settings' ? $color : null)?> >Подешавања</a>
-        	<a href="/user/exams" <?=($uri->getSegment(2) == 'exams' ? $color : null)?> >Креирани&nbsp;рокови</a>
         	<a href="/user/saved" <?=($uri->getSegment(2) == 'saved' ? $color : null)?> >Сачувани&nbsp;рокови</a>
             <?php if (session()->get('can_manage_users')): ?>
                 <div>Aдминистрација</div>

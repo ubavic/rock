@@ -7,9 +7,9 @@
 				<div>Корисник</div>
 			</div>
 			<?php foreach ($users as $user): ?>
-				<div class="tableListRow">
-					<div><?= $user->user_link; ?></div>
-				</div>	
+				<a href="/user/<?= $user->id; ?>" class="tableListRow">
+					<div><?= $user->name; ?></div>
+				</a>	
 			<?php endforeach; ?>
 		</div>
 	</div>

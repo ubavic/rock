@@ -1,27 +1,30 @@
 <?= $this->extend('user/controlPanel/layout'); ?>
 <?= $this->section('cp_content'); ?>
 <div>
-	<h2 style="margin-top:0">Профил</h2>
+	<h2 style="margin-top:0">Подешавања</h2>
 	<?php if (isset($validation)): ?>
 		<div class="formRow error">
 			<?= $validation->listErrors() ?>
 		</div>
 	<?php endif; ?>
 	<form action="/user/settings" method="post">
+		<h3>Лични подаци</h3>
 		<p>У наредној форми можете променити своје име. Ваше име, као и Ваш <i>e-mail</i>, је видљиво само другим члановима сајта. Пожељно је, али не и обавезно, да за име упишете Ваше лично име, на ћирилици.</p>
 		<div class="formRow">
 			<label for="name" style="width: 4em;">Име</label>
-			<input name="name" id="name" style="width: 20em;" value="<?= $name ?>">
+			<input name="name" id="name" style="width: 20em;" value="<?= $user->name ?>">
 		</div>
 		<div class="formRow">
 			<span style="width: 4em;"><i>E-mail</i></span>
-			<span style="width: 20em;"><?= $email ?></span>
+			<span style="width: 20em;"><?= $user->email ?></span>
 		</div>
 		<div class="formRow">
 			<button class="smallButton" type="submit" value="changeName">Сачувај</button>
+			<div class="verticalRowSpacer"></div>
+			<a href="/user/<?= $user->id ?>" class="button bigButton">Профил</a>
 		</div>
 	</form>
-	<h4>Промени шифру</h4>
+	<h3>Промени шифру</h3>
 	<form action="/user/settings" method="post">
 		<div class="formRow">
 			<label for="password" style="width: 8em;">Шифра</label>

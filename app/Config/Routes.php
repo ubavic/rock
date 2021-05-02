@@ -41,9 +41,9 @@ $routes->get('exam/new', 'Exam::new', ['filter' => 'canAdd']);
 $routes->get('exam/delete/(:num)', 'Exam::delete/$1', ['filter' => 'canDelete']);
 $routes->get('exam/edit/(:num)', 'Exam::edit/$1', ['filter' => 'canEdit']);
 
+$routes->get('user/(:num)/exams', 'User::userExams/$1', ['filter' => 'auth']);
 $routes->get('user/(:num)', 'User::index/$1', ['filter' => 'auth']);
 $routes->get('user/settings', 'User::settings', ['filter' => 'auth']);
-$routes->get('user/exams', 'User::exams', ['filter' => 'auth']);
 $routes->get('user/saved', 'User::saved', ['filter' => 'auth']);
 $routes->get('user/all', 'User::all', ['filter' => 'auth']);
 $routes->get('user/log', 'User::log', ['filter' => 'auth']);

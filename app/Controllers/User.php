@@ -42,8 +42,29 @@ class User extends BaseController
 		$data['TITLE'] = 'Кориснички профил';
 		$data['user'] = $user;
 
+		$examModel = new ExamModel();
+		$data['count'] = $examModel->where('created_by', $user_id)->countAllResults();
+
 		echo view('user/profile', $data);
 	}
+
+	public function userExams($user_id)
+	{
+		$userModel = new UserModel();
+		$user = $userModel->find($user_id);
+		
+		if (is_null($user)) 
+			return redirect()->to('/');
+
+		$data['TITLE'] = 'Рокови корисника ' . $user->name;
+		$data['user'] = $user;
+
+		$examModel = new ExamModel();
+		$data['createdExams'] = $examModel->generateTable($examModel->where('created_by', $user_id)->findAll());
+
+		echo view('user/exams', $data);
+	}
+
 	
 	public function login()
 	{
@@ -183,20 +204,9 @@ class User extends BaseController
 		}
 
 		$user = $userModel->find(session()->get('id'));
-		$data['name'] = $user->name;
-		$data['email'] = $user->email;
+		$data['user'] = $user;
 
 		echo view('user/controlPanel/settings', $data);
-	}
-
-	public function exams()
-	{
-		$data['TITLE'] = 'Додати рокови';
-
-		$examModel = new ExamModel();
-		$data['createdExams'] = $examModel->generateTable($examModel->where('created_by', session()->get('id'))->findAll());
-
-		echo view('user/controlPanel/exams', $data);
 	}
 
 	public function saved()
