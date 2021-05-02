@@ -37,6 +37,7 @@
   --color-gray-5: #EEEEEE;
   --color-text: #000000;
   --color-back: #FFFFFF;
+  --border-radius: 3px;
 }
 
 body {
@@ -53,7 +54,7 @@ main {
   padding: 2em 2em 2em 2em;
   background-color: var(--color-back);
   color: var(--color-text);
-  border-radius: 3px;
+  border-radius: var(--border-radius);
   box-shadow: 0 0 5px #0009;
 }
 
@@ -122,7 +123,7 @@ pre {
   font-family: var(--mono-font-stack);
   overflow-x: auto;
   padding: 1em;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
 }
 
 code, kbd {
@@ -131,7 +132,7 @@ code, kbd {
   font-size: 0.9em;
   font-family: var(--mono-font-stack);
   padding: 0 0.2em;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
 }
 
 body > header {
@@ -253,8 +254,8 @@ button {
   margin: 0;
   color: #FFF;
   transition: background-color 200ms;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
 }
 
 .menuItem:hover {
@@ -287,9 +288,6 @@ button {
   display: flex;
   flex-direction: row;
   padding: 0.5em 0.5em;
-  background-color: var(--color-gray-4);
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
 }
 
 .tableListRow {
@@ -298,11 +296,14 @@ button {
   flex-direction: row;
   padding: 0.5em 0.5em;
   background-color: var(--color-gray-5);
-  border-top: 1px solid var(--color-gray-4);
+}
+
+.tableListRow:first-of-type {
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
 .tableListRow:last-child {
-  border-bottom: 1px solid var(--color-gray-4);
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
 }
 
 .tableListRow:visited {
@@ -312,7 +313,12 @@ button {
 
 .tableListRow:hover {
   text-decoration: none;
-  background-color: var(--color-gray-4);
+  background-color: rgb(207, 207, 207);
+}
+
+.tableListRow:visited:hover {
+  background-color: #daccec;
+  color: #822ba1;
 }
 
 .tableListHeader > div, .tableListRow > div {
@@ -368,7 +374,7 @@ button {
 .problem > header {
   background-color: var(--color-gray-5);
   padding: 0.2em 0.5em;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
 }
 
 .formRow {
@@ -394,7 +400,7 @@ button {
   margin: 1em 0 1em 0;
   background-color: var(--color-gray-5);
   padding: 0.5em;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
 }
 
 .problemEntry header {
@@ -405,7 +411,7 @@ button {
 
 button, .button {
   cursor: pointer;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
   border: none;
   transition: 0.2s background-color;
 }
@@ -453,7 +459,7 @@ button, .button {
 .breadcrumb {
   background-color: var(--color-gray-5);
   padding: 0.2em;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
   margin: 0 0 1em 0;
 }
 
@@ -469,7 +475,7 @@ button, .button {
   width: 200px;
   background-color: var(--color-gray-5);
   padding: 0em;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
   margin-right: 0.5em;
 }
 
@@ -494,7 +500,7 @@ button, .button {
   background-color:#8CC476;
   border: 1px solid #578346;
   padding: 0.5em 0.5em;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
   margin: 0.5em 0;
 }
 
@@ -502,7 +508,7 @@ button, .button {
   background-color:#A275D9;
   border: 1px solid #633A96;
   padding: 0.5em 0.5em;
-  border-radius: 3px;
+  border-radius: var(--border-radius);
   margin: 0.5em 0;
 }
 
