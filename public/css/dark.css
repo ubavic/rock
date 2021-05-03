@@ -8,13 +8,36 @@
     --color-blue-3: #d45151;
     --color-blue-2: #e28b8b;
     --color-blue-1: #f1c5c5;
-    --color-gray-5: #333333;
-    --color-gray-4: #666666;
+    --color-gray-5: #252323;
+    --color-gray-4: #3d3c3c;
     --color-gray-3: #999999;
     --color-gray-2: #BBBBBB;
     --color-gray-1: #EEEEEE;
-    --color-back: #262222;
-    --color-text: #EEE;
+    --color-back: #201f1f;
+    --color-text: #DDD;
+  }
+
+  textarea, input, select {
+    color: var(--color-text);
+    background-color: var(--color-back);
+    border-color: #131313;
+  }
+
+  a:hover {
+    color: var(--color-blue-3);
+  }
+
+  .bigButton:hover {
+    background-color: var(--color-blue-5);
+  }
+
+  .smallButton {
+    color: #CCC;
+    background-color: var(--color-gray-4);
+  }
+
+  .smallButton:hover {
+    background-color: var(--color-gray-3);
   }
 
   body {
@@ -49,11 +72,10 @@
 
   .menuItem:hover {
     color: #FFF;
-    background-color: #311f1f;
   }
 
-  .activeMenuItem:hover {
-    background-color: var(--color-back);
-    color: var(--color-text);
+  main *:focus {
+    outline: 1px solid var(--color-blue-6);
+    background-color: var(--color-gray-4);
   }
 }

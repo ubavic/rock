@@ -56,17 +56,17 @@
 	</head>
 	<body>
 		<header>
-			<div id="title">МАТФ РОКОВИ</div>
+			<a id="title" href="/">МАТФ РОКОВИ</a>
 			<nav>
 				<div onclick="swichMenu()" title="Отвори мени" class="menuItem" id="menuSwitch">Мени</div>
-				<a href="/" title="Вратите се на почетну." class="menuItem <?= ($uri->getSegment(1) == null ? 'activeMenuItem' : null) ?>">Почетна</a>
-				<a href="/exam" title="Претражите све доступне рокове." class="menuItem <?= ($uri->getSegment(1) == 'exam' ? 'activeMenuItem' : null) ?>">Рокови</a>
-				<a href="/about" title="Информације о пројекту." class="menuItem <?= ($uri->getSegment(1) == 'about' ? 'activeMenuItem' : null) ?>">О&nbsp;Пројекту</a>
+				<a href="/" title="Вратите се на почетну." class="menuItem <?= ($uri->getSegment(1) == null ? 'activeMenuItem' : '') ?>">Почетна</a>
+				<a href="/exam" title="Претражите све доступне рокове." class="menuItem <?= ($uri->getSegment(1) == 'exam' ? 'activeMenuItem' : '') ?>">Рокови</a>
+				<a href="/about" title="Информације о пројекту." class="menuItem <?= ($uri->getSegment(1) == 'about' ? 'activeMenuItem' : '') ?>">О&nbsp;Пројекту</a>
 				<div style="margin-left: auto"></div>
 				<?php if(session()->get('logged')): ?>
-					<a href="/user/settings" title="Контролни панел" class="menuItem <?= ($uri->getSegment(1) == 'user' ? 'activeMenuItem' : null) ?>">Контролни&nbsp;панел</a>
+					<a href="/user/settings" title="Контролни панел" class="menuItem <?= ($uri->getSegment(1) == 'user' ? 'activeMenuItem' : '') ?>">Контролни&nbsp;панел</a>
 				<?php else: ?>
-					<a href="/user/login" title="Пријава и регистација" class="menuItem">Пријавите&nbsp;се</a>
+					<a href="/user/login" title="Пријава и регистација" class="menuItem <?= ($uri->getSegment(2) == 'login' ? 'activeMenuItem' : '') ?>">Пријавите&nbsp;се</a>
 				<?php endif;?>
 			</nav>
 		</header>

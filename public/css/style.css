@@ -211,6 +211,13 @@ main *:focus {
 
 form {
   margin: 1em 0;
+  border-radius: var(--border-radius);
+  background-color: var(--color-gray-5);
+  padding: 0.5em;
+}
+
+form > h2:first-child, form h3:first-child {
+  margin-top: 0;
 }
 
 textarea, input, select, button {
@@ -238,13 +245,23 @@ button {
 /* CLASSES */
 
 #title {
-  margin: 2rem 0;
+  display: block;
+  margin: 2rem auto;
   text-align: center;
   color: #FFFFFF;
   user-select: none;
   text-shadow: 0 0 5px #000;
   font-size: 2em;
   font-weight: bold;
+  position: relative;
+  transition: ease-in-out 0.2s top, ease-in-out 0.2s text-shadow;
+  top: 0px;
+}
+
+#title:hover {
+  top: -5px;
+  text-decoration: none;
+  text-shadow: 0 2px 5px #000;
 }
 
 .menuItem {
@@ -253,26 +270,32 @@ button {
   padding: 0.5em;
   margin: 0;
   color: #FFF;
-  transition: background-color 200ms;
-  border-top-left-radius: var(--border-radius);
-  border-top-right-radius: var(--border-radius);
+  position: relative;
+  top: 0px;
+  transition: ease-in-out 0.2s top;
 }
 
 .menuItem:hover {
-  color: var(--color-back);
+  color: #FFF;
   text-decoration: none;
-  background-color: var(--color-blue-2);
+  top: -2px;
+  text-shadow: 0 2px 5px #000;
 }
 
 .activeMenuItem {
   background-color: var(--color-back);
   text-shadow: none;
   color: var(--color-text);
+  position: static;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
 }
 
 .activeMenuItem:hover {
   background-color: var(--color-back);
   color: var(--color-text);
+  position: static;
+  text-shadow: none;
 }
 
 #menuSwitch {
@@ -303,7 +326,8 @@ button {
 }
 
 .tableListRow:last-child {
-  border-radius: 0 0 var(--border-radius) var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
 }
 
 .tableListRow:visited {

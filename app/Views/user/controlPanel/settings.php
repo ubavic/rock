@@ -19,13 +19,12 @@
 			<span style="width: 20em;"><?= $user->email ?></span>
 		</div>
 		<div class="formRow">
-			<button class="smallButton" type="submit" value="changeName">Сачувај</button>
 			<div class="verticalRowSpacer"></div>
-			<a href="/user/<?= $user->id ?>" class="button bigButton">Профил</a>
+			<button class="button bigButton" type="submit" value="changeName">Сачувај</button>
 		</div>
 	</form>
-	<h3>Промени шифру</h3>
 	<form action="/user/settings" method="post">
+	<h3>Промени шифру</h3>
 		<div class="formRow">
 			<label for="password" style="width: 8em;">Шифра</label>
 			<input type="password" name="password" id="password" style="width: 20em;">
@@ -35,7 +34,8 @@
 			<input type="password" name="pass_confirm" id="pass_confirm" style="width: 20em;">
 		</div>
 		<div class="formRow">
-			<button class="smallButton" type="submit" value="changePassword">Сачувај</button>
+			<div class="verticalRowSpacer"></div>
+			<button class="button bigButton" type="submit" value="changePassword">Сачувај</button>
 		</div>
 	</form>
 </div>

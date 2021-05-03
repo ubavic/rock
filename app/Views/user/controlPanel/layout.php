@@ -1,7 +1,7 @@
 <?php 
     $uri = service('uri');
     $uri->setSilent();
-    $color = 'style="background-color: var(--color-gray-4)"';
+    $color = 'style="background-color: var(--color-gray-4); font-weight:bold"';
 ?>
 <?= $this->extend('page'); ?>
 <?= $this->section('content'); ?>
