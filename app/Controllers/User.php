@@ -36,8 +36,10 @@ class User extends BaseController
 		$userModel = new UserModel();
 		$user = $userModel->find($user_id);
 
-		if (is_null($user))
+		if (is_null($user)) {
+			session()->setFlashdata('error', 'Дошло је до грешке. Корисник није пронађен');
 			return redirect()->to('/user/controlpanel');
+		}
 
 		$data['TITLE'] = 'Кориснички профил';
 		$data['user'] = $user;
@@ -46,6 +48,29 @@ class User extends BaseController
 		$data['count'] = $examModel->where('created_by', $user_id)->countAllResults();
 
 		echo view('user/profile', $data);
+	}
+
+	public function changePermissions($user_id)
+	{
+		$userModel = new UserModel();
+		$user = $userModel->find($user_id);
+
+		if (is_null($user)){
+			session()->setFlashdata('error', 'Дошло је до грешке. Корисник није пронађен');
+			return redirect()->to('/user/controlpanel');
+		}
+
+		$userModel->save([
+			'id' => $user_id,
+			'can_add' => $this->request->getVar('can_add'),
+			'can_edit' => $this->request->getVar('can_edit'),
+			'can_delete' => $this->request->getVar('can_delete'),
+			'can_manage_users' => $this->request->getVar('can_manage_users'),
+		]);
+
+		session()->setFlashdata('success', 'Дозволе корисника су успешно промењене.');
+
+		return $this->index($user_id);
 	}
 
 	public function userExams($user_id)

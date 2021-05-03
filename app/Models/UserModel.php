@@ -12,6 +12,7 @@ class UserModel extends Model
 								'can_add',
 								'can_delete',
 								'can_edit',
+								'can_manage_users',
 								'ver_code'];
 	protected $useTimestamps = true;
 	protected $returnType = 'object';

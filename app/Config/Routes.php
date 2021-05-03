@@ -43,10 +43,11 @@ $routes->get('exam/edit/(:num)', 'Exam::edit/$1', ['filter' => 'canEdit']);
 
 $routes->get('user/(:num)/exams', 'User::userExams/$1', ['filter' => 'auth']);
 $routes->get('user/(:num)', 'User::index/$1', ['filter' => 'auth']);
+$routes->post('user/(:num)', 'User::changePermissions/$1', ['filter' => 'canManageUsers']);
 $routes->get('user/settings', 'User::settings', ['filter' => 'auth']);
 $routes->get('user/saved', 'User::saved', ['filter' => 'auth']);
 $routes->get('user/all', 'User::all', ['filter' => 'auth']);
-$routes->get('user/log', 'User::log', ['filter' => 'auth']);
+$routes->get('user/log', 'User::log', ['filter' => 'canManageUsers']);
 $routes->get('user/login', 'User::login', ['filter' => 'noauth']);
 $routes->post('user/login', 'User::loginPost', ['filter' => 'noauth']);
 $routes->get('user/register', 'User::register', ['filter' => 'noauth']);
