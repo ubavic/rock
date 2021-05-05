@@ -234,13 +234,6 @@ class User extends BaseController
 		echo view('user/controlPanel/settings', $data);
 	}
 
-	public function saved()
-	{
-		$data['TITLE'] = 'Сачувани рокови';
-
-		echo view('user/controlPanel/saved', $data);
-	}
-
 	public function all()
 	{
 		$data['TITLE'] = 'Сви корисници';

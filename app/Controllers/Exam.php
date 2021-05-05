@@ -4,6 +4,7 @@ use App\Models\ExamModel;
 use App\Models\ProblemModel;
 use App\Models\SubjectModel;
 use App\Models\UserModel;
+use App\Models\SavedExamModel;
 
 class Exam extends BaseController
 {
@@ -44,10 +45,10 @@ class Exam extends BaseController
 		echo view('exams/subject', $data);
 	}
 
-	public function view($ID = 0)
+	public function view($exam_id = 0)
 	{
 		$examModel = new ExamModel();
-		$exam = $examModel->find($ID);
+		$exam = $examModel->find($exam_id);
 		if (is_null($exam)){
 			$this->notFound();
 			return;
@@ -56,7 +57,7 @@ class Exam extends BaseController
 		$data['exam'] = $exam;
 
 		$problemsModel = new ProblemModel();
-		$data['problems'] = $problemsModel->getProblems($ID);
+		$data['problems'] = $problemsModel->getProblems($exam_id);
 
 		$userModel = new UserModel();
 		$data['created_by'] = $userModel->getAbbr($exam->created_by);
@@ -67,12 +68,20 @@ class Exam extends BaseController
 
 		$data['can_edit'] = 0;
 		$data['can_delete'] = 0;
+		$data['saved'] = 0;
 
 		if (session()->get('logged')) {
-			if ($userModel->canEditExam(session()->get('id'), $ID))
+			$user_id = session()->get('id');
+
+			if ($userModel->canEditExam($user_id, $exam_id))
 				$data['can_edit'] = 1;
-			if ($userModel->find(session()->get('id'))->can_delete)
+			if ($userModel->find($user_id)->can_delete)
 				$data['can_delete'] = 1;
+
+			$saved_exam_model = new SavedExamModel();
+			$saved_exam = $saved_exam_model->where('user', $user_id)->where('exam', $exam_id)->first();
+			if (!is_null($saved_exam))
+				$data['saved'] = 1;
 		}
 
 		$data['TITLE'] = $exam->subject_name;
@@ -265,7 +274,6 @@ class Exam extends BaseController
 		return redirect()->to('/exam/' . $subject);
 	}
 
-
 	private function notFound()
 	{
 		$this->response->setStatusCode(404);
@@ -274,5 +282,40 @@ class Exam extends BaseController
 		$data['DESCRIPTION'] = 'Тражени рок није пронађен!';
 		
 		echo view('exams/not_found', $data);
+	}
+
+	public function saved()
+	{
+		$data['TITLE'] = 'Сачувани рокови';
+
+		$saved_exam_model = new SavedExamModel();
+		$exam_model = new ExamModel();
+		
+		$saved_exams = $saved_exam_model->userSavedExams(session()->get('id'));
+		$data['exam_table'] = $exam_model->generateTable($exam_model->getMetadata(['data' => $saved_exams])['data']);
+
+		echo view('exams/saved', $data);
+	}
+
+	public function userSaveExam($exam_id) 
+	{
+		$user_id = session()->get('id');
+		$exam_model = new SavedExamModel();
+		$saved_exam = $exam_model->where('user', $user_id)->where('exam', $exam_id)->first();
+
+		if (is_null($saved_exam)){
+			$exam_model->save([
+				'exam' => $exam_id,
+				'user' => $user_id,
+			]);
+			session()->setFlashdata('success', 'Рок је додат у <a href="/exam/saved">листу сачуваних рокова</a>.');
+		}
+		else
+		{
+			$exam_model->delete($saved_exam->id);
+			session()->setFlashdata('success', 'Рок је уклоњен из <a href="/exam/saved">листе сачуваних рокова</a>.');
+		}
+
+		return redirect()->back();
 	}
 }

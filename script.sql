@@ -77,6 +77,7 @@ CREATE TABLE `saved_exams`
  `id`   int unsigned NOT NULL AUTO_INCREMENT ,
  `user` int unsigned NOT NULL ,
  `exam` int unsigned NOT NULL ,
+ `save_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
 
 PRIMARY KEY (`id`),
 KEY `fkIdx_76` (`exam`),

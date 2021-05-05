@@ -9,13 +9,13 @@
 	<div class="controlPanel">
         <nav>
         	<a href="/user/settings" <?=($uri->getSegment(2) == 'settings' ? $color : null)?> >Подешавања</a>
-        	<a href="/user/saved" <?=($uri->getSegment(2) == 'saved' ? $color : null)?> >Сачувани&nbsp;рокови</a>
             <?php if (session()->get('can_manage_users')): ?>
                 <div>Aдминистрација</div>
                 <a href="/user/all" <?=($uri->getSegment(2) == 'all' ? $color : null)?> >Корисници</a>
                 <a href="/user/log" <?=($uri->getSegment(2) == 'log' ? $color : null)?> >Лог</a>
             <?php endif; ?>
         	<div>Остало</div>
+            <a href="/exam/saved">Сачувани&nbsp;рокови</a>
             <a href="/tools">Алати</a>
         	<a href="/manual">Упутство</a>
         </nav>

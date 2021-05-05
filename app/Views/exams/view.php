@@ -1,8 +1,17 @@
 <?= $this->extend('page'); ?>
 <?= $this->section('content'); ?>
-	<div class="breadcrumb">
-        <a href="/exam"><i>Сви рокови</i></a> &bull;
+	<div class="breadcrumb formRow" style="align-items: center">
+        <a href="/exam"><i>Сви рокови</i></a>&nbsp;&bull;&nbsp;
 		<a href="/exam/<?= $subject->id ?>"><i><?= $subject->name ?></i></a>:
+		<?php if(session()->get('logged')): ?>
+			<div class="verticalRowSpacer"></div>
+			<a href="/exam/userSaveExam/<?= $exam->id ?>" 
+				class="button smallButton <?= ($saved) ? 'saved' : '' ?>" 
+				style="padding: 0 0.5em"
+				title="<?= ($saved) ? 'Рок је сачуван' :'Сачувајте рок' ?>">
+				<?= ($saved) ? 'Сачувано' :'Сачувај' ?>
+			</a>
+		<?php endif; ?>
     </div>
 	<div style="display: flex; flex-direction: row">
 		<div style="margin-left: auto"></div>

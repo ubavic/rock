@@ -13,6 +13,9 @@
     --color-gray-3: #999999;
     --color-gray-2: #BBBBBB;
     --color-gray-1: #EEEEEE;
+    --color-green-1: #3d5e32;
+    --color-green-2: #31422a;
+    --color-green-3: #232921;
     --color-back: #201f1f;
     --color-text: #DDD;
   }
@@ -37,17 +40,13 @@
   }
 
   .smallButton:hover {
-    background-color: var(--color-gray-3);
+    color: #CCC;
+    background-color: var(--color-gray-5);
   }
 
   body {
     background-image: none;
     background-color: #131313;
-  }
-
-  .success {
-    background-color:#4e723e;
-    border: 1px solid #315c20;
   }
 
   .error {
@@ -77,5 +76,15 @@
   main *:focus {
     outline: 1px solid var(--color-blue-6);
     background-color: var(--color-gray-4);
+  }
+
+  .saved {
+    background-color: var(--color-green-2);
+    color: var(--color-text);
+  }
+  
+  .saved:hover {
+    background-color:var(--color-green-3);
+    color: var(--color-text);
   }
 }
