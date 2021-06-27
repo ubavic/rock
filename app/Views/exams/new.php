@@ -136,16 +136,37 @@
 			for (let i = 0; i < data.length; i++) {
 				var template = createElementFromHTML(problemEntryTemplate.replace(/K/g, "" + (i + 1)));
 				document.getElementById('form').insertBefore(template, document.getElementById('insertProblemEntry'));
-				var pi = document.getElementById('p' + (i + 1));
+				let pi = document.getElementById('p' + (i + 1));
 				pi.children[2].value = data[i].text;
+				data[i].text = pi.children[2].value;
 				pi.children[3].children[1].value = data[i].points;
+
+				pi.children[2].style.backgroundColor = "var(--color-green-4)";
+				pi.children[3].children[1].style.backgroundColor = "var(--color-green-4)";
+
+				pi.children[2].addEventListener('change', function(event) {
+					console.log(event.target.value);
+					console.log(data[i].text);
+					if (event.target.value === data[i].text){
+						event.target.style.backgroundColor = "var(--color-green-4)";
+					} else {
+						event.target.style.backgroundColor = "#FFF";
+					}
+				});
+
+				pi.children[3].children[1].addEventListener('change', function(event) {
+					if (pi.children[3].children[1].value === data[i].points){
+						pi.children[3].children[1].style.backgroundColor = "var(--color-green-4)";
+					} else {
+						pi.children[3].children[1].style.backgroundColor = "#FFF";
+					}
+				});
 			}
 		}
 
 		function modifyProblemTemplate() {
 			problemEntryTemplate = problemEntryTemplate.replace(
-				"<div class=\"button smallButton\" onclick=\"deleteProblemEntry(K)\">Обриши</div>",
-				"<div class=\"button smallButton\" onclick=\"deleteProblemEntry(K)\" style=\"display: none\"></div>" );
+				"<div class=\"button smallButton\" onclick=\"deleteProblemEntry(K)\">Обриши</div>","" );
 		}
 
 		<?php if($new): ?>
