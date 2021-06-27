@@ -35,9 +35,10 @@
   --color-gray-3: #999999;
   --color-gray-4: #BBBBBB;
   --color-gray-5: #EEEEEE;
-  --color-green-1: #304d26;
-  --color-green-2: #578346;
-  --color-green-3: #8CC476;
+  --color-green-1: #517442;
+  --color-green-2: #78a366;
+  --color-green-3: #9ac788;
+  --color-green-4: #bfe0b2;
   --color-text: #000000;
   --color-back: #FFFFFF;
   --border-radius: 3px;
@@ -485,12 +486,12 @@ button, .button {
 }
 
 .saved {
-  background-color: var(--color-green-3);
+  background-color: var(--color-green-4);
   color: #000;
 }
 
 .saved:hover {
-  background-color:var(--color-green-2);
+  background-color:var(--color-green-3);
 }
 
 .breadcrumb {
@@ -534,7 +535,7 @@ button, .button {
 }
 
 .success {
-  background-color: var(--color-green-3);
+  background-color: var(--color-green-4);
   border: 1px solid var(--color-green-2);
   padding: 0.5em 0.5em;
   border-radius: var(--border-radius);
