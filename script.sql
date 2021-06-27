@@ -48,6 +48,7 @@ CREATE TABLE `exams`
  `mp`              tinyint unsigned NOT NULL DEFAULT 0 ,
  `mr`              tinyint unsigned NOT NULL DEFAULT 0 ,
  `ms`              tinyint unsigned NOT NULL DEFAULT 0 ,
+ `edit_lock`       tinyint unsigned NOT NULL DEFAULT 0 ,
 
 PRIMARY KEY (`id`),
 KEY `fkIdx_29` (`subject`),
@@ -98,7 +99,6 @@ PRIMARY KEY (`id`),
 KEY `fkIdx_86` (`user`),
 CONSTRAINT `FK_86` FOREIGN KEY `fkIdx_86` (`user`) REFERENCES `users` (`id`)
 );
-
 
 
 INSERT INTO `subjects` (`id`, `name`, `code`) VALUES
