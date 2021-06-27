@@ -14,7 +14,10 @@ class CanEdit implements FilterInterface
 
 		$userModel = new UserModel;
 		if(!$userModel->canEditExam(session()->get('id'), $request->uri->getSegment(3)))
+		{
+			session()->setFlashdata('error', 'Није Вам дозвољено да мењате рок.');
 			return redirect()->to('/exam');
+		}
 	}
 
 	public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)

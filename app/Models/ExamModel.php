@@ -22,6 +22,7 @@ class ExamModel extends Model
 								'mp',
 								'mr',
 								'ms',
+								'edit_lock',
 							];
 	protected $useTimestamps = true;
 	protected $createdField  = 'created_at';

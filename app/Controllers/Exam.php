@@ -222,6 +222,7 @@ class Exam extends BaseController
 				'mp' => in_array(4, $modules),
 				'mr' => in_array(5, $modules),
 				'ms' => in_array(6, $modules),
+				'edit_lock' => 0,
 				]);
 	
 			for ($i=0; $i < count($problems); $i++)
@@ -249,6 +250,11 @@ class Exam extends BaseController
 
 			$data["problems"] = json_encode($dbProblems);
 			$data["new"] = False;
+
+			$model -> save([
+				'id' => $id,
+				'edit_lock' => 1,
+				]);
 
 			echo view('exams/new', $data);
 		}
