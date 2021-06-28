@@ -543,11 +543,41 @@ button, .button {
 }
 
 .error {
-  background-color:#A275D9;
+  background-color: #A275D9;
   border: 1px solid #633A96;
   padding: 0.5em 0.5em;
   border-radius: var(--border-radius);
   margin: 0.5em 0;
+}
+
+.bookmarkRibbon {
+  border: 0.5em solid var(--color-gray-4);
+  border-top: 0;
+  border-bottom: 0.4em solid transparent;
+  min-height: 0.7em;
+  width: 0em;
+  margin-top: -0.2em;
+  margin-right: 0.5em;
+  transition: min-height 0.2s ease-in-out;
+  float: right;
+}
+
+.bookmarkRibbon:hover {
+  border-left-color: var(--color-gray-3);
+  border-right-color: var(--color-gray-3);
+  min-height: 1.2em;
+}
+
+.bookmarkRibbonSaved {
+  border-left-color: var(--color-blue-4);
+  border-right-color: var(--color-blue-4);
+  min-height: 1.2em;
+}
+
+.bookmarkRibbonSaved:hover {
+  border-left-color: var(--color-blue-3);
+  border-right-color: var(--color-blue-3);
+  min-height: 1.2em;
 }
 
 @media screen and (max-width: 900px) and (min-width: 701px) {

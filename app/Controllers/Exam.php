@@ -303,14 +303,18 @@ class Exam extends BaseController
 		echo view('exams/saved', $data);
 	}
 
-	public function userSaveExam($exam_id) 
+	public function saveExam($exam_id = NULL) 
 	{
+		if (is_null($exam_id)){
+			return redirect()->to('/exam');
+		}
+
 		$user_id = session()->get('id');
 		$exam_model = new SavedExamModel();
 		$saved_exam = $exam_model->where('user', $user_id)->where('exam', $exam_id)->first();
 
 		if (is_null($saved_exam)){
-			$exam_model->save([
+			$exam_model->insert([
 				'exam' => $exam_id,
 				'user' => $user_id,
 			]);
