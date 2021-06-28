@@ -61,6 +61,7 @@ class UserModel extends Model
 		$message = "Хвала Вам што сте се регистровали на сајт МАТФ Рокови.\n";
 		$message .= "Кликом на следећи линк потврдићете Вашу адресу:\n";
 		$message .= (base_url() . "/user/verify/$ID/$code\n\n" );
+		$message .= "\n\nМАТФ Рокови";
 		
 		$email = \Config\Services::email();
 
@@ -68,7 +69,7 @@ class UserModel extends Model
 		$email->setFrom('rokovi@ubavic.rs', 'MATF Rokovi');
 		$email->setTo($user->email);
 
-		$email->setSubject('Verifikacija email adrese');
+		$email->setSubject('Верификација мејл адресе');
 		$email->setMessage($message);
 
 		$email->send();
@@ -79,9 +80,10 @@ class UserModel extends Model
 		$pass = "MATF" . random_int(10000000, 99999999) . "ROKOVI";
 		$this->save(['id' => $ID, 'hash' => $pass]);
 
-		$message = "Ваша нова шифра је\n";
-		$message .= $pass;
-		$message .= "\nАко ви нисте затражили промену шифре, обратите се администратору!\n";
+		$message = "Ваша нова шифра је: $pass\n";
+		$message .= "Ако ви нисте затражили промену шифре, обратите се администратору!\n";
+		$message .= "Саветујемо Вам да приликом прве пријаве промените Вашу шифру у контролном панелу.\n";
+		$message .= "\n\nМАТФ Рокови";
 		
 		$email = \Config\Services::email();
 
@@ -89,7 +91,7 @@ class UserModel extends Model
 		$email->setFrom('rokovi@ubavic.rs', 'MATF Rokovi');
 		$email->setTo($user->email);
 
-		$email->setSubject('Nova lozinka');
+		$email->setSubject('Нова шифра');
 		$email->setMessage($message);
 
 		$email->send();
