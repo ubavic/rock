@@ -31,14 +31,19 @@ class User extends BaseController
 		],
 	];
 
-	public function index($user_id)
+	public function index($user_id = NULL)
 	{
+		if (is_null($user_id)) {
+			session()->setFlashdata('error', 'Дошло је до грешке.');
+			return redirect()->to('/');
+		}
+
 		$userModel = new UserModel();
 		$user = $userModel->find($user_id);
 
 		if (is_null($user)) {
 			session()->setFlashdata('error', 'Дошло је до грешке. Корисник није пронађен');
-			return redirect()->to('/user/controlpanel');
+			return redirect()->to('/');
 		}
 
 		$data['TITLE'] = 'Кориснички профил';
@@ -50,8 +55,13 @@ class User extends BaseController
 		echo view('user/profile', $data);
 	}
 
-	public function changePermissions($user_id)
+	public function changePermissions($user_id = NULL)
 	{
+		if (is_null($user_id)) {
+			session()->setFlashdata('error', 'Дошло је до грешке.');
+			return redirect()->to('/');
+		}
+
 		$userModel = new UserModel();
 		$user = $userModel->find($user_id);
 
@@ -60,8 +70,7 @@ class User extends BaseController
 			return redirect()->to('/user/controlpanel');
 		}
 
-		$userModel->save([
-			'id' => $user_id,
+		$userModel->update($user_id, [
 			'can_add' => $this->request->getVar('can_add'),
 			'can_edit' => $this->request->getVar('can_edit'),
 			'can_delete' => $this->request->getVar('can_delete'),
@@ -73,13 +82,22 @@ class User extends BaseController
 		return $this->index($user_id);
 	}
 
-	public function userExams($user_id)
+	public function userExams($user_id = NULL)
 	{
+		if (is_null($user_id))
+		{
+			session()->setFlashdata('error', 'Дошло је до грешке.');
+			return redirect()->to('/');
+		}
+
 		$userModel = new UserModel();
 		$user = $userModel->find($user_id);
 		
 		if (is_null($user)) 
+		{
+			session()->setFlashdata('error', 'Дошло је до грешке.');
 			return redirect()->to('/');
+		}
 
 		$data['TITLE'] = 'Рокови корисника ' . $user->name;
 		$data['user'] = $user;
@@ -102,7 +120,8 @@ class User extends BaseController
 		echo view('user/login', $data);
 	}
 
-	public function loginPost(){
+	public function loginPost()
+	{
 		helper(['form']);
 		$logModel = new LogModel();
 		$rules = [
@@ -112,17 +131,16 @@ class User extends BaseController
 
 		if ($this->validate($rules, $this->errors))
 		{
-			$loginData = [
-				'email' => $this->request->getVar('email'),
-				'password' => $this->request->getVar('password'),
-			];
 			$userModel = new UserModel();
 			$user = $userModel->where('email', $this->request->getVar('email'))->first();
 			$this->setUser($user);
-			$logModel->save([
+
+			$logModel->insert([
 				'user' => $user->id,
 				'ip' => $this->request->getIPAddress(),
 			]);
+
+			session()->setFlashdata('success', 'Успешно сте се пријавили.');
 
 			if (!is_null(session()->getFlashdata('back_to')))
 				return redirect()->to(session()->getFlashdata('back_to'));
@@ -131,12 +149,12 @@ class User extends BaseController
 		}
 		else
 		{
-			$logModel->save([
+			$logModel->insert([
 				'user' => NULL,
 				'ip' => $this->request->getIPAddress(),
 			]);
-			session()->setFlashdata('error', $this->validator->listErrors());
 
+			session()->setFlashdata('error', $this->validator->listErrors());
 			return redirect()->to('/user/login');
 		}
 	}
@@ -164,14 +182,12 @@ class User extends BaseController
 				'email' => $this->request->getVar('email'),
 				'hash' => $this->request->getVar('password'),
 				'status' => 0,
-				'permission' => 0
 			];
 			$userModel = new UserModel();
-			$userModel->save($regData);
-			$user = $userModel->where('email', $this->request->getVar('email'))->first();
-			$userModel->sendVerificationMail($user->id);
-			session()->setFlashdata('success', 'Да би сте завршили регистрацију потврдите Вашу адресу кликом на линк који Вам је послат.');
+			$userModel->insert($regData);
+			$userModel->sendVerificationMail($userModel->getInsertID());
 
+			session()->setFlashdata('success', 'Да би сте завршили регистрацију потврдите Вашу адресу кликом на линк који Вам је послат.');
 			return redirect()->to('/user/login');
 		}
 		else
@@ -185,7 +201,6 @@ class User extends BaseController
 	{
 		$data['TITLE'] = 'Подешавања';
 		helper(['form']);
-
 		$userModel = new UserModel();
 
 		if ($this->request->getMethod() == 'post')
@@ -280,7 +295,6 @@ class User extends BaseController
 		];
 
 		session()->set($data);
-		session()->setFlashdata('success', 'Успешно сте се пријавили.');
 		
 		return true;
 	}
@@ -300,21 +314,38 @@ class User extends BaseController
 		echo view('user/terms', $data);
 	}
 
-	public function verify($ID, $code)
+	public function verify($user_id = NULL, $code = NULL)
 	{
+		if (is_null($user_id) || is_null($code))
+		{
+			session()->setFlashdata('error', 'Дошло је до грешке приликом потврђивања адресе.');
+			return redirect()->to('/');
+		}
+
 		$userModel = new UserModel();
-		$user = $userModel->find($ID);
+		$user = $userModel->find($user_id);
+
+		if (is_null($user))
+		{
+			session()->setFlashdata('error', 'Дошло је до грешке приликом потврђивања адресе.');
+			return redirect()->to('/');
+		}
 
 		if ($user->ver_code == NULL)
 		{
 			session()->setFlashdata('success', 'Већ сте успешно потврдили адресу. Можете се пријавити.');
-		} else if ($user->ver_code == $code)
+		}
+		else if ($user->ver_code == $code)
 		{
 			session()->setFlashdata('success', 'Адреса је успешно потврђена. Можете се пријавити.');
-			$userModel->save(['id' => $ID, 'ver_code' => NULL]);
-		} else
+			$userModel->update($user_id, [
+				'status' => 1,
+				'ver_code' => NULL
+			]);
+		}
+		else
 		{
-			$userModel->sendVerificationMail($ID);
+			$userModel->sendVerificationMail($user_id);
 			session()->setFlashdata('error', 'Дошло је до грешке приликом потврђивања адресе. Послат Вам је нови линк.');
 		}
 
@@ -336,11 +367,11 @@ class User extends BaseController
 		if ($this->validate($rules, $this->errors))
 		{
 			$user = $userModel->where('email', $this->request->getVar('email'))->first();
-			if ($user != NULL)
+			if (!is_null($user))
 			{
 				$userModel->sendNewPassword($user->id);
-				session()->setFlashdata('success', 'Ваша нова шифра Вам је послата на мејл.');
 			}
+			session()->setFlashdata('success', 'Захтев за промену шифре је прихваћен. Даље инструкције о промени шифре ће бити послате на унету мејл адресу (ако је то адреса неког од корисника).');
 			return redirect()->to('/user/login');
 		}
 		else
