@@ -39,6 +39,11 @@
   --color-green-2: #78a366;
   --color-green-3: #9ac788;
   --color-green-4: #bfe0b2;
+  --color-violet-1: #2c134b;
+  --color-violet-2: #633A96;
+  --color-violet-3: #9e6eda;
+  --color-violet-4: #caaaf1;
+  --color-violet-5: #e6d5fc;
   --color-text: #000000;
   --color-back: #FFFFFF;
   --border-radius: 3px;
@@ -335,8 +340,8 @@ button {
 }
 
 .tableListRow:visited {
-  background-color: #e7dff1;
-  color: #5F1D77;
+  background-color: var(--color-violet-5);
+  color: var(--color-violet-1);
 }
 
 .tableListRow:hover {
@@ -345,8 +350,8 @@ button {
 }
 
 .tableListRow:visited:hover {
-  background-color: #daccec;
-  color: #822ba1;
+  background-color: var(--color-violet-4);
+  color: var(--color-violet-1);
 }
 
 .tableListHeader > div, .tableListRow > div {
@@ -543,8 +548,8 @@ button, .button {
 }
 
 .error {
-  background-color: #A275D9;
-  border: 1px solid #633A96;
+  background-color: var(--color-violet-4);
+  border: 1px solid var(--color-violet-2);
   padding: 0.5em 0.5em;
   border-radius: var(--border-radius);
   margin: 0.5em 0;

@@ -13,9 +13,16 @@
     --color-gray-3: #999999;
     --color-gray-2: #BBBBBB;
     --color-gray-1: #EEEEEE;
-    --color-green-1: #3d5e32;
-    --color-green-2: #31422a;
-    --color-green-3: #232921;
+    --color-green-1: #bfe0b2;
+    --color-green-2: #9ac788;
+    --color-green-3: #78a366;
+    --color-green-4: #517442;
+    --color-green-5: #36502b;
+    --color-violet-5: #302042;
+    --color-violet-4: #6d4f92;
+    --color-violet-3: #a481ce;
+    --color-violet-2: #d5c0ee;
+    --color-violet-1: #ede3fa;
     --color-back: #201f1f;
     --color-text: #DDD;
   }
@@ -49,14 +56,20 @@
     background-color: #131313;
   }
 
+  .success {
+    border-color: var(--color-green-5);
+    color: #EEE;
+  }
+
   .error {
-    background-color:#63497e;
-    border: 1px solid #402364;
+    background-color: var(--color-violet-4);
+    border: 1px solid var(--color-violet-5);
+    color: #EEE;
   }
 
   .tableListRow:visited {
     background-color: #312d36;
-    color: #9250aa;
+    color: var(--color-violet-3);
   }
 
   .tableListRow:hover {
@@ -65,8 +78,8 @@
   }
 
   .tableListRow:visited:hover {
-    background-color: #312d36;
-    color: #ba58dd;
+    background-color: var(--color-violet-5);
+    color: var(--color-violet-2);
   }
 
   .menuItem:hover {
