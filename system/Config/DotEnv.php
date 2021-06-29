@@ -51,7 +51,7 @@ class DotEnv
 	{
 		$vars = $this->parse();
 
-		return ($vars === null ? false : true);
+		return $vars !== null;
 	}
 
 	//--------------------------------------------------------------------
@@ -90,7 +90,7 @@ class DotEnv
 			// If there is an equal sign, then we know we are assigning a variable.
 			if (strpos($line, '=') !== false)
 			{
-				list($name, $value) = $this->normaliseVariable($line);
+				[$name, $value] = $this->normaliseVariable($line);
 				$vars[$name]        = $value;
 				$this->setVariable($name, $value);
 			}
@@ -143,7 +143,7 @@ class DotEnv
 		// Split our compound string into its parts.
 		if (strpos($name, '=') !== false)
 		{
-			list($name, $value) = explode('=', $name, 2);
+			[$name, $value] = explode('=', $name, 2);
 		}
 
 		$name  = trim($name);
@@ -243,7 +243,7 @@ class DotEnv
 		if (strpos($value, '$') !== false)
 		{
 			$value = preg_replace_callback(
-				'/\${([a-zA-Z0-9_]+)}/',
+				'/\${([a-zA-Z0-9_\.]+)}/',
 				function ($matchedPatterns) {
 					$nestedVariable = $this->getVariable($matchedPatterns[1]);
 

@@ -102,7 +102,10 @@ class Connection extends BaseConnection
 	/**
 	 * Connect to the database.
 	 *
-	 * @param  boolean $persistent
+	 * @param boolean $persistent
+	 *
+	 * @throws DatabaseException
+	 *
 	 * @return mixed
 	 */
 	public function connect(bool $persistent = false)
@@ -113,9 +116,9 @@ class Connection extends BaseConnection
 			'UID'                  => empty($this->username) ? '' : $this->username,
 			'PWD'                  => empty($this->password) ? '' : $this->password,
 			'Database'             => $this->database,
-			'ConnectionPooling'    => ($persistent === true) ? 1 : 0,
+			'ConnectionPooling'    => $persistent ? 1 : 0,
 			'CharacterSet'         => $charset,
-			'Encrypt'              => ($this->encrypt === true) ? 1 : 0,
+			'Encrypt'              => $this->encrypt === true ? 1 : 0,
 			'ReturnDatesAsStrings' => 1,
 		];
 
@@ -126,20 +129,29 @@ class Connection extends BaseConnection
 			unset($connection['UID'], $connection['PWD']);
 		}
 
-		if (false !== ($this->connID = sqlsrv_connect($this->hostname, $connection)))
-		{
-			/* Disable warnings as errors behavior. */
-			sqlsrv_configure('WarningsReturnAsErrors', 0);
+		sqlsrv_configure('WarningsReturnAsErrors', 0);
+		$this->connID = sqlsrv_connect($this->hostname, $connection);
 
+		if ($this->connID !== false)
+		{
 			// Determine how identifiers are escaped
 			$query = $this->query('SELECT CASE WHEN (@@OPTIONS | 256) = @@OPTIONS THEN 1 ELSE 0 END AS qi');
 			$query = $query->getResultObject();
 
 			$this->_quoted_identifier = empty($query) ? false : (bool) $query[0]->qi;
 			$this->escapeChar         = ($this->_quoted_identifier) ? '"' : ['[', ']'];
+
+			return $this->connID;
 		}
 
-		return $this->connID;
+		$errors = [];
+
+		foreach (sqlsrv_errors(SQLSRV_ERR_ERRORS) as $error)
+		{
+			$errors[] = preg_replace('/(\[.+\]\[.+\](?:\[.+\])?)(.+)/', '$2', $error['message']);
+		}
+
+		throw new DatabaseException(implode("\n", $errors));
 	}
 
 	/**
@@ -398,12 +410,10 @@ class Connection extends BaseConnection
 
 	/**
 	 * Returns the last error code and message.
+	 * Must return this format: ['code' => string|int, 'message' => string]
+	 * intval(code) === 0 means "no error".
 	 *
-	 * Must return an array with keys 'code' and 'message':
-	 *
-	 *  return ['code' => null, 'message' => null);
-	 *
-	 * @return array
+	 * @return array<string,string|int>
 	 */
 	public function error(): array
 	{
@@ -504,17 +514,6 @@ class Connection extends BaseConnection
 	}
 
 	/**
-	 * Determines if a query is a "write" type.
-	 *
-	 * @param  string $sql An SQL query string
-	 * @return boolean
-	 */
-	public function isWriteType($sql)
-	{
-		return (bool) preg_match('/^\s*"?(SET|INSERT|UPDATE|DELETE|REPLACE|CREATE|DROP|TRUNCATE|LOAD|COPY|ALTER|RENAME|GRANT|REVOKE|LOCK|UNLOCK|REINDEX|MERGE)\s/i', $sql);
-	}
-
-	/**
 	 * Returns the last error encountered by this connection.
 	 *
 	 * @return mixed
@@ -580,4 +579,27 @@ class Connection extends BaseConnection
 
 		return isset($info['SQLServerVersion']) ? $this->dataCache['version'] = $info['SQLServerVersion'] : false;
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Determines if a query is a "write" type.
+	 *
+	 * Overrides BaseConnection::isWriteType, adding additional read query types.
+	 *
+	 * @param  string $sql An SQL query string
+	 * @return boolean
+	 */
+	public function isWriteType($sql): bool
+	{
+		if (preg_match('/^\s*"?(EXEC\s*sp_rename)\s/i', $sql))
+		{
+			return true;
+		}
+
+		return parent::isWriteType($sql);
+	}
+
+	// --------------------------------------------------------------------
+
 }

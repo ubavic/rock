@@ -101,16 +101,13 @@ class Parser extends View
 		$fileExt = pathinfo($view, PATHINFO_EXTENSION);
 		$view    = empty($fileExt) ? $view . '.php' : $view; // allow Views as .html, .tpl, etc (from CI3)
 
-		// Was it cached?
-		if (isset($options['cache']))
-		{
-			$cacheName = $options['cache_name'] ?? str_replace('.php', '', $view);
+		$cacheName = $options['cache_name'] ?? str_replace('.php', '', $view);
 
-			if ($output = cache($cacheName))
-			{
-				$this->logPerformance($start, microtime(true), $view);
-				return $output;
-			}
+		// Was it cached?
+		if (isset($options['cache']) && ($output = cache($cacheName)))
+		{
+			$this->logPerformance($start, microtime(true), $view);
+			return $output;
 		}
 
 		$file = $this->viewPath . $view;
@@ -143,7 +140,7 @@ class Parser extends View
 		// Should we cache?
 		if (isset($options['cache']))
 		{
-			cache()->save($cacheName, $output, (int) $options['cache']); // @phpstan-ignore-line
+			cache()->save($cacheName, $output, (int) $options['cache']);
 		}
 		$this->tempData = null;
 		return $output;
@@ -191,7 +188,6 @@ class Parser extends View
 	}
 
 	//--------------------------------------------------------------------
-
 	/**
 	 * Sets several pieces of view data at once.
 	 * In the Parser, we need to store the context here
@@ -540,7 +536,6 @@ class Parser extends View
 	}
 
 	//--------------------------------------------------------------------
-
 	/**
 	 * Over-ride the substitution field delimiters.
 	 *
@@ -572,16 +567,17 @@ class Parser extends View
 	{
 		// Any dollar signs in the pattern will be misinterpreted, so slash them
 		$pattern = addcslashes($pattern, '$');
+		$content = (string) $content;
 
 		// Flesh out the main pattern from the delimiters and escape the hash
-		// See https://regex101.com/r/1GIHTa/1
-		if (preg_match('/^(#)(.*)(#(m?s)?)$/', $pattern, $parts))
+		// See https://regex101.com/r/IKdUlk/1
+		if (preg_match('/^(#)(.+)(#(m?s)?)$/s', $pattern, $parts))
 		{
 			$pattern = $parts[1] . addcslashes($parts[2], '#') . $parts[3];
 		}
 
 		// Replace the content in the template
-		$template = preg_replace_callback($pattern, function ($matches) use ($content, $escape) {
+		return preg_replace_callback($pattern, function ($matches) use ($content, $escape) {
 			// Check for {! !} syntax to not escape this one.
 			if (strpos($matches[0], '{!') === 0 && substr($matches[0], -2) === '!}')
 			{
@@ -589,9 +585,7 @@ class Parser extends View
 			}
 
 			return $this->prepareReplacement($matches, $content, $escape);
-		}, $template);
-
-		return $template;
+		}, (string) $template);
 	}
 
 	//--------------------------------------------------------------------
@@ -613,12 +607,9 @@ class Parser extends View
 		// so we need to break them apart so we can apply them all.
 		$filters = ! empty($matches[1]) ? explode('|', $matches[1]) : [];
 
-		if ($escape && empty($filters))
+		if ($escape && empty($filters) && ($context = $this->shouldAddEscaping($orig)))
 		{
-			if ($context = $this->shouldAddEscaping($orig))
-			{
-				$filters[] = "esc({$context})";
-			}
+			$filters[] = "esc({$context})";
 		}
 
 		return $this->applyFilters($replace, $filters);

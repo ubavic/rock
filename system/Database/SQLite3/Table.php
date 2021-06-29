@@ -101,12 +101,9 @@ class Table
 		// Remove the prefix, if any, since it's
 		// already been added by the time we get here...
 		$prefix = $this->db->DBPrefix; // @phpstan-ignore-line
-		if (! empty($prefix))
+		if (! empty($prefix) && strpos($table, $prefix) === 0)
 		{
-			if (strpos($table, $prefix) === 0)
-			{
-				$table = substr($table, strlen($prefix));
-			}
+			$table = substr($table, strlen($prefix));
 		}
 
 		if (! $this->db->tableExists($this->prefixedTableName))
@@ -304,17 +301,8 @@ class Table
 
 		foreach ($this->fields as $name => $details)
 		{
-			// Are we modifying the column?
-			if (isset($details['new_name']))
-			{
-				$newFields[] = $details['new_name'];
-			}
-			else
-			{
-				$newFields[] = $name;
-			}
-
-			$exFields[] = $name;
+			$newFields[] = $details['new_name'] ?? $name;
+			$exFields[]  = $name;
 		}
 
 		$exFields  = implode(', ', $exFields);
@@ -344,9 +332,9 @@ class Table
 		foreach ($fields as $field)
 		{
 			$return[$field->name] = [
-				'type'     => $field->type,
-				'default'  => $field->default,
-				'nullable' => $field->nullable,
+				'type'    => $field->type,
+				'default' => $field->default,
+				'null'    => $field->nullable,
 			];
 
 			if ($field->primary_key)

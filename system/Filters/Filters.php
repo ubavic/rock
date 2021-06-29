@@ -24,6 +24,42 @@ use Config\Services;
 class Filters
 {
 	/**
+	 * The original config file
+	 *
+	 * @var FiltersConfig
+	 */
+	protected $config;
+
+	/**
+	 * The active IncomingRequest or CLIRequest
+	 *
+	 * @var RequestInterface
+	 */
+	protected $request;
+
+	/**
+	 * The active Response instance
+	 *
+	 * @var ResponseInterface
+	 */
+	protected $response;
+
+	/**
+	 * Handle to the modules config.
+	 *
+	 * @var Modules
+	 */
+	protected $modules;
+
+	/**
+	 * Whether we've done initial processing
+	 * on the filter lists.
+	 *
+	 * @var boolean
+	 */
+	protected $initialized = false;
+
+	/**
 	 * The processed filters that will
 	 * be used to check against.
 	 *
@@ -46,42 +82,6 @@ class Filters
 	];
 
 	/**
-	 * Any arguments to be passed to filtersClass.
-	 *
-	 * @var array
-	 */
-	protected $argumentsClass = [];
-
-	/**
-	 * The original config file
-	 *
-	 * @var FiltersConfig
-	 */
-	protected $config;
-
-	/**
-	 * The active IncomingRequest or CLIRequest
-	 *
-	 * @var RequestInterface
-	 */
-	protected $request;
-
-	/**
-	 * The active Response instance
-	 *
-	 * @var ResponseInterface
-	 */
-	protected $response;
-
-	/**
-	 * Whether we've done initial processing
-	 * on the filter lists.
-	 *
-	 * @var boolean
-	 */
-	protected $initialized = false;
-
-	/**
 	 * Any arguments to be passed to filters.
 	 *
 	 * @var array
@@ -89,11 +89,11 @@ class Filters
 	protected $arguments = [];
 
 	/**
-	 * Handle to the modules config.
+	 * Any arguments to be passed to filtersClass.
 	 *
-	 * @var Modules
+	 * @var array
 	 */
-	protected $modules;
+	protected $argumentsClass = [];
 
 	/**
 	 * Constructor.
@@ -270,6 +270,25 @@ class Filters
 	}
 
 	/**
+	 * Restores instance to its pre-initialized state.
+	 * Most useful for testing so the service can be
+	 * re-initialized to a different path.
+	 *
+	 * @return $this
+	 */
+	public function reset(): self
+	{
+		$this->initialized = false;
+		$this->arguments   = $this->argumentsClass = [];
+		$this->filters     = $this->filtersClass = [
+			'before' => [],
+			'after'  => [],
+		];
+
+		return $this;
+	}
+
+	/**
 	 * Returns the processed filters array.
 	 *
 	 * @return array
@@ -339,7 +358,7 @@ class Filters
 		// Get parameters and clean name
 		if (strpos($name, ':') !== false)
 		{
-			list($name, $params) = explode(':', $name);
+			[$name, $params] = explode(':', $name);
 
 			$params = explode(',', $params);
 			array_walk($params, function (&$item) {

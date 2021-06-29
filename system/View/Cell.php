@@ -78,7 +78,7 @@ class Cell
 	 */
 	public function render(string $library, $params = null, int $ttl = 0, string $cacheName = null): string
 	{
-		list($class, $method) = $this->determineClass($library);
+		[$class, $method] = $this->determineClass($library);
 
 		// Is it cached?
 		$cacheName = ! empty($cacheName)
@@ -141,7 +141,7 @@ class Cell
 				}
 			}
 
-			foreach ($paramArray as $key => $val)
+			foreach (array_keys($paramArray) as $key)
 			{
 				if (! isset($methodParams[$key]))
 				{
@@ -194,7 +194,7 @@ class Cell
 			{
 				if (! empty($p))
 				{
-					list($key, $val)       = explode('=', $p);
+					[$key, $val]       = explode('=', $p);
 					$newParams[trim($key)] = trim($val, ', ');
 				}
 			}
@@ -228,7 +228,7 @@ class Cell
 		// by default, so convert any double colons.
 		$library = str_replace('::', ':', $library);
 
-		list($class, $method) = explode(':', $library);
+		[$class, $method] = explode(':', $library);
 
 		if (empty($class))
 		{

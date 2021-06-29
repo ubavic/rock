@@ -12,7 +12,6 @@
 namespace CodeIgniter\Commands\Generators;
 
 use CodeIgniter\CLI\BaseCommand;
-use CodeIgniter\CLI\CLI;
 use CodeIgniter\CLI\GeneratorTrait;
 
 /**
@@ -81,6 +80,7 @@ class ValidationGenerator extends BaseCommand
 		$this->directory = 'Validation';
 		$this->template  = 'validation.tpl.php';
 
+		$this->classNameLang = 'CLI.generator.className.validation';
 		$this->execute($params);
 	}
 }

@@ -174,19 +174,11 @@ class Builder extends BaseBuilder
 
 		$table = $this->QBFrom[0];
 
-		$set = $this->binds;
-
-		// We need to grab out the actual values from
-		// the way binds are stored with escape flag.
-		array_walk($set, function (&$item) {
-			$item = $item[0];
-		});
-
-		$keys   = array_keys($set);
-		$values = array_values($set);
+		$key   = array_key_first($set);
+		$value = $set[$key];
 
 		$builder = $this->db->table($table);
-		$exists  = $builder->where("$keys[0] = $values[0]", null, false)->get()->getFirstRow();
+		$exists  = $builder->where("$key = $value", null, false)->get()->getFirstRow();
 
 		if (empty($exists))
 		{
@@ -195,7 +187,7 @@ class Builder extends BaseBuilder
 		else
 		{
 			array_pop($set);
-			$result = $builder->update($set, "$keys[0] = $values[0]");
+			$result = $builder->update($set, "$key = $value");
 		}
 
 		unset($builder);
@@ -204,7 +196,37 @@ class Builder extends BaseBuilder
 		return $result;
 	}
 
-	//--------------------------------------------------------------------
+	/**
+	 * Insert statement
+	 *
+	 * Generates a platform-specific insert string from the supplied data
+	 *
+	 * @param string $table         The table name
+	 * @param array  $keys          The insert keys
+	 * @param array  $unescapedKeys The insert values
+	 *
+	 * @return string
+	 */
+	protected function _insert(string $table, array $keys, array $unescapedKeys): string
+	{
+		return trim(sprintf('INSERT INTO %s (%s) VALUES (%s) %s', $table, implode(', ', $keys), implode(', ', $unescapedKeys), $this->compileIgnore('insert')));
+	}
+
+	/**
+	 * Insert batch statement
+	 *
+	 * Generates a platform-specific insert string from the supplied data.
+	 *
+	 * @param string $table  Table name
+	 * @param array  $keys   INSERT keys
+	 * @param array  $values INSERT values
+	 *
+	 * @return string
+	 */
+	protected function _insertBatch(string $table, array $keys, array $values): string
+	{
+		return trim(sprintf('INSERT INTO %s (%s) VALUES %s %s', $table, implode(', ', $keys), implode(', ', $values), $this->compileIgnore('insert')));
+	}
 
 	/**
 	 * Delete
@@ -288,7 +310,8 @@ class Builder extends BaseBuilder
 	 */
 	protected function _updateBatch(string $table, array $values, string $index): string
 	{
-		$ids = [];
+		$ids   = [];
+		$final = [];
 		foreach ($values as $val)
 		{
 			$ids[] = $val[$index];
@@ -297,13 +320,15 @@ class Builder extends BaseBuilder
 			{
 				if ($field !== $index)
 				{
+					$final[$field] = $final[$field] ?? [];
+
 					$final[$field][] = "WHEN {$val[$index]} THEN {$val[$field]}";
 				}
 			}
 		}
 
 		$cases = '';
-		foreach ($final as $k => $v) // @phpstan-ignore-line
+		foreach ($final as $k => $v)
 		{
 			$cases .= "{$k} = (CASE {$index}\n"
 					. implode("\n", $v)
@@ -361,11 +386,11 @@ class Builder extends BaseBuilder
 	 *
 	 * @see https://www.postgresql.org/docs/9.2/static/functions-matching.html
 	 *
-	 * @param string|null  $prefix
-	 * @param string       $column
-	 * @param string|null  $not
-	 * @param string       $bind
-	 * @param boolean      $insensitiveSearch
+	 * @param string|null $prefix
+	 * @param string      $column
+	 * @param string|null $not
+	 * @param string      $bind
+	 * @param boolean     $insensitiveSearch
 	 *
 	 * @return string     $like_statement
 	 */

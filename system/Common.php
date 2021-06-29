@@ -11,6 +11,9 @@
 
 use CodeIgniter\Cache\CacheInterface;
 use CodeIgniter\Config\Factories;
+use CodeIgniter\Cookie\Cookie;
+use CodeIgniter\Cookie\CookieStore;
+use CodeIgniter\Cookie\Exceptions\CookieException;
 use CodeIgniter\Database\BaseConnection;
 use CodeIgniter\Database\ConnectionInterface;
 use CodeIgniter\Debug\Timer;
@@ -226,6 +229,46 @@ if (! function_exists('config'))
 	}
 }
 
+if (! function_exists('cookie'))
+{
+	/**
+	 * Simpler way to create a new Cookie instance.
+	 *
+	 * @param string $name    Name of the cookie
+	 * @param string $value   Value of the cookie
+	 * @param array  $options Array of options to be passed to the cookie
+	 *
+	 * @throws CookieException
+	 *
+	 * @return Cookie
+	 */
+	function cookie(string $name, string $value = '', array $options = []): Cookie
+	{
+		return new Cookie($name, $value, $options);
+	}
+}
+
+if (! function_exists('cookies'))
+{
+	/**
+	 * Fetches the global `CookieStore` instance held by `Response`.
+	 *
+	 * @param Cookie[] $cookies   If `getGlobal` is false, this is passed to CookieStore's constructor
+	 * @param boolean  $getGlobal If false, creates a new instance of CookieStore
+	 *
+	 * @return CookieStore
+	 */
+	function cookies(array $cookies = [], bool $getGlobal = true): CookieStore
+	{
+		if ($getGlobal)
+		{
+			return Services::response()->getCookieStore();
+		}
+
+		return new CookieStore($cookies);
+	}
+}
+
 if (! function_exists('csrf_token'))
 {
 	/**
@@ -433,14 +476,7 @@ if (! function_exists('esc'))
 				throw new InvalidArgumentException('Invalid escape context provided.');
 			}
 
-			if ($context === 'attr')
-			{
-				$method = 'escapeHtmlAttr';
-			}
-			else
-			{
-				$method = 'escape' . ucfirst($context);
-			}
+			$method = $context === 'attr' ? 'escapeHtmlAttr' : 'escape' . ucfirst($context);
 
 			static $escaper;
 			if (! $escaper)
@@ -704,15 +740,36 @@ if (! function_exists('helper'))
 if (! function_exists('is_cli'))
 {
 	/**
-	 * Is CLI?
-	 *
-	 * Test to see if a request was made from the command line.
+	 * Check if PHP was invoked from the command line.
 	 *
 	 * @return boolean
+	 *
+	 * @codeCoverageIgnore Cannot be tested fully as PHPUnit always run in CLI
 	 */
 	function is_cli(): bool
 	{
-		return (PHP_SAPI === 'cli' || defined('STDIN'));
+		if (PHP_SAPI === 'cli')
+		{
+			return true;
+		}
+
+		if (defined('STDIN'))
+		{
+			return true;
+		}
+
+		if (stristr(PHP_SAPI, 'cgi') && getenv('TERM'))
+		{
+			return true;
+		}
+
+		if (! isset($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']) && isset($_SERVER['argv']) && count($_SERVER['argv']) > 0)
+		{
+			return true;
+		}
+
+		// if source of request is from CLI, the `$_SERVER` array will not populate this key
+		return ! isset($_SERVER['REQUEST_METHOD']);
 	}
 }
 
@@ -882,12 +939,9 @@ if (! function_exists('old'))
 		}
 
 		// If the result was serialized array or string, then unserialize it for use...
-		if (is_string($value))
+		if (is_string($value) && (strpos($value, 'a:') === 0 || strpos($value, 's:') === 0))
 		{
-			if (strpos($value, 'a:') === 0 || strpos($value, 's:') === 0)
-			{
-				$value = unserialize($value);
-			}
+			$value = unserialize($value);
 		}
 
 		return $escape === false ? $value : esc($value, $escape);
@@ -1021,7 +1075,7 @@ if (! function_exists('service'))
 	 *  - $timer = \CodeIgniter\Config\Services::timer();
 	 *
 	 * @param string $name
-	 * @param array  ...$params
+	 * @param mixed  ...$params
 	 *
 	 * @return mixed
 	 */
@@ -1036,8 +1090,8 @@ if (! function_exists('single_service'))
 	/**
 	 * Always returns a new instance of the class.
 	 *
-	 * @param string     $name
-	 * @param array|null $params
+	 * @param string $name
+	 * @param mixed  ...$params
 	 *
 	 * @return mixed
 	 */
@@ -1133,7 +1187,7 @@ if (! function_exists('stringify_attributes'))
 
 		foreach ($attributes as $key => $val)
 		{
-			$atts .= ($js) ? $key . '=' . esc($val, 'js') . ',' : ' ' . $key . '="' . esc($val, 'attr') . '"';
+			$atts .= ($js) ? $key . '=' . esc($val, 'js') . ',' : ' ' . $key . '="' . esc($val) . '"';
 		}
 
 		return rtrim($atts, ',');
@@ -1236,5 +1290,84 @@ if (! function_exists('view_cell'))
 	{
 		return Services::viewcell()
 			->render($library, $params, $ttl, $cacheName);
+	}
+}
+
+/**
+ * These helpers come from Laravel so will not be
+ * re-tested and can be ignored safely.
+ *
+ * @see https://github.com/laravel/framework/blob/8.x/src/Illuminate/Support/helpers.php
+ */
+if (! function_exists('class_basename'))
+{
+	/**
+	 * Get the class "basename" of the given object / class.
+	 *
+	 * @param string|object $class
+	 *
+	 * @return string
+	 *
+	 * @codeCoverageIgnore
+	 */
+	function class_basename($class)
+	{
+		$class = is_object($class) ? get_class($class) : $class;
+
+		return basename(str_replace('\\', '/', $class));
+	}
+}
+
+if (! function_exists('class_uses_recursive'))
+{
+	/**
+	 * Returns all traits used by a class, its parent classes and trait of their traits.
+	 *
+	 * @param object|string $class
+	 *
+	 * @return array
+	 *
+	 * @codeCoverageIgnore
+	 */
+	function class_uses_recursive($class)
+	{
+		if (is_object($class))
+		{
+			$class = get_class($class);
+		}
+
+		$results = [];
+
+		// @phpstan-ignore-next-line
+		foreach (array_reverse(class_parents($class)) + [$class => $class] as $class)
+		{
+			$results += trait_uses_recursive($class);
+		}
+
+		return array_unique($results);
+	}
+}
+
+if (! function_exists('trait_uses_recursive'))
+{
+	/**
+	 * Returns all traits used by a trait and its traits.
+	 *
+	 * @param string $trait
+	 *
+	 * @return array
+	 *
+	 * @codeCoverageIgnore
+	 */
+	function trait_uses_recursive($trait)
+	{
+		$traits = class_uses($trait) ?: [];
+
+		foreach ($traits as $trait)
+		{
+			$traits += trait_uses_recursive($trait);
+		}
+
+		return $traits;
 	}
 }

@@ -32,7 +32,6 @@ class Negotiate
 	protected $request;
 
 	//--------------------------------------------------------------------
-
 	/**
 	 * Constructor
 	 *
@@ -47,7 +46,6 @@ class Negotiate
 	}
 
 	//--------------------------------------------------------------------
-
 	/**
 	 * Stores the request instance to grab the headers from.
 	 *
@@ -127,7 +125,7 @@ class Negotiate
 	 */
 	public function encoding(array $supported = []): string
 	{
-		array_push($supported, 'identity');
+		$supported[] = 'identity';
 
 		return $this->getBestMatch($supported, $this->request->getHeaderLine('accept-encoding'));
 	}
@@ -393,8 +391,8 @@ class Negotiate
 	{
 		// PHPDocumentor v2 cannot parse yet the shorter list syntax,
 		// causing no API generation for the file.
-		list($aType, $aSubType) = explode('/', $acceptable['value']);
-		list($sType, $sSubType) = explode('/', $supported['value']);
+		[$aType, $aSubType] = explode('/', $acceptable['value']);
+		[$sType, $sSubType] = explode('/', $supported['value']);
 
 		// If the types don't match, we're done.
 		if ($aType !== $sType)
