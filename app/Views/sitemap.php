@@ -2,32 +2,32 @@
 
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
-		<loc><?= base_url();?></loc> 
+		<loc><?= base_url();?></loc>
 		<priority>1.0</priority>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc><?= base_url() . "/exam" ?></loc> 
+		<loc><?= base_url() . "/exam" ?></loc>
 		<priority>1.0</priority>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
-		<loc><?= base_url() . "/about" ?></loc> 
+		<loc><?= base_url() . "/about" ?></loc>
 		<priority>0.4</priority>
 		<changefreq>monthly</changefreq>
 	</url>
 	<url>
-		<loc><?= base_url() . "/user/login" ?></loc> 
+		<loc><?= base_url() . "/user/login" ?></loc>
 		<priority>0.2</priority>
 		<changefreq>yearly</changefreq>
 	</url>
 	<url>
-		<loc><?= base_url() . "/user/register" ?></loc> 
+		<loc><?= base_url() . "/user/register" ?></loc>
 		<priority>0.1</priority>
 		<changefreq>yearly</changefreq>
 	</url>
 	<url>
-		<loc><?= base_url() . "/user/terms" ?></loc> 
+		<loc><?= base_url() . "/user/terms" ?></loc>
 		<priority>0.1</priority>
 		<changefreq>yearly</changefreq>
 	</url>
