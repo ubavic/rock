@@ -93,7 +93,7 @@ class User extends BaseController
 		$userModel = new UserModel();
 		$user = $userModel->find($user_id);
 		
-		if (is_null($user)) 
+		if (is_null($user))
 		{
 			session()->setFlashdata('error', 'Дошло је до грешке.');
 			return redirect()->to('/');
@@ -223,7 +223,8 @@ class User extends BaseController
 				{
 					$data['validation'] = $this->validator;
 				}
-			} else if ($this->request->getPost('password'))
+			}
+			else if ($this->request->getPost('password'))
 			{
 				$rules = [
 					'password'     => 'required|min_length[8]|max_length[255]',
@@ -273,7 +274,8 @@ class User extends BaseController
 		$log_model = new LogModel();
 		$logs = $log_model->orderBy('time', 'DESC')->limit(20)->find();
 
-		foreach ($logs as $entry){
+		foreach ($logs as $entry)
+		{
 			if ($entry->user != 0)
 				$entry->user_link = $user_model->getAbbr($entry->user);
 			else
@@ -332,9 +334,7 @@ class User extends BaseController
 		}
 
 		if ($user->ver_code == NULL)
-		{
 			session()->setFlashdata('success', 'Већ сте успешно потврдили адресу. Можете се пријавити.');
-		}
 		else if ($user->ver_code == $code)
 		{
 			session()->setFlashdata('success', 'Адреса је успешно потврђена. Можете се пријавити.');
@@ -367,10 +367,10 @@ class User extends BaseController
 		if ($this->validate($rules, $this->errors))
 		{
 			$user = $userModel->where('email', $this->request->getVar('email'))->first();
+
 			if (!is_null($user))
-			{
 				$userModel->sendNewPassword($user->id);
-			}
+
 			session()->setFlashdata('success', 'Захтев за промену шифре је прихваћен. Даље инструкције о промени шифре ће бити послате на унету мејл адресу (ако је то адреса неког од корисника).');
 			return redirect()->to('/user/login');
 		}

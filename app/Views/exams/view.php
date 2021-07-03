@@ -3,15 +3,15 @@
 	<div class="breadcrumb">
 		<?php if(session()->get('logged')): ?>
 			<a href="/exam/save_exam/<?= $exam->id ?>"
-				title="<?= ($saved) ? 'Уклоните рок из листе сачуваних рокова.' :'Сачувајте рок.' ?>" 
+				title="<?= ($saved) ? 'Уклоните рок из листе сачуваних рокова.' :'Сачувајте рок.' ?>"
 				class="bookmarkRibbon <?= ($saved) ? 'bookmarkRibbonSaved' : ''?>">
 			</a>
 		<?php endif; ?>
 		<div>
-        	<a href="/exam"><i>Сви рокови</i></a>&nbsp;&bull;&nbsp;
+			<a href="/exam"><i>Сви рокови</i></a>&nbsp;&bull;&nbsp;
 			<a href="/exam/<?= $subject->id ?>"><i><?= $subject->name ?></i></a>:
 		</div>
-    </div>
+	</div>
 	<div style="display: flex; flex-direction: row">
 		<div style="margin-left: auto"></div>
 		<div><?= $exam->date_string ?></div>
@@ -52,7 +52,7 @@
 		<?php endfor;?>
 	</div>
 	<?php if(session()->get('logged')): ?>
-		<?php 
+		<?php
 			$uri = service('uri');
 			$uri->setSilent();
 		?>
@@ -69,7 +69,7 @@
 					<a href="/exam/edit/<?= $uri->getSegment(3) ?>" class="button bigButton">Измени рок</a>
 				<?php endif; ?>
 				<?php if($can_delete): ?>
-            		<div onclick="<?= 'confirmDelete(\'/exam/delete/' . $exam->id .'\')'?>" class="button bigButton">Обриши рок</div>
+				<div onclick="<?= 'confirmDelete(\'/exam/delete/' . $exam->id .'\')'?>" class="button bigButton">Обриши рок</div>
 					<script type="text/javascript">
 						function confirmDelete(url) {
 							if (confirm('Да ли сте сигурни да желите да обришете овај рок?')) {

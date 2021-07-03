@@ -121,7 +121,7 @@ ol {
 }
 
 li {
-  margin-bottom: 0.2em; 
+  margin-bottom: 0.2em;
   margin-top: 0.2em;
 }
 
@@ -508,7 +508,7 @@ button, .button {
 
 .controlPanel {
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
 }
 
 .controlPanel > nav {

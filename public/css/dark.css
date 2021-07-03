@@ -95,7 +95,7 @@
     background-color: var(--color-green-2);
     color: var(--color-text);
   }
-  
+
   .saved:hover {
     background-color:var(--color-green-3);
     color: var(--color-text);

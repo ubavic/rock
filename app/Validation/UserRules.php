@@ -4,7 +4,8 @@ use App\Models\UserModel;
 
 class UserRules
 {
-	public function validateUser(string $str, string $fields, array $data){
+	public function validateUser(string $str, string $fields, array $data)
+	{
 		$model = new UserModel();
 		$user = $model->where('email', $data['email'])->first();
 
@@ -14,7 +15,8 @@ class UserRules
 		return password_verify($data['password'], $user->hash);
 	}
 
-	public function validatedMail(string $str, string $fields, array $data){
+	public function validatedMail(string $str, string $fields, array $data)
+	{
 		$model = new UserModel();
 		$user = $model->where('email', $data['email'])->first();
 
@@ -27,7 +29,8 @@ class UserRules
 			return False;
 	}
 
-	public function validateFacultyMail(string $str, string $fields, array $data){
+	public function validateFacultyMail(string $str, string $fields, array $data)
+	{
 		$mail = $data['email'];
 		$domain = substr($mail, strpos($mail, "@") + 1);
 		$whitelist = [
@@ -41,5 +44,4 @@ class UserRules
 		else
 			return False;
 	}
-	
 }

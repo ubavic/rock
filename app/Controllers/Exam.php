@@ -49,7 +49,9 @@ class Exam extends BaseController
 	{
 		$examModel = new ExamModel();
 		$exam = $examModel->find($exam_id);
-		if (is_null($exam)){
+
+		if (is_null($exam))
+		{
 			$this->notFound();
 			return;
 		}
@@ -70,7 +72,8 @@ class Exam extends BaseController
 		$data['can_delete'] = 0;
 		$data['saved'] = 0;
 
-		if (session()->get('logged')) {
+		if (session()->get('logged'))
+		{
 			$user_id = session()->get('id');
 
 			if ($userModel->canEditExam($user_id, $exam_id))
@@ -158,7 +161,7 @@ class Exam extends BaseController
 			$problems = $this->request->getVar('problems');
 			$points = $this->request->getVar('points');
 
-			for ($i=0; $i < count($problems); $i++) 
+			for ($i=0; $i < count($problems); $i++)
 				$problemModel -> save([
 					'exam' => $id,
 					'text' => $problems[$i],
@@ -168,7 +171,8 @@ class Exam extends BaseController
 			session()->setFlashdata('success', 'Рок је успешно додат.');
 
 			return redirect()->to('/exam/view/' . $id);
-		} else
+		}
+		else
 		{
 			$data['exam'] = $emptyExam;
 			$data["new"] = True;
@@ -187,7 +191,9 @@ class Exam extends BaseController
 
 		$model = new ExamModel();
 		$exam = $model->find($id);
-		if (is_null($exam)){
+		
+		if (is_null($exam))
+		{
 			$this->notFound();
 			return;
 		}
@@ -226,7 +232,7 @@ class Exam extends BaseController
 				]);
 	
 			for ($i=0; $i < count($problems); $i++)
-			{ 
+			{
 				$problemModel -> save([
 					'id'   => $dbProblems[$i]->id,
 					'exam' => $id,
@@ -238,7 +244,8 @@ class Exam extends BaseController
 			session()->setFlashdata('success', 'Рок је успешно измењен.');
 
 			return redirect()->to('/exam/view/'. $id);
-		} else
+		}
+		else
 		{
 			helper('form');
 
@@ -263,9 +270,10 @@ class Exam extends BaseController
 	public function delete($ID)
 	{
 		$examModel = new ExamModel();
-
 		$exam = $examModel->find($ID);
-		if (is_null($exam)){
+
+		if (is_null($exam))
+		{
 			$this->notFound();
 			return;
 		}
@@ -303,17 +311,17 @@ class Exam extends BaseController
 		echo view('exams/saved', $data);
 	}
 
-	public function saveExam($exam_id = NULL) 
+	public function saveExam($exam_id = NULL)
 	{
-		if (is_null($exam_id)){
+		if (is_null($exam_id))
 			return redirect()->to('/exam');
-		}
 
 		$user_id = session()->get('id');
 		$exam_model = new SavedExamModel();
 		$saved_exam = $exam_model->where('user', $user_id)->where('exam', $exam_id)->first();
 
-		if (is_null($saved_exam)){
+		if (is_null($saved_exam))
+		{
 			$exam_model->insert([
 				'exam' => $exam_id,
 				'user' => $user_id,
