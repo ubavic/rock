@@ -21,22 +21,27 @@
 		<priority>0.2</priority>
 		<changefreq>yearly</changefreq>
 	</url>
-    <url>
-        <loc><?= base_url() . "/user/register" ?></loc> 
-        <priority>0.1</priority>
+	<url>
+		<loc><?= base_url() . "/user/register" ?></loc> 
+		<priority>0.1</priority>
 		<changefreq>yearly</changefreq>
-    </url>
-    <?php foreach($subjects as $subject) : ?>
+	</url>
+	<url>
+		<loc><?= base_url() . "/user/terms" ?></loc> 
+		<priority>0.1</priority>
+		<changefreq>yearly</changefreq>
+	</url>
+	<?php foreach($subjects as $subject): ?>
 		<url>
 			<loc><?= base_url() . '/exam/' . $subject->id ?></loc>
-			<priority>0.4</priority>
+			<priority>0.6</priority>
 			<changefreq>monthly</changefreq>
 		</url>
 	<?php endforeach; ?>
-	<?php foreach($exams as $exam) : ?>
+	<?php foreach($exams as $exam): ?>
 		<url>
 			<loc><?= base_url() . '/exam/view/' . $exam->id ?></loc>
-			<priority>0.5</priority>
+			<priority>0.7</priority>
 			<changefreq>yearly</changefreq>
 		</url>
 	<?php endforeach; ?>
