@@ -137,7 +137,7 @@ class Exam extends BaseController
 			if ($modules == NULL)
 				$modules = [];
 
-			$model -> save([
+			$model -> insert([
 				'subject' => $this->request->getVar('subject'),
 				'date' => $this->request->getVar('date'),
 				'duration' => $this->request->getVar('duration'),
@@ -155,14 +155,14 @@ class Exam extends BaseController
 				]
 			);
 
-			$id = $model->where('created_by', session()->get('id'))->get()->getLastRow()->id;
+			$id = $model->getInsertID();
 
 			$problemModel = new ProblemModel();
 			$problems = $this->request->getVar('problems');
 			$points = $this->request->getVar('points');
 
 			for ($i=0; $i < count($problems); $i++)
-				$problemModel -> save([
+				$problemModel -> insert([
 					'exam' => $id,
 					'text' => $problems[$i],
 					'points' => $points[$i],
@@ -228,7 +228,7 @@ class Exam extends BaseController
 				'mp' => in_array(4, $modules),
 				'mr' => in_array(5, $modules),
 				'ms' => in_array(6, $modules),
-				'edit_lock' => 0,
+				'edit_lock' => NULL,
 				]);
 	
 			for ($i=0; $i < count($problems); $i++)
@@ -260,7 +260,7 @@ class Exam extends BaseController
 
 			$model -> save([
 				'id' => $id,
-				'edit_lock' => 1,
+				'edit_lock' => session()->get('id'),
 				]);
 
 			echo view('exams/new', $data);
@@ -336,4 +336,27 @@ class Exam extends BaseController
 
 		return redirect()->back();
 	}
+
+	public function unlock($exam_id = NULL)
+	{
+		if (is_null($exam_id))
+			return redirect()->to('/exam');
+
+		$model = new ExamModel();
+		$exam = $model->find($exam_id);
+
+		if (is_null($exam))
+			return redirect()->to('/exam');
+
+		if (!$exam->edit_lock == session()->get('id') && !session()->get('can_manage_users'))
+			return redirect()->to('/exam/view/' . $exam_id);
+
+		$model -> save([
+			'id' => $exam_id,
+			'edit_lock' => NULL,
+		]);
+
+		return redirect()->to('/exam/view/' . $exam_id);
+	}
+
 }

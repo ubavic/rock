@@ -106,7 +106,7 @@ class UserModel extends Model
 		if ($user->can_edit == 0)
 			return 0;
 
-		if ($exam->edit_lock == 1)
+		if (!is_null($exam->edit_lock))
 			return 0;
 
 		if ($user->can_edit == 2)

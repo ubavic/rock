@@ -52,10 +52,6 @@
 		<?php endfor;?>
 	</div>
 	<?php if(session()->get('logged')): ?>
-		<?php
-			$uri = service('uri');
-			$uri->setSilent();
-		?>
 		<div class="formRow no-print" style="align-items: flex-end;">
 			<div style="font-style: italic; font-size: 0.9em">
 				Рок додат <?= $exam->created_at ?>, од <?= $created_by ?>.
@@ -64,23 +60,25 @@
 				<?php endif; ?>
 			</div>
 			<div style="margin-left:auto;"></div>
-			<?php if(!$exam->edit_lock): ?>
+			<?php if(is_null($exam->edit_lock)): ?>
 				<?php if($can_edit): ?>
-					<a href="/exam/edit/<?= $uri->getSegment(3) ?>" class="button bigButton">Измени рок</a>
+					<a href="/exam/edit/<?= $exam->id ?>" class="button bigButton">Измени рок</a>
 				<?php endif; ?>
 				<?php if($can_delete): ?>
-				<div onclick="<?= 'confirmDelete(\'/exam/delete/' . $exam->id .'\')'?>" class="button bigButton">Обриши рок</div>
-					<script type="text/javascript">
-						function confirmDelete(url) {
-							if (confirm('Да ли сте сигурни да желите да обришете овај рок?')) {
-								window.location.href = url;
-							}
-						}
-					</script>
+					<div onclick="confirmDelete()" class="button bigButton">Обриши рок</div>
 				<?php endif; ?>
+			<?php elseif ($exam->edit_lock == session()->get('id') || session()->get('can_manage_users')): ?>
+				<a href="/exam/unlock/<?= $exam->id ?>" class="button bigButton">Откључај рок</a>
 			<?php else: ?>
 				<img src="/img/lock.svg" title="Рок је тренутно заључан.">
 			<?php endif; ?>
         </div>
     <?php endif; ?>
+	<script type="text/javascript">
+		function confirmDelete() {
+			if (confirm('Да ли сте сигурни да желите да обришете овај рок?')) {
+				window.location.href = '/exam/delete/<?= $exam->id ?>';
+			}
+		}
+	</script>
 <?= $this->endSection(); ?>

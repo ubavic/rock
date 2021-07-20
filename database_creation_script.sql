@@ -48,7 +48,7 @@ CREATE TABLE `exams`
  `mp`              tinyint unsigned NOT NULL DEFAULT 0 ,
  `mr`              tinyint unsigned NOT NULL DEFAULT 0 ,
  `ms`              tinyint unsigned NOT NULL DEFAULT 0 ,
- `edit_lock`       tinyint unsigned NOT NULL DEFAULT 0 ,
+ `edit_lock`       int unsigned DEFAULT NULL ,
 
 PRIMARY KEY (`id`),
 KEY `fkIdx_29` (`subject`),
@@ -56,7 +56,9 @@ CONSTRAINT `FK_29` FOREIGN KEY `fkIdx_29` (`subject`) REFERENCES `subjects` (`id
 KEY `fkIdx_67` (`created_by`),
 CONSTRAINT `FK_67` FOREIGN KEY `fkIdx_67` (`created_by`) REFERENCES `users` (`id`),
 KEY `fkIdx_70` (`updated_by`),
-CONSTRAINT `FK_70` FOREIGN KEY `fkIdx_70` (`updated_by`) REFERENCES `users` (`id`)
+CONSTRAINT `FK_70` FOREIGN KEY `fkIdx_70` (`updated_by`) REFERENCES `users` (`id`),
+KEY `fkIdx_90` (`edit_lock`),
+CONSTRAINT `FK_90` FOREIGN KEY `fkIdx_90` (`edit_lock`) REFERENCES `users` (`id`)
 );
 
 

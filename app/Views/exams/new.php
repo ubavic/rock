@@ -169,14 +169,17 @@
 				"<div class=\"button smallButton\" onclick=\"deleteProblemEntry(K)\">Обриши</div>","" );
 		}
 
-		<?php if($new): ?>
-			var newExam = 1;
-		<?php else: ?>
-			var newExam = 0;
+		<?php if(!$new): ?>
 			var problems = <?= $problems ?>;
 			modifyProblemTemplate();
 			createProblems(problems);
 		<?php endif;?>
-			window.onbeforeunload = function(evt) {return true;}
+
+		window.addEventListener("beforeunload", function(event) {
+			<?php if(!$new): ?>
+				navigator.sendBeacon('/exam/unlock/<?= $exam->id ?>');
+			<?php endif;?>
+			return true;
+		});
 	</script>
 <?= $this->endSection(); ?>
