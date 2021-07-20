@@ -61,10 +61,10 @@
 			</div>
 			<div style="margin-left:auto;"></div>
 			<?php if(is_null($exam->edit_lock)): ?>
-				<?php if($can_edit): ?>
+				<?php if(session()->get('can_edit')): ?>
 					<a href="/exam/edit/<?= $exam->id ?>" class="button bigButton">Измени рок</a>
 				<?php endif; ?>
-				<?php if($can_delete): ?>
+				<?php if(session()->get('can_delete')): ?>
 					<div onclick="confirmDelete()" class="button bigButton">Обриши рок</div>
 				<?php endif; ?>
 			<?php elseif ($exam->edit_lock == session()->get('id') || session()->get('can_manage_users')): ?>
@@ -72,8 +72,8 @@
 			<?php else: ?>
 				<img src="/img/lock.svg" title="Рок је тренутно заључан.">
 			<?php endif; ?>
-        </div>
-    <?php endif; ?>
+		</div>
+	<?php endif; ?>
 	<script type="text/javascript">
 		function confirmDelete() {
 			if (confirm('Да ли сте сигурни да желите да обришете овај рок?')) {

@@ -15,9 +15,11 @@
 			</a>	
 		<?php endforeach; ?>
 	</div>
-	<?php if($can_add): ?>
-		<div class="formRow no-print" style="flex-direction: row-reverse;">
-			<a href="/exam/new" class="button bigButton">Нови рок</a>
-		</div>
+	<?php if(session()->get('logged')): ?>
+		<?php if(session()->get('can_add')): ?>
+			<div class="formRow no-print" style="flex-direction: row-reverse;">
+				<a href="/exam/new" class="button bigButton">Нови рок</a>
+			</div>
+		<?php endif; ?>
 	<?php endif; ?>
 <?= $this->endSection(); ?>

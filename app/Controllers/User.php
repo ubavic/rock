@@ -293,6 +293,9 @@ class User extends BaseController
 			'id' => $user->id,
 			'name' => $user->name,
 			'logged' => true,
+			'can_add' => $user->can_add,
+			'can_edit' => $user->can_edit,
+			'can_delete' => $user->can_delete,
 			'can_manage_users' => $user->can_manage_users
 		];
 
@@ -303,7 +306,15 @@ class User extends BaseController
 
 	public function logout()
 	{
-		session()->remove(['id', 'name', 'logged', 'can_manage_users']);
+		session()->remove([
+			'id',
+			'name', 
+			'logged', 
+			'can_add',
+			'can_edit',
+			'can_delete',
+			'can_manage_users'
+		]);
 		session()->setFlashdata('success', 'Успешно сте се одјавили.');
 
 		return redirect()->to('/');

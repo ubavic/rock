@@ -10,17 +10,11 @@ class Exam extends BaseController
 {
 	public function index()
 	{
-		$user_model = new UserModel();
 		$subject_model = new SubjectModel();
 
 		$data['TITLE'] = 'Рокови';
 		$data['DESCRIPTION'] = 'Списак свих предмета за које постоји постављен рок.';
 		$data['subject_list'] = $subject_model->getUsedSubjectCount();
-
-		if (session()->get('logged') and $user_model->find(session()->get('id'))->can_add)
-			$data['can_add'] = 1;
-		else
-			$data['can_add'] = 0;
 
 		echo view('exams/list', $data);
 	}
@@ -28,7 +22,6 @@ class Exam extends BaseController
 	public function subject($subject_id = 1)
 	{
 		$exam_model = new ExamModel();
-		$user_model = new UserModel();
 		$subject_model = new SubjectModel();
 
 		$data['subject'] = $subject_model->find($subject_id);
@@ -36,11 +29,6 @@ class Exam extends BaseController
 		$data['DESCRIPTION'] = 'Списак свих рокова из предмета ' . $data['subject']->name . '.';
 
 		$data['exam_table'] = $exam_model->generateTable($exam_model->where('subject', $subject_id)->orderBy('date', 'desc')->findAll());
-
-		if (session()->get('logged') and $user_model->find(session()->get('id'))->can_add)
-			$data['can_add'] = 1;
-		else
-			$data['can_add'] = 0;
 
 		echo view('exams/subject', $data);
 	}
@@ -68,18 +56,11 @@ class Exam extends BaseController
 		$subject_model = new SubjectModel();
 		$data['subject'] = $subject_model->find($exam->subject);
 
-		$data['can_edit'] = 0;
-		$data['can_delete'] = 0;
 		$data['saved'] = 0;
 
 		if (session()->get('logged'))
 		{
 			$user_id = session()->get('id');
-
-			if ($userModel->canEditExam($user_id, $exam_id))
-				$data['can_edit'] = 1;
-			if ($userModel->find($user_id)->can_delete)
-				$data['can_delete'] = 1;
 
 			$saved_exam_model = new SavedExamModel();
 			$saved_exam = $saved_exam_model->where('user', $user_id)->where('exam', $exam_id)->first();
