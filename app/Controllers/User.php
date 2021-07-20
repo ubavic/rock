@@ -306,16 +306,7 @@ class User extends BaseController
 
 	public function logout()
 	{
-		session()->remove([
-			'id',
-			'name', 
-			'logged', 
-			'can_add',
-			'can_edit',
-			'can_delete',
-			'can_manage_users'
-		]);
-		session()->setFlashdata('success', 'Успешно сте се одјавили.');
+		session()->destroy();
 
 		return redirect()->to('/');
 	}
