@@ -1,4 +1,4 @@
-<img src="repository-image.png" alt="МАТФ РОКОВИ" title="Matf rokovi">
+<img src="asset/repository-image.png" alt="МАТФ РОКОВИ" title="Matf rokovi">
 
 Ovo je kôd sajta [MATF Rokovi](https://rokovi.ubavic.rs/). Sajt je napisan u PHP jeziku uz pomoć [CodeIgniter](https://github.com/codeigniter4/CodeIgniter4) framework-a.
 
