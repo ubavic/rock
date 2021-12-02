@@ -1,105 +1,91 @@
-CREATE TABLE `subjects`
-(
- `id`   int unsigned NOT NULL AUTO_INCREMENT ,
- `name` varchar(255) NOT NULL ,
- `code` varchar(10) NOT NULL ,
+CREATE TABLE `subjects` (
+ `id`   int UNSIGNED NOT NULL AUTO_INCREMENT,
+ `name` varchar(255) NOT NULL,
+ `code` varchar(10) NOT NULL,
 
-PRIMARY KEY (`id`)
+ PRIMARY KEY (`id`)
 );
 
 
-CREATE TABLE `users`
-(
- `id`               int unsigned NOT NULL AUTO_INCREMENT ,
- `name`             varchar(255) NOT NULL ,
- `email`            varchar(255) NOT NULL ,
- `hash`             varchar(255) NOT NULL ,
- `status`           tinyint NOT NULL ,
- `created_at`       timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- `updated_at`       timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- `deleted_at`       timestamp NULL DEFAULT NULL ,
- `can_add`          tinyint unsigned NOT NULL DEFAULT 1 ,
- `can_delete`       tinyint unsigned NOT NULL DEFAULT 0 ,
- `can_edit`         tinyint unsigned NOT NULL DEFAULT 0 ,
- `can_manage_users` tinyint unsigned NOT NULL DEFAULT 0 ,
- `ver_code`         int unsigned NULL DEFAULT NULL,
+CREATE TABLE `users` (
+ `id`               int UNSIGNED NOT NULL AUTO_INCREMENT,
+ `name`             varchar(255) NOT NULL,
+ `email`            varchar(255) NOT NULL,
+ `hash`             varchar(255) NOT NULL,
+ `status`           tinyint NOT NULL,
+ `created_at`       timestamp NOT NULL DEFAULT current_timestamp(),
+ `updated_at`       timestamp NOT NULL DEFAULT current_timestamp(),
+ `deleted_at`       timestamp NULL DEFAULT NULL,
+ `can_add`          tinyint UNSIGNED NOT NULL DEFAULT 1,
+ `can_delete`       tinyint UNSIGNED NOT NULL DEFAULT 0,
+ `can_edit`         tinyint UNSIGNED NOT NULL DEFAULT 0,
+ `can_manage_users` tinyint UNSIGNED NOT NULL DEFAULT 0,
+ `ver_code`         int UNSIGNED NULL DEFAULT NULL,
 
-PRIMARY KEY (`id`)
+ PRIMARY KEY (`id`)
 );
 
 
-CREATE TABLE `exams`
-(
- `id`              int unsigned NOT NULL AUTO_INCREMENT ,
- `subject`         int unsigned NOT NULL ,
- `type`            tinyint NOT NULL ,
- `date`            date NOT NULL ,
- `duration`        int NOT NULL ,
- `note`            text NULL ,
- `created_at`      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- `updated_at`      timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- `deleted_at`      timestamp NULL ,
- `created_by`      int unsigned NOT NULL ,
- `updated_by`      int unsigned NOT NULL ,
- `ma`              tinyint unsigned NOT NULL DEFAULT 0 ,
- `mi`              tinyint unsigned NOT NULL DEFAULT 0 ,
- `ml`              tinyint unsigned NOT NULL DEFAULT 0 ,
- `mm`              tinyint unsigned NOT NULL DEFAULT 0 ,
- `mp`              tinyint unsigned NOT NULL DEFAULT 0 ,
- `mr`              tinyint unsigned NOT NULL DEFAULT 0 ,
- `ms`              tinyint unsigned NOT NULL DEFAULT 0 ,
- `edit_lock`       int unsigned DEFAULT NULL ,
+CREATE TABLE `exams` (
+ `id`              int UNSIGNED NOT NULL AUTO_INCREMENT,
+ `subject`         int UNSIGNED NOT NULL,
+ `type`            tinyint NOT NULL,
+ `date`            date NOT NULL,
+ `duration`        int NOT NULL,
+ `note`            text NULL,
+ `created_at`      timestamp NOT NULL DEFAULT current_timestamp(),
+ `updated_at`      timestamp NOT NULL DEFAULT current_timestamp(),
+ `deleted_at`      timestamp NULL,
+ `created_by`      int UNSIGNED NOT NULL,
+ `updated_by`      int UNSIGNED NOT NULL,
+ `ma`              tinyint UNSIGNED NOT NULL DEFAULT 0,
+ `mi`              tinyint UNSIGNED NOT NULL DEFAULT 0,
+ `ml`              tinyint UNSIGNED NOT NULL DEFAULT 0,
+ `mm`              tinyint UNSIGNED NOT NULL DEFAULT 0,
+ `mp`              tinyint UNSIGNED NOT NULL DEFAULT 0,
+ `mr`              tinyint UNSIGNED NOT NULL DEFAULT 0,
+ `ms`              tinyint UNSIGNED NOT NULL DEFAULT 0,
+ `edit_lock`       int UNSIGNED DEFAULT NULL,
 
-PRIMARY KEY (`id`),
-KEY `fkIdx_29` (`subject`),
-CONSTRAINT `FK_29` FOREIGN KEY `fkIdx_29` (`subject`) REFERENCES `subjects` (`id`),
-KEY `fkIdx_67` (`created_by`),
-CONSTRAINT `FK_67` FOREIGN KEY `fkIdx_67` (`created_by`) REFERENCES `users` (`id`),
-KEY `fkIdx_70` (`updated_by`),
-CONSTRAINT `FK_70` FOREIGN KEY `fkIdx_70` (`updated_by`) REFERENCES `users` (`id`),
-KEY `fkIdx_90` (`edit_lock`),
-CONSTRAINT `FK_90` FOREIGN KEY `fkIdx_90` (`edit_lock`) REFERENCES `users` (`id`)
+ PRIMARY KEY (`id`),
+ FOREIGN KEY (`subject`) REFERENCES `subjects` (`id`) ON DELETE CASCADE,
+ FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+ FOREIGN KEY (`updated_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+ FOREIGN KEY (`edit_lock`) REFERENCES `users` (`id`) ON DELETE SET NULL
 );
 
 
-CREATE TABLE `problems`
-(
- `id`     int unsigned NOT NULL AUTO_INCREMENT ,
- `exam`   int unsigned NOT NULL ,
- `text`   text NOT NULL ,
- `points` tinyint unsigned zerofill NOT NULL ,
+CREATE TABLE `problems` (
+ `id`     int UNSIGNED NOT NULL AUTO_INCREMENT,
+ `exam`   int UNSIGNED NOT NULL,
+ `text`   text NOT NULL,
+ `points` tinyint UNSIGNED zerofill NOT NULL,
 
-PRIMARY KEY (`id`),
-KEY `fkIdx_61` (`exam`),
-CONSTRAINT `FK_61` FOREIGN KEY `fkIdx_61` (`exam`) REFERENCES `exams` (`id`)
+ PRIMARY KEY (`id`),
+ FOREIGN KEY (`exam`) REFERENCES `exams` (`id`) ON DELETE CASCADE
 );
 
 
-CREATE TABLE `saved_exams`
-(
- `id`   int unsigned NOT NULL AUTO_INCREMENT ,
- `user` int unsigned NOT NULL ,
- `exam` int unsigned NOT NULL ,
- `save_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+CREATE TABLE `saved_exams` (
+ `id`   int UNSIGNED NOT NULL AUTO_INCREMENT,
+ `user` int UNSIGNED NOT NULL,
+ `exam` int UNSIGNED NOT NULL,
+ `save_time` timestamp NOT NULL DEFAULT current_timestamp(),
 
-PRIMARY KEY (`id`),
-KEY `fkIdx_76` (`exam`),
-CONSTRAINT `FK_76` FOREIGN KEY `fkIdx_76` (`exam`) REFERENCES `exams` (`id`),
-KEY `fkIdx_79` (`user`),
-CONSTRAINT `FK_79` FOREIGN KEY `fkIdx_79` (`user`) REFERENCES `users` (`id`)
+ PRIMARY KEY (`id`),
+ FOREIGN KEY (`exam`) REFERENCES `exams` (`id`) ON DELETE CASCADE,
+ FOREIGN KEY (`user`) REFERENCES `users` (`id`) ON DELETE CASCADE
 );
 
 
-CREATE TABLE `login_log`
-(
- `id`   int unsigned NOT NULL AUTO_INCREMENT ,
- `user` int unsigned NULL ,
- `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ,
- `ip`   varchar(45) NOT NULL ,
+CREATE TABLE `login_log` (
+ `id`   int UNSIGNED NOT NULL AUTO_INCREMENT,
+ `user` int UNSIGNED NULL,
+ `time` timestamp NOT NULL DEFAULT current_timestamp(),
+ `ip`   varchar(45) NOT NULL,
 
-PRIMARY KEY (`id`),
-KEY `fkIdx_86` (`user`),
-CONSTRAINT `FK_86` FOREIGN KEY `fkIdx_86` (`user`) REFERENCES `users` (`id`)
+ PRIMARY KEY (`id`),
+ FOREIGN KEY (`user`) REFERENCES `users` (`id`) ON DELETE CASCADE
 );
 
 
