@@ -39,7 +39,14 @@
 				<label for="can_manage_users" style="width: 13.35em;">Управљање корисницима:</label>
 				<select name="can_manage_users" id="can_manage_users" style="width: 11em;">
 					<option value="0" <?= ($user->can_manage_users == 0) ? 'selected' : '' ?>>Није дозвољено</option>
-					<option value="1" <?= ($user->can_manage_users == 1) ? 'selected' : '' ?>>Дозвољено</option>
+					<option value="1" <?= ($user->can_manage_users == 1) ? 'selected' : '' ?>>Дозвољено ⚠️</option>
+				</select>
+			</div>
+			<div class="formRow">
+				<label for="can_manage_subjects" style="width: 13.35em;">Управљање предметима:</label>
+				<select name="can_manage_subjects" id="can_manage_subjects" style="width: 11em;">
+					<option value="0" <?= ($user->can_manage_subjects == 0) ? 'selected' : '' ?>>Није дозвољено</option>
+					<option value="1" <?= ($user->can_manage_subjects == 1) ? 'selected' : '' ?>>Дозвољено ⚠️</option>
 				</select>
 			</div>
 			<div class="formRow">

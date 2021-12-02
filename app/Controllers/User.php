@@ -55,31 +55,32 @@ class User extends BaseController
 		echo view('user/profile', $data);
 	}
 
-	public function changePermissions($user_id = NULL)
+	public function changePermissions($id = NULL)
 	{
-		if (is_null($user_id)) {
+		if (is_null($id)) {
 			session()->setFlashdata('error', 'Дошло је до грешке.');
 			return redirect()->to('/');
 		}
 
 		$userModel = new UserModel();
-		$user = $userModel->find($user_id);
+		$user = $userModel->find($id);
 
 		if (is_null($user)){
 			session()->setFlashdata('error', 'Дошло је до грешке. Корисник није пронађен');
 			return redirect()->to('/user/controlpanel');
 		}
 
-		$userModel->update($user_id, [
+		$userModel->update($id, [
 			'can_add' => $this->request->getVar('can_add'),
 			'can_edit' => $this->request->getVar('can_edit'),
 			'can_delete' => $this->request->getVar('can_delete'),
 			'can_manage_users' => $this->request->getVar('can_manage_users'),
+			'can_manage_subjects' => $this->request->getVar('can_manage_subjects'),
 		]);
 
 		session()->setFlashdata('success', 'Дозволе корисника су успешно промењене.');
 
-		return $this->index($user_id);
+		return $this->index($id);
 	}
 
 	public function userExams($user_id = NULL)
