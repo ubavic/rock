@@ -13,6 +13,7 @@ class UserModel extends Model
 								'can_delete',
 								'can_edit',
 								'can_manage_users',
+								'can_manage_subjects',
 								'ver_code'];
 	protected $useTimestamps = true;
 	protected $returnType = 'object';

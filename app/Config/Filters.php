@@ -7,15 +7,16 @@ class Filters extends BaseConfig
 	// Makes reading things below nicer,
 	// and simpler to change out script that's used.
 	public $aliases = [
-		'csrf'           => \CodeIgniter\Filters\CSRF::class,
-		'toolbar'        => \CodeIgniter\Filters\DebugToolbar::class,
-		'honeypot'       => \CodeIgniter\Filters\Honeypot::class,
-		'auth'           => \App\Filters\Auth::class,
-		'noauth'         => \App\Filters\NoAuth::class,
-		'canAdd'         => \App\Filters\CanAdd::class,
-		'canDelete'      => \App\Filters\CanDelete::class,
-		'canEdit'        => \App\Filters\CanEdit::class,
-		'canManageUsers' => \App\Filters\CanManageUsers::class,
+		'csrf'              => \CodeIgniter\Filters\CSRF::class,
+		'toolbar'           => \CodeIgniter\Filters\DebugToolbar::class,
+		'honeypot'          => \CodeIgniter\Filters\Honeypot::class,
+		'auth'              => \App\Filters\Auth::class,
+		'noauth'            => \App\Filters\NoAuth::class,
+		'canAdd'            => \App\Filters\CanAdd::class,
+		'canDelete'         => \App\Filters\CanDelete::class,
+		'canEdit'           => \App\Filters\CanEdit::class,
+		'canManageUsers'    => \App\Filters\CanManageUsers::class,
+		'canManageSubjects' => \App\Filters\CanManageSubjects::class,
 	];
 
 	// Always applied before every request

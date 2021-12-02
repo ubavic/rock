@@ -14,6 +14,10 @@
 				<a href="/user/all" <?=($uri->getSegment(2) == 'all' ? $color : null)?> >Корисници</a>
 				<a href="/user/log" <?=($uri->getSegment(2) == 'log' ? $color : null)?> >Лог</a>
 			<?php endif; ?>
+			<?php if (session()->get('can_manage_subjects')): ?>
+				<div>Предмети</div>
+				<a href="/subject">Сви предмети</a>
+			<?php endif; ?>
 			<div>Остало</div>
 			<a href="/exam/saved">Сачувани&nbsp;рокови</a>
 			<a href="/tools">Алати</a>

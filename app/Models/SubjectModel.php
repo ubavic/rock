@@ -7,6 +7,7 @@ class SubjectModel extends Model
 	protected $table = 'subjects';
 	protected $allowedFields = ['name', 'code'];
 	protected $returnType = 'object';
+	protected $useSoftDeletes = false;
 
 	public function getUsedSubjectsOptionList($subject_id = 1)
 	{

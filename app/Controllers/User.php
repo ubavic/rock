@@ -296,7 +296,8 @@ class User extends BaseController
 			'can_add' => $user->can_add,
 			'can_edit' => $user->can_edit,
 			'can_delete' => $user->can_delete,
-			'can_manage_users' => $user->can_manage_users
+			'can_manage_users' => $user->can_manage_users,
+			'can_manage_subjects' => $user->can_manage_subjects
 		];
 
 		session()->set($data);
