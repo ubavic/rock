@@ -16,7 +16,7 @@
 		</div>
 		<div class="formRow no-print" style="align-items: flex-end;">
 			<div style="margin-left:auto;"></div>
-			<div onclick="confirmDelete()" class="button bigButton">Обриши рок</div>
+			<div onclick="confirmDelete()" class="button bigButton">Обриши предмет</div>
 			<button type="submit" class="button bigButton" onclick="window.onbeforeunload = null">Унеси</button>
 		</div>
 	</form>
