@@ -1,6 +1,7 @@
 <?php namespace App\Controllers;
 
 use App\Models\ExamModel;
+use App\Models\ExamLogModel;
 use App\Models\ProblemModel;
 use App\Models\SubjectModel;
 use App\Models\UserModel;
@@ -43,6 +44,9 @@ class Exam extends BaseController
 			$this->notFound();
 			return;
 		}
+
+		$examLogModel = new ExamLogModel();
+		$examLogModel->insert(['exam' => $exam_id]);
 
 		$data['exam'] = $exam;
 

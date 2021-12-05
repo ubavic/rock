@@ -93,6 +93,16 @@ CREATE TABLE `login_log` (
 );
 
 
+CREATE TABLE `exam_log` (
+ `id`        int UNSIGNED NOT NULL AUTO_INCREMENT,
+ `exam`      int UNSIGNED NOT NULL,
+ `time`      timestamp NOT NULL DEFAULT current_timestamp(),
+
+ PRIMARY KEY (`id`),
+ FOREIGN KEY (`exam`) REFERENCES `exams` (`id`) ON DELETE CASCADE
+);
+
+
 INSERT INTO `subjects` (`id`, `name`, `code`) VALUES
 (1, 'Линеарна алгебра', 'М1.01'),
 (2, 'Увод у математичку логику', 'М1.02'),
