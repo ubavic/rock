@@ -75,13 +75,16 @@ class Subject extends BaseController
 	public function subject($id)
 	{
 		if (is_null($id))
-		{
 			return redirect()->to('/subject');
-		}
 
 		$subjectModel = new SubjectModel();
-		$data['subject'] = $subjectModel->find($id);
-		$data['TITLE'] = $data['subject']->name;
+		$subject = $subjectModel->find($id);
+
+		if (is_null($subject))
+			return redirect()->to('/subject');
+
+		$data['TITLE'] = $subject->name;
+		$data['subject'] = $subject;
 		$data['new'] = false;
 
 		echo view('subject/edit', $data);
@@ -90,6 +93,9 @@ class Subject extends BaseController
 
 	public function subjectPost($id)
 	{
+		if (is_null($id))
+			return redirect()->to('/subject');
+
 		helper(['form']);
 		$rules = [
 			'name'  => "required|is_unique[subjects.name,id,{$id}]|min_length[3]|max_length[255]",
@@ -118,6 +124,9 @@ class Subject extends BaseController
 	
 	public function delete($id)
 	{
+		if (is_null($id))
+			return redirect()->to('/subject');
+
 		$subjectModel = new SubjectModel();
 		$subjectModel->delete($id);
 		session()->setFlashdata('success', 'Предмет је обрисан.');

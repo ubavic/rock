@@ -62,7 +62,7 @@ $routes->get('cp/log', 'ControlPanel::loginLog', ['filter' => 'canManageUsers'])
 
 $routes->get('subject/new', 'Subject::new', ['filter' => 'canManageSubjects']);
 $routes->post('subject/new', 'Subject::newPost', ['filter' => 'canManageSubjects']);
-$routes->get('subject/delete/(:num)', 'Subject::delete', ['filter' => 'canManageSubjects']);
+$routes->get('subject/delete/(:num)', 'Subject::delete/$1', ['filter' => 'canManageSubjects']);
 $routes->get('subject/(:num)', 'Subject::subject/$1', ['filter' => 'canManageSubjects']);
 $routes->post('subject/(:num)', 'Subject::subjectPost/$1', ['filter' => 'canManageSubjects']);
 $routes->get('subject/', 'Subject::all', ['filter' => 'canManageSubjects']);
