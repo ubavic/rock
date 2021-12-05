@@ -7,11 +7,6 @@ use App\Models\LogModel;
 class User extends BaseController
 {
 	private $errors = [
-		'name' => [
-			'required' => 'Име је обавезно',
-			'min_length' => 'Име мора да садржи барем 3 карактера.',
-			'max_length' => 'Име може да садржи највише 255 карактера.'
-		],
 		'email' => [
 			'required' => 'E-mail је обавезан.',
 			'valid_email' => 'E-mail мора бити валидан.',
@@ -196,96 +191,6 @@ class User extends BaseController
 			session()->setFlashdata('error', $this->validator->listErrors());
 			return redirect()->to('/user/register');
 		}
-	}
-
-	public function settings()
-	{
-		$data['TITLE'] = 'Подешавања';
-		helper(['form']);
-		$userModel = new UserModel();
-
-		if ($this->request->getMethod() == 'post')
-		{
-			if ($this->request->getPost('name'))
-			{
-				$rules = [
-					'name' => 'required|min_length[3]|max_length[255]',
-				];
-
-				if ($this->validate($rules, $this->errors))
-				{
-					$userModel->save([
-						'id' => session()->get('id'),
-						'name' => $this->request->getVar('name'),
-					]);
-					session()->set('name', $this->request->getVar('name'));
-					session()->setFlashdata('success', 'Име је успешно промењено.');
-				} else
-				{
-					$data['validation'] = $this->validator;
-				}
-			}
-			else if ($this->request->getPost('password'))
-			{
-				$rules = [
-					'password'     => 'required|min_length[8]|max_length[255]',
-					'pass_confirm' => 'required_with[password]|matches[password]',
-				];
-		
-				if ($this->validate($rules, $this->errors))
-				{
-					$userModel->save([
-						'id' => session()->get('id'),
-						'hash' => $this->request->getVar('password'),
-					]);
-					session()->setFlashdata('success', 'Шифра је успешно промењена.');
-				} else {
-					$data['validation'] = $this->validator;
-				}
-			}
-		}
-
-		$user = $userModel->find(session()->get('id'));
-		$data['user'] = $user;
-
-		echo view('user/controlPanel/settings', $data);
-	}
-
-	public function all()
-	{
-		$data['TITLE'] = 'Сви корисници';
-
-		$user_model = new UserModel();
-		$users = $user_model->findAll();
-
-		foreach ($users as $user){
-				$user->user_link = $user_model->getAbbr($user->id);
-		}
-
-		$data['users'] = $users;
-
-		echo view('user/controlPanel/all', $data);
-	}
-
-	public function log()
-	{
-		$data['TITLE'] = 'Списак пријављивања';
-
-		$user_model = new UserModel();
-		$log_model = new LogModel();
-		$logs = $log_model->orderBy('time', 'DESC')->limit(20)->find();
-
-		foreach ($logs as $entry)
-		{
-			if ($entry->user != 0)
-				$entry->user_link = $user_model->getAbbr($entry->user);
-			else
-				$entry->user_link = 'Нерегистрован корисник';
-		}
-
-		$data['logs'] = $logs;
-
-		echo view('user/controlPanel/log', $data);
 	}
 
 	private function setUser($user)

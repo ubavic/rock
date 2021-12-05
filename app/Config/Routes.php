@@ -40,22 +40,25 @@ $routes->get('exam/(:num)', 'Exam::subject/$1');
 $routes->get('exam/new', 'Exam::new', ['filter' => 'canAdd']);
 $routes->get('exam/delete/(:num)', 'Exam::delete/$1', ['filter' => 'canDelete']);
 $routes->get('exam/edit/(:num)', 'Exam::edit/$1', ['filter' => 'canEdit']);
-$routes->get('exam/saved', 'Exam::saved', ['filter' => 'auth']);
 $routes->get('exam/save_exam/(:num)', 'Exam::saveExam/$1', ['filter' => 'auth']);
 $routes->get('exam/unlock/(:num)', 'Exam::unlock/$1', ['filter' => 'auth']);
 
 $routes->get('user/(:num)/exams', 'User::userExams/$1', ['filter' => 'auth']);
 $routes->get('user/(:num)', 'User::index/$1', ['filter' => 'auth']);
 $routes->post('user/(:num)', 'User::changePermissions/$1', ['filter' => 'canManageUsers']);
-$routes->get('user/settings', 'User::settings', ['filter' => 'auth']);
-$routes->get('user/all', 'User::all', ['filter' => 'auth']);
-$routes->get('user/log', 'User::log', ['filter' => 'canManageUsers']);
 $routes->get('user/login', 'User::login', ['filter' => 'noauth']);
 $routes->post('user/login', 'User::loginPost', ['filter' => 'noauth']);
 $routes->get('user/register', 'User::register', ['filter' => 'noauth']);
 $routes->post('user/register', 'User::registerPost', ['filter' => 'noauth']);
 $routes->get('user/resetPassword', 'User::resetPassword', ['filter' => 'noauth']);
 $routes->post('user/resetPassword', 'User::resetPasswordPost', ['filter' => 'noauth']);
+
+$routes->get('cp/', 'ControlPanel::settings', ['filter' => 'auth']);
+$routes->get('cp/settings', 'ControlPanel::settings', ['filter' => 'auth']);
+$routes->post('cp/settings', 'ControlPanel::settingsPost', ['filter' => 'auth']);
+$routes->get('cp/savedExams', 'ControlPanel::savedExams', ['filter' => 'auth']);
+$routes->get('cp/all', 'ControlPanel::all', ['filter' => 'canManageUsers']);
+$routes->get('cp/log', 'ControlPanel::loginLog', ['filter' => 'canManageUsers']);
 
 $routes->get('subject/new', 'Subject::new', ['filter' => 'canManageSubjects']);
 $routes->post('subject/new', 'Subject::newPost', ['filter' => 'canManageSubjects']);

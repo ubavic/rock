@@ -283,19 +283,6 @@ class Exam extends BaseController
 		echo view('exams/not_found', $data);
 	}
 
-	public function saved()
-	{
-		$data['TITLE'] = 'Сачувани рокови';
-
-		$saved_exam_model = new SavedExamModel();
-		$exam_model = new ExamModel();
-		
-		$saved_exams = $saved_exam_model->userSavedExams(session()->get('id'));
-		$data['exam_table'] = $exam_model->generateTable($exam_model->getMetadata(['data' => $saved_exams])['data']);
-
-		echo view('exams/saved', $data);
-	}
-
 	public function saveExam($exam_id = NULL)
 	{
 		if (is_null($exam_id))
@@ -311,12 +298,12 @@ class Exam extends BaseController
 				'exam' => $exam_id,
 				'user' => $user_id,
 			]);
-			session()->setFlashdata('success', 'Рок је додат у <a href="/exam/saved">листу сачуваних рокова</a>.');
+			session()->setFlashdata('success', 'Рок је додат у <a href="/cp/savedExams">листу сачуваних рокова</a>.');
 		}
 		else
 		{
 			$exam_model->delete($saved_exam->id);
-			session()->setFlashdata('success', 'Рок је уклоњен из <a href="/exam/saved">листе сачуваних рокова</a>.');
+			session()->setFlashdata('success', 'Рок је уклоњен из <a href="/cp/savedExams">листе сачуваних рокова</a>.');
 		}
 
 		return redirect()->back();

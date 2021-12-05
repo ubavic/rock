@@ -8,18 +8,18 @@
 	<h1>Кориснички контролни панел</h1>
 	<div class="controlPanel">
 		<nav>
-			<a href="/user/settings" <?=($uri->getSegment(2) == 'settings' ? $color : null)?> >Подешавања</a>
+			<a href="/cp/settings" <?=($uri->getSegment(2) == 'settings' ? $color : null)?> >Подешавања</a>
+			<a href="/cp/savedExams" <?=($uri->getSegment(2) == 'savedExams' ? $color : null)?>>Сачувани&nbsp;рокови</a>
 			<?php if (session()->get('can_manage_users')): ?>
 				<div>Aдминистрација</div>
-				<a href="/user/all" <?=($uri->getSegment(2) == 'all' ? $color : null)?> >Корисници</a>
-				<a href="/user/log" <?=($uri->getSegment(2) == 'log' ? $color : null)?> >Лог</a>
+				<a href="/cp/all" <?=($uri->getSegment(2) == 'all' ? $color : null)?> >Корисници</a>
+				<a href="/cp/log" <?=($uri->getSegment(2) == 'log' ? $color : null)?> >Лог</a>
 			<?php endif; ?>
 			<?php if (session()->get('can_manage_subjects')): ?>
 				<div>Предмети</div>
 				<a href="/subject">Сви предмети</a>
 			<?php endif; ?>
 			<div>Остало</div>
-			<a href="/exam/saved">Сачувани&nbsp;рокови</a>
 			<a href="/tools">Алати</a>
 			<a href="/manual">Упутство</a>
 		</nav>

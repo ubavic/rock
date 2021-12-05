@@ -7,7 +7,7 @@
 	<?php if ($user->id == session()->get('id')): ?>
 		<div class="formRow">
 			<div class="verticalRowSpacer"></div>
-			<a href="/user/settings" class="button bigButton">Измени профил</a>
+			<a href="/cp/settings" class="button bigButton">Измени профил</a>
 		</div>
 	<?php endif; ?>
 	<?php if (session()->get('can_manage_users')): ?>

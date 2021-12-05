@@ -1,4 +1,4 @@
-<?= $this->extend('user/controlPanel/layout'); ?>
+<?= $this->extend('controlPanel/layout'); ?>
 <?= $this->section('cp_content'); ?>
 <div>
 	<h2 style="margin-top:0">Подешавања</h2>
@@ -7,7 +7,7 @@
 			<?= $validation->listErrors() ?>
 		</div>
 	<?php endif; ?>
-	<form action="/user/settings" method="post">
+	<form action="/cp/settings" method="post">
 		<h3>Лични подаци</h3>
 		<p>У наредној форми можете променити своје име. Ваше име, као и Ваш <i>e-mail</i>, је видљиво само другим члановима сајта. Пожељно је, али не и обавезно, да за име упишете Ваше лично име, на ћирилици.</p>
 		<div class="formRow">
@@ -23,7 +23,7 @@
 			<button class="button bigButton" type="submit" value="changeName">Сачувај</button>
 		</div>
 	</form>
-	<form action="/user/settings" method="post">
+	<form action="/cp/settings" method="post">
 	<h3>Промени шифру</h3>
 		<div class="formRow">
 			<label for="password" style="width: 8em;">Шифра</label>

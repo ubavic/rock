@@ -1,4 +1,4 @@
-<?= $this->extend('user/controlPanel/layout'); ?>
+<?= $this->extend('controlPanel/layout'); ?>
 <?= $this->section('cp_content'); ?>
 	<div>
 		<h2 style="margin-top:0">Сви корисници</h2>

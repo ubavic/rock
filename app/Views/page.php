@@ -64,7 +64,7 @@
 				<a href="/about" title="Информације о пројекту." class="menuItem <?= ($uri->getSegment(1) == 'about' ? 'activeMenuItem' : '') ?>">О&nbsp;Пројекту</a>
 				<div style="margin-left: auto"></div>
 				<?php if(session()->get('logged')): ?>
-					<a href="/user/settings" title="Контролни панел" class="menuItem <?= ($uri->getSegment(1) == 'user' ? 'activeMenuItem' : '') ?>">Контролни&nbsp;панел</a>
+					<a href="/cp/settings" title="Контролни панел" class="menuItem <?= ($uri->getSegment(1) == 'user' ? 'activeMenuItem' : '') ?>">Контролни&nbsp;панел</a>
 				<?php else: ?>
 					<a href="/user/login" title="Пријава и регистација" class="menuItem <?= ($uri->getSegment(2) == 'login' ? 'activeMenuItem' : '') ?>">Пријавите&nbsp;се</a>
 				<?php endif;?>
@@ -89,7 +89,7 @@
 				<a href="/exam" title="Списак рокова">Рокови</a> • 
 				<a href="/about" title="Више о сајту">О&nbsp;пројекту</a> 
 				<?php if(session()->get('logged')): ?>
-					• <a href="/user/settings" title="Контролни панел">Контролни&nbsp;панел</a>
+					• <a href="/cp/settings" title="Контролни панел">Контролни&nbsp;панел</a>
 				<?php endif; ?>
 			</div>
 			<?php if(session()->get('logged')): ?>
