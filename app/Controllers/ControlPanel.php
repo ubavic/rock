@@ -1,6 +1,7 @@
 <?php namespace App\Controllers;
 
 use App\Models\ExamModel;
+use App\Models\ExamLogModel;
 use App\Models\LogModel;
 use App\Models\UserModel;
 use App\Models\SavedExamModel;
@@ -130,5 +131,51 @@ class ControlPanel extends BaseController
 		$data['logs'] = $logs;
 
 		echo view('controlPanel/loginLog', $data);
+	}
+
+
+	public function statistics()
+	{
+		$data['TITLE'] = 'Статистика';
+		echo view('controlPanel/statistics', $data);
+	}
+
+	public function getStatistics()
+	{
+		$examLog = new ExamLogModel();
+		$query = $examLog->db->query('
+			SELECT COUNT(*) AS "hits", DATE(time) AS "date" FROM exam_log
+			WHERE time >= (CURRENT_TIMESTAMP - interval \'60\' day)
+			GROUP BY DATE(time)');
+
+		return $this->response->setJSON($query->getResult());	
+	}
+
+	public function getStatisticsForDay($day, $month, $year)
+	{
+		if ($day > 31)
+			return $this->response->setJSON(['error' => 'day']);
+		if ($month > 12)
+			return $this->response->setJSON(['error' => 'month']);
+		if ($year < 20)
+			return $this->response->setJSON(['error' => 'year']);
+
+		$year = 2000 + $year;
+
+		$examLog = new ExamLogModel();
+		$query = $examLog->db->query("
+		SELECT hits, exam, name FROM (
+			SELECT hits, exam, subject FROM (
+				SELECT COUNT(*) AS \"hits\", exam FROM exam_log
+				WHERE DAY(time) = {$day} AND MONTH(time) = {$month} AND YEAR(time) = {$year}  
+				GROUP BY exam) AS t
+			LEFT JOIN exams
+			ON t.exam = exams.id) AS t
+		LEFT JOIN subjects
+		ON t.subject = subjects.id
+		ORDER BY hits DESC
+		LIMIT 10");
+
+		return $this->response->setJSON($query->getResult());
 	}
 }

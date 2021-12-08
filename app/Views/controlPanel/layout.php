@@ -14,6 +14,7 @@
 				<div>Aдминистрација</div>
 				<a href="/cp/all" <?=($uri->getSegment(2) == 'all' ? $color : null)?> >Корисници</a>
 				<a href="/cp/log" <?=($uri->getSegment(2) == 'log' ? $color : null)?> >Лог</a>
+				<a href="/cp/statistics" <?=($uri->getSegment(2) == 'statistics' ? $color : null)?> >Статистика</a>
 			<?php endif; ?>
 			<?php if (session()->get('can_manage_subjects')): ?>
 				<div>Предмети</div>

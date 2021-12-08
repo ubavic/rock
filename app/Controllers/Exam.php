@@ -45,8 +45,12 @@ class Exam extends BaseController
 			return;
 		}
 
-		$examLogModel = new ExamLogModel();
-		$examLogModel->insert(['exam' => $exam_id]);
+		$agent = $this->request->getUserAgent();
+
+		if (!$agent->isRobot()) {
+			$examLogModel = new ExamLogModel();
+			$examLogModel->insert(['exam' => $exam_id]);
+		}
 
 		$data['exam'] = $exam;
 

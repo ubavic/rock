@@ -59,6 +59,9 @@ $routes->post('cp/settings', 'ControlPanel::settingsPost', ['filter' => 'auth'])
 $routes->get('cp/savedExams', 'ControlPanel::savedExams', ['filter' => 'auth']);
 $routes->get('cp/all', 'ControlPanel::all', ['filter' => 'canManageUsers']);
 $routes->get('cp/log', 'ControlPanel::loginLog', ['filter' => 'canManageUsers']);
+$routes->get('cp/statistics', 'ControlPanel::statistics', ['filter' => 'canManageUsers']);
+$routes->get('cp/getStatistics/(:num)-(:num)-(:num)', 'ControlPanel::getStatisticsForDay/$1/$2/$3', ['filter' => 'canManageUsers']);
+$routes->get('cp/getStatistics', 'ControlPanel::getStatistics', ['filter' => 'canManageUsers']);
 
 $routes->get('subject/new', 'Subject::new', ['filter' => 'canManageSubjects']);
 $routes->post('subject/new', 'Subject::newPost', ['filter' => 'canManageSubjects']);
