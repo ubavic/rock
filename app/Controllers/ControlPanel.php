@@ -164,17 +164,17 @@ class ControlPanel extends BaseController
 
 		$examLog = new ExamLogModel();
 		$query = $examLog->db->query("
-		SELECT hits, exam, name FROM (
-			SELECT hits, exam, subject FROM (
-				SELECT COUNT(*) AS \"hits\", exam FROM exam_log
-				WHERE DAY(time) = {$day} AND MONTH(time) = {$month} AND YEAR(time) = {$year}  
-				GROUP BY exam) AS t
-			LEFT JOIN exams
-			ON t.exam = exams.id) AS t
-		LEFT JOIN subjects
-		ON t.subject = subjects.id
-		ORDER BY hits DESC
-		LIMIT 10");
+			SELECT hits, name FROM (
+				SELECT COUNT(*) AS hits, subject FROM exam_log
+				LEFT JOIN exams
+				ON exam = exams.id
+				WHERE DAY(time) = {$day} AND MONTH(time) = {$month} AND YEAR(time) = {$year}
+				GROUP BY subject) AS t
+			LEFT JOIN subjects
+			ON subject = subjects.id
+			ORDER BY hits DESC
+			LIMIT 6
+			");
 
 		return $this->response->setJSON($query->getResult());
 	}

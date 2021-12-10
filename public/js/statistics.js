@@ -70,7 +70,7 @@ const setSubtitle = day => {
     if (day === null) {
         const svg = d3.select('#bars')
         svg.selectAll('g').remove()
-        return d3.select('h3').text(``)
+        return d3.select('h3').text(`.`)
     }
 
     let date = `${day.date.getDate()}. ${monthNames[day.date.getMonth()]}`
