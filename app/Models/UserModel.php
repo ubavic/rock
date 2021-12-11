@@ -54,19 +54,19 @@ class UserModel extends Model
 		return "<a href=\"/user/$user_id\">$user->name</a>";
 	}
 
-	public function sendVerificationMail($ID)
+	public function sendVerificationMail($id)
 	{
 		$code = random_int(100000, 999999);
-		$this->save(['id' => $ID, 'ver_code' => $code]);
+		$this->save(['id' => $id, 'ver_code' => $code]);
 
 		$message = "Хвала Вам што сте се регистровали на сајт МАТФ Рокови.\n";
 		$message .= "Кликом на следећи линк потврдићете Вашу адресу:\n";
-		$message .= (base_url() . "/user/verify/$ID/$code\n\n" );
+		$message .= (base_url() . "/user/verify/$id/$code\n\n" );
 		$message .= "\n\nМАТФ Рокови";
 		
 		$email = \Config\Services::email();
 
-		$user = $this->find($ID);
+		$user = $this->find($id);
 		$email->setFrom('rokovi@ubavic.rs', 'MATF Rokovi');
 		$email->setTo($user->email);
 
@@ -76,10 +76,10 @@ class UserModel extends Model
 		$email->send();
 	}
 
-	public function sendNewPassword($ID)
+	public function sendNewPassword($id)
 	{
 		$pass = "MATF" . random_int(10000000, 99999999) . "ROKOVI";
-		$this->save(['id' => $ID, 'hash' => $pass]);
+		$this->save(['id' => $id, 'hash' => $pass]);
 
 		$message = "Ваша нова шифра је: $pass\n";
 		$message .= "Ако ви нисте затражили промену шифре, обратите се администратору!\n";
@@ -88,7 +88,7 @@ class UserModel extends Model
 		
 		$email = \Config\Services::email();
 
-		$user = $this->find($ID);
+		$user = $this->find($id);
 		$email->setFrom('rokovi@ubavic.rs', 'MATF Rokovi');
 		$email->setTo($user->email);
 

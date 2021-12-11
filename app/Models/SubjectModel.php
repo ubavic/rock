@@ -9,14 +9,13 @@ class SubjectModel extends Model
 	protected $returnType = 'object';
 	protected $useSoftDeletes = false;
 
-	public function getUsedSubjectsOptionList($subject_id = 1)
+	public function getUsedSubjectsOptionList($id = 1)
 	{
 		$subjects = $this->db->query('SELECT * FROM subjects WHERE id IN (SELECT subject FROM exams) ORDER BY name')->getResult();
 		$str = '';
 
-		foreach ($subjects as $subject)
-		{
-			if ($subject_id == $subject->id)
+		foreach ($subjects as $subject) {
+			if ($id == $subject->id)
 				$select = 'selected="selected"';
 			else
 				$select = '';
@@ -27,14 +26,13 @@ class SubjectModel extends Model
 		return $str;
 	}
 
-	public function getAllSubjectsOptionList($subject_id = 1)
+	public function getAllSubjectsOptionList($id = 1)
 	{
 		$subjects = $this->findAll();
 		$str = '';
 
-		foreach ($subjects as $subject)
-		{
-			if ($subject_id == $subject->id)
+		foreach ($subjects as $subject) {
+			if ($id == $subject->id)
 				$select = 'selected="selected"';
 			else
 				$select = '';
@@ -51,5 +49,4 @@ class SubjectModel extends Model
 			query('SELECT * FROM (SELECT COUNT(id) AS count, subject FROM exams GROUP BY subject) AS exam LEFT JOIN subjects ON exam.subject = subjects.id')
 			->getResult();
 	}
-
 }

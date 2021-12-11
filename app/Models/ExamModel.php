@@ -59,24 +59,21 @@ class ExamModel extends Model
 		return implode(", ", $true_modules);
 	}
 
-	private function getClassName(int $ID)
+	private function getClassName(int $id)
 	{
-		return (($this->db->table('subjects')->where('id', $ID)->get()->getResult())[0])->name;
+		return (($this->db->table('subjects')->where('id', $id)->get()->getResult())[0])->name;
 	}
 
 	public function getMetadata($data)
 	{
-		if (is_array($data['data']))
-		{
-			foreach ($data['data'] as &$exam)
-			{
+		if (is_array($data['data'])) {
+			foreach ($data['data'] as &$exam) {
 				$exam->subject_name = $this->getClassName(intval($exam->subject));
 				$exam->modules_string = $this->getModulesString($exam);
 				$exam->date_string = date_format(date_create($exam->date), 'd.m.Y.');
 			}
-		} else
-		{
-			if(is_null($data['data']))
+		} else {
+			if (is_null($data['data']))
 				return $data;
 
 			$data['data']->subject_name = $this->getClassName(intval($data['data']->subject));
@@ -91,13 +88,11 @@ class ExamModel extends Model
 
 	public function generateTable($exams)
 	{
-		if (empty($exams))
-		{
+		if (empty($exams)) {
 			return '<div style="text-align: center; padding: 1em; max-width: 600px; margin: 0 auto; font-style: italic;">
 			Нема рокова који задовољавају критеријум.</div>';
 		}
-		else
-		{
+		else {
 			$head ='<div class="tableList">
 					<div class="tableListHeader">
 						<div class="examListType"><abbr title="Колоквијум">Клк</abbr></div>
@@ -107,8 +102,7 @@ class ExamModel extends Model
 					</div>';
 			$results = '';
 
-			foreach ($exams as $exam)
-			{
+			foreach ($exams as $exam) {
 				$type = ($exam->type == 0) ? ' ' : 'К';
 				$results .= "<a href=\"/exam/view/$exam->id\" class=\"tableListRow\">
 						<div class=\"examListType\">$type</div>

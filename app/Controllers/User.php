@@ -50,9 +50,9 @@ class User extends BaseController
 		echo view('user/profile', $data);
 	}
 
-	public function changePermissions($id = NULL)
+	public function changePermissions($id = null)
 	{
-		if (is_null($id)) {
+		if ($id === null) {
 			session()->setFlashdata('error', 'Дошло је до грешке.');
 			return redirect()->to('/');
 		}
@@ -60,7 +60,7 @@ class User extends BaseController
 		$userModel = new UserModel();
 		$user = $userModel->find($id);
 
-		if (is_null($user)){
+		if ($user === null){
 			session()->setFlashdata('error', 'Дошло је до грешке. Корисник није пронађен');
 			return redirect()->to('/user/controlpanel');
 		}

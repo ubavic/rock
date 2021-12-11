@@ -19,7 +19,6 @@ class Subject extends BaseController
 		]
 	];
 
-
 	public function all()
 	{
 		$data['TITLE'] = 'Сви предмети';
@@ -52,8 +51,7 @@ class Subject extends BaseController
 			'code'  => 'required|is_unique[subjects.code]|min_length[3]|max_length[6]',
 		];
 
-		if ($this->validate($rules, $this->errors))
-		{
+		if ($this->validate($rules, $this->errors)) {
 			$subject = [
 				'name' => $this->request->getVar('name'),
 				'code' => $this->request->getVar('code'),
@@ -63,9 +61,7 @@ class Subject extends BaseController
 
 			session()->setFlashdata('success', 'Предмет је додат.');
 			return redirect()->to('/subject');
-		}
-		else
-		{
+		} else {
 			session()->setFlashdata('error', $this->validator->listErrors());
 			return redirect()->to('/subject/new');
 		}
@@ -74,13 +70,13 @@ class Subject extends BaseController
 
 	public function subject($id)
 	{
-		if (is_null($id))
+		if ($id === null)
 			return redirect()->to('/subject');
 
 		$subjectModel = new SubjectModel();
 		$subject = $subjectModel->find($id);
 
-		if (is_null($subject))
+		if ($subject === null)
 			return redirect()->to('/subject');
 
 		$data['TITLE'] = $subject->name;
@@ -90,10 +86,9 @@ class Subject extends BaseController
 		echo view('subject/edit', $data);
 	}
 
-
 	public function subjectPost($id)
 	{
-		if (is_null($id))
+		if ($id === null)
 			return redirect()->to('/subject');
 
 		helper(['form']);
@@ -102,8 +97,7 @@ class Subject extends BaseController
 			'code'  => "required|is_unique[subjects.code,id,{$id}]|min_length[3]|max_length[6]",
 		];
 
-		if ($this->validate($rules, $this->errors))
-		{
+		if ($this->validate($rules, $this->errors)) {
 			$subject = [
 				'name' => $this->request->getVar('name'),
 				'code' => $this->request->getVar('code'),
@@ -113,9 +107,7 @@ class Subject extends BaseController
 
 			session()->setFlashdata('success', 'Предмет је измењен.');
 			return redirect()->to('/subject');
-		}
-		else
-		{
+		} else {
 			session()->setFlashdata('error', $this->validator->listErrors());
 			return redirect()->to('/subject/' . $id);
 		}
@@ -124,7 +116,7 @@ class Subject extends BaseController
 	
 	public function delete($id)
 	{
-		if (is_null($id))
+		if ($id === null)
 			return redirect()->to('/subject');
 
 		$subjectModel = new SubjectModel();

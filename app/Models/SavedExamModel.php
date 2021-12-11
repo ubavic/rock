@@ -11,10 +11,10 @@ class SavedExamModel extends Model
 	protected $useTimestamps = false;
 	protected $useSoftDeletes = false;
 
-	public function userSavedExams ($user_id) {
+	public function userSavedExams ($id) {
 		return $this->db->query('SELECT exams.*, saved_exams.save_time 
 			FROM saved_exams 
 			LEFT JOIN exams ON saved_exams.exam = exams.id 
-			WHERE saved_exams.user = ' . $user_id . ' ORDER BY saved_exams.save_time DESC')->getResult();
+			WHERE saved_exams.user = ' . $id . ' ORDER BY saved_exams.save_time DESC')->getResult();
 	}
 }
