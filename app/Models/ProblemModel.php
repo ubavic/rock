@@ -27,6 +27,16 @@ class ProblemModel extends Model
 		$tex = str_replace('</ol>', "\\end{enumerate}\n", $tex);
 		$tex = str_replace('<ul>', "\\begin{itemize}\n", $tex);
 		$tex = str_replace('</ul>', "\\end{itemize}\n", $tex);
+		$tex = str_replace('<em>', "\\textit{", $tex);
+		$tex = str_replace('</em>', "}", $tex);
+		$tex = str_replace('<i>', "\\textit{", $tex);
+		$tex = str_replace('</i>', "}", $tex);
+		$tex = str_replace('<strong>', "\\textbf{", $tex);
+		$tex = str_replace('</strong>', "}", $tex);
+		$tex = str_replace("<math-inline>", "\\)", $tex);
+		$tex = str_replace("</math-inline>", "\\)", $tex);
+		$tex = str_replace("<math-display>", "\\]", $tex);
+		$tex = str_replace("</math-display>", "\\]", $tex);
 		$tex = str_replace(".\\)", "\\).", $tex);
 		$tex = str_replace(",\\)", "\\),", $tex);
 		$tex = str_replace("\\]", "\\]\n", $tex);

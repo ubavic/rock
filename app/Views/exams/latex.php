@@ -13,7 +13,7 @@
 
 \begin{document}
 
-\flushright <?= $exam->date ?>
+\flushright <?= $exam->date_string ?>
 
 
 \begin{center}
@@ -24,9 +24,24 @@
 <?php endif; ?>
 
 \Large{<?= $exam->subject_name ?>}
+
+<?php if($exam->modules_string): ?>
+<?php if(strlen($exam->modules_string) > 2): ?>
+За смерове <?= $exam->modules_string ?>.
+<?php else: ?>
+За смер <?= $exam->modules_string ?>.
+<?php endif; ?>
+<?php endif; ?>
+
 \end{center}
 
 \medskip
+
+<?php if ($exam->note != null): ?>
+<?= $exam->note ?>
+
+\medskip
+<?php endif; ?>
 
 <?= $problems ?>
 
