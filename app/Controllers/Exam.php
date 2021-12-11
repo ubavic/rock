@@ -335,4 +335,32 @@ class Exam extends BaseController
 		return redirect()->to('/exam/view/' . $exam_id);
 	}
 
+	public function tex($id = null)
+	{
+		if (null === $id)
+			return $this->notFound();
+
+		$examModel = new ExamModel();
+		$exam = $examModel->find($id);
+
+		if (null === $exam)
+			return $this->notFound();
+		
+		$data['exam'] = $exam;
+
+		$problemModel = new ProblemModel();
+		$problems = $problemModel->getProblems($id);
+
+		$problemsTeX = '';
+
+		foreach ($problems as $problem) 
+			$problemsTeX .= "\\begin{zadatak}\n" .
+				$problemModel->getTex($problem->id) . 
+				"\n\\end{zadatak}\n\n";
+
+		$data['problems'] = $problemsTeX;
+		
+		$this->response->setHeader('Content-Type', 'text/plain;charset=UTF-8');
+		echo view('exams/latex', $data);
+	}
 }

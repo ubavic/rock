@@ -2,15 +2,38 @@
 
 use CodeIgniter\Model;
 
-class ProblemModel extends Model{
+class ProblemModel extends Model
+{
 	protected $table = 'problems';
 	protected $allowedFields = ['exam', 'text', 'points'];
 	protected $useTimestamps = false;
 	protected $useSoftDeletes = false;
 	protected $returnType = 'object';
 
-	public function getProblems($ID)
+	public function getProblems($id)
 	{
-		return $this->where('exam', $ID)->get()->getResult();
+		return $this->where('exam', $id)->get()->getResult();
+	}
+
+	public function getTex($id)
+	{
+		$tex = $this->find($id);
+
+		$tex = str_replace('<p>', "\n", $tex->text);
+		$tex = str_replace('</p>', "\n", $tex);
+		$tex = str_replace('<li>', "\\item\\ ", $tex);
+		$tex = str_replace('</li>', "", $tex);
+		$tex = str_replace('<ol>', "\\begin{enumerate}", $tex);
+		$tex = str_replace('</ol>', "\\end{enumerate}\n", $tex);
+		$tex = str_replace('<ul>', "\\begin{itemize}\n", $tex);
+		$tex = str_replace('</ul>', "\\end{itemize}\n", $tex);
+		$tex = str_replace(".\\)", "\\).", $tex);
+		$tex = str_replace(",\\)", "\\),", $tex);
+		$tex = str_replace("\\]", "\\]\n", $tex);
+		$tex = str_replace("\\[", "\n\\[", $tex);
+		$tex = str_replace("\\gt", ">", $tex);
+		$tex = str_replace("\\lt", "<", $tex);
+
+		return trim($tex);
 	}
 }

@@ -52,27 +52,30 @@
 		<?php endfor;?>
 	</div>
 	<?php if(session()->get('logged')): ?>
-		<div class="formRow no-print" style="align-items: flex-end;">
-			<div style="font-style: italic; font-size: 0.9em">
-				Рок додат <?= $exam->created_at ?>, од <?= $created_by ?>.
-				<?php if($exam->created_at != $exam->updated_at): ?>
-					<br>Последњи пут измењен <?= $exam->updated_at ?>, од <?= $updated_by ?>.
-				<?php endif; ?>
-			</div>
-			<div style="margin-left:auto;"></div>
-			<?php if(is_null($exam->edit_lock)): ?>
-				<?php if(session()->get('can_edit')): ?>
-					<a href="/exam/edit/<?= $exam->id ?>" class="button bigButton">Измени рок</a>
-				<?php endif; ?>
-				<?php if(session()->get('can_delete')): ?>
-					<div onclick="confirmDelete()" class="button bigButton">Обриши рок</div>
-				<?php endif; ?>
-			<?php elseif ($exam->edit_lock == session()->get('id') || session()->get('can_manage_users')): ?>
-				<a href="/exam/unlock/<?= $exam->id ?>" class="button bigButton">Откључај рок</a>
-			<?php else: ?>
-				<img src="/img/lock.svg" title="Рок је тренутно заључан.">
+		<div class="no-print" style="font-style: italic; text-align:center; font-size: 0.9em">
+			Рок додат <?= $exam->created_at ?>, од&nbsp;<?= $created_by ?>
+			<?php if($exam->created_at != $exam->updated_at): ?>
+				&bull; Последњи пут измењен <?= $exam->updated_at ?>, од&nbsp;<?= $updated_by ?>
 			<?php endif; ?>
 		</div>
+		<form class="no-print">
+			<div class="formRow" style="align-items: flex-end;">
+				<a href="/exam/tex/<?= $exam->id ?>" class="button bigButton">LaTeX</a>
+				<div style="margin-left:auto;"></div>
+				<?php if(is_null($exam->edit_lock)): ?>
+					<?php if(session()->get('can_edit')): ?>
+						<a href="/exam/edit/<?= $exam->id ?>" class="button bigButton">Измени рок</a>
+					<?php endif; ?>
+					<?php if(session()->get('can_delete')): ?>
+						<div onclick="confirmDelete()" class="button bigButton">Обриши рок</div>
+					<?php endif; ?>
+				<?php elseif ($exam->edit_lock == session()->get('id') || session()->get('can_manage_users')): ?>
+					<a href="/exam/unlock/<?= $exam->id ?>" class="button bigButton">Откључај рок</a>
+				<?php else: ?>
+					<img src="/img/lock.svg" title="Рок је тренутно заључан.">
+				<?php endif; ?>
+			</div>
+		</form>
 	<?php endif; ?>
 	<script type="text/javascript">
 		function confirmDelete() {
