@@ -97,6 +97,8 @@ class Exam extends BaseController
 			$description .= ' одржан на Математичком факултету у Београду.';
 
 		$data['DESCRIPTION'] = $description;
+		
+		$data['commandBlock'] = session()->get('logged');
 
 		echo view('exams/view', $data);
 	}
@@ -362,5 +364,48 @@ class Exam extends BaseController
 		
 		$this->response->setHeader('Content-Type', 'text/plain;charset=UTF-8');
 		echo view('exams/latex', $data);
+	}
+
+	public function generate($subject = null)
+	{
+		if (null === $subject)
+			return $this->index();
+
+		$data['TITLE'] = 'Генератор рокова';
+		$data['DESCRIPTION'] = 'Генеришите нове испитне рокове';
+
+		$subjectModel = new SubjectModel();
+		$data['subject'] = $subjectModel->find($subject);
+
+		echo view('exams/generate', $data);
+	}
+
+	public function generatePost()
+	{
+		$subject = $this->request->getVar('subject');
+		$limit = $this->request->getVar('problems');
+
+		if (null === $subject || null === $limit)
+			return $this->index();
+
+		$data['TITLE'] = 'Генератор рокова';
+		$data['DESCRIPTION'] = 'Генерисан рок';
+		$data['commandBlock'] = false;
+
+		$subjectModel = new SubjectModel();
+		$data['subject'] = $subjectModel->find($subject);
+
+		$data['exam'] = (object) [
+			'date_string' => null,
+			'duration' => null,
+			'note' => null,
+			'type' => -1,
+			'modules_string' => null
+			];
+
+		$problemModel = new ProblemModel();
+		$data['problems'] = $problemModel->getRandomProblems($subject, $limit);
+
+		echo view('exams/view', $data);
 	}
 }

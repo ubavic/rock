@@ -253,6 +253,16 @@ button {
 
 /* CLASSES */
 
+.command-block {
+  margin: 1em 0;
+  border-radius: var(--border-radius);
+  background-color: var(--color-gray-5);
+  padding: 0.5em;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
 #title {
   display: block;
   margin: 2rem auto;

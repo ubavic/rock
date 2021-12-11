@@ -15,6 +15,17 @@ class ProblemModel extends Model
 		return $this->where('exam', $id)->get()->getResult();
 	}
 
+	public function getRandomProblems($subject, $limit)
+	{
+		return $this
+			->select('text, subject, 0 AS points')
+			->join('exams', 'problems.exam = exams.id', 'left')
+			->where('subject', $subject)
+			->orderBy('subject', 'random')
+			->limit($limit)
+			->get()->getResult();
+	}
+
 	public function getTex($id)
 	{
 		$tex = $this->find($id);

@@ -87,4 +87,8 @@
   .no-print {
     display: none;
   }
+
+  .command-block {
+    display: none;
+  }
 }

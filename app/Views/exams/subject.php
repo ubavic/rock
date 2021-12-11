@@ -8,10 +8,12 @@
 		<?= $exam_table ?>
 	</div>
 	<?php if(session()->get('logged')): ?>
-		<?php if(session()->get('can_add')): ?>
-			<div class="formRow no-print" style="flex-direction: row-reverse;">
+		<div class="command-block">
+			<div style="margin-left: auto;"></div>
+			<a href="/exam/generate/<?= $subject->id ?>" class="button bigButton">Генериши рок</a>
+			<?php if(session()->get('can_add')): ?>
 				<a href="/exam/new/<?= $subject->id ?>" class="button bigButton">Нови рок</a>
-			</div>
-		<?php endif; ?>
+			<?php endif; ?>
+		</div>
 	<?php endif; ?>
 <?= $this->endSection(); ?>

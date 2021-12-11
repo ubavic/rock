@@ -1,7 +1,7 @@
 <?= $this->extend('page'); ?>
 <?= $this->section('content'); ?>
 	<div class="breadcrumb">
-		<?php if(session()->get('logged')): ?>
+		<?php if($commandBlock): ?>
 			<a href="/exam/save_exam/<?= $exam->id ?>"
 				title="<?= ($saved) ? 'Уклоните рок из листе сачуваних рокова.' :'Сачувајте рок.' ?>"
 				class="bookmarkRibbon <?= ($saved) ? 'bookmarkRibbonSaved' : ''?>">
@@ -19,10 +19,12 @@
 	<h1 id="examTitle">
 	<?php if ($exam->type == 0): ?>
 		Писмени испит из предмета
-	<?php else: ?>
+	<?php elseif ($exam->type == 1): ?>
 		Колоквијум из предмета
+	<?php elseif ($exam->type === -1): ?>
+		Насумично генерисан рок
 	<?php endif; ?>
-		<span class="class"><?= $exam->subject_name ?></span>
+		<span class="class"><?= $subject->name ?></span>
 	<?php if($exam->modules_string): ?>
 		<?php if(strlen($exam->modules_string) > 2): ?>
 			За смерове <?= $exam->modules_string ?>.
@@ -51,37 +53,35 @@
 			</section>
 		<?php endfor;?>
 	</div>
-	<?php if(session()->get('logged')): ?>
+	<?php if($commandBlock): ?>
 		<div class="no-print" style="font-style: italic; text-align:center; font-size: 0.9em">
 			Рок додат <?= $exam->created_at ?>, од&nbsp;<?= $created_by ?>
 			<?php if($exam->created_at != $exam->updated_at): ?>
 				&bull; Последњи пут измењен <?= $exam->updated_at ?>, од&nbsp;<?= $updated_by ?>
 			<?php endif; ?>
 		</div>
-		<form class="no-print">
-			<div class="formRow" style="align-items: flex-end;">
-				<a href="/exam/tex/<?= $exam->id ?>" class="button bigButton">LaTeX</a>
-				<div style="margin-left:auto;"></div>
-				<?php if(is_null($exam->edit_lock)): ?>
-					<?php if(session()->get('can_edit')): ?>
-						<a href="/exam/edit/<?= $exam->id ?>" class="button bigButton">Измени рок</a>
-					<?php endif; ?>
-					<?php if(session()->get('can_delete')): ?>
-						<div onclick="confirmDelete()" class="button bigButton">Обриши рок</div>
-					<?php endif; ?>
-				<?php elseif ($exam->edit_lock == session()->get('id') || session()->get('can_manage_users')): ?>
-					<a href="/exam/unlock/<?= $exam->id ?>" class="button bigButton">Откључај рок</a>
-				<?php else: ?>
-					<img src="/img/lock.svg" title="Рок је тренутно заључан.">
+		<div class="command-block">
+			<a href="/exam/tex/<?= $exam->id ?>" class="button bigButton">LaTeX</a>
+			<div style="margin-left:auto;"></div>
+			<?php if(is_null($exam->edit_lock)): ?>
+				<?php if(session()->get('can_edit')): ?>
+					<a href="/exam/edit/<?= $exam->id ?>" class="button bigButton">Измени рок</a>
 				<?php endif; ?>
-			</div>
-		</form>
-	<?php endif; ?>
-	<script type="text/javascript">
-		function confirmDelete() {
-			if (confirm('Да ли сте сигурни да желите да обришете овај рок?')) {
-				window.location.href = '/exam/delete/<?= $exam->id ?>';
+				<?php if(session()->get('can_delete')): ?>
+					<div onclick="confirmDelete()" class="button bigButton">Обриши рок</div>
+				<?php endif; ?>
+			<?php elseif ($exam->edit_lock == session()->get('id') || session()->get('can_manage_users')): ?>
+				<a href="/exam/unlock/<?= $exam->id ?>" class="button bigButton">Откључај рок</a>
+			<?php else: ?>
+				<img src="/img/lock.svg" title="Рок је тренутно заључан.">
+			<?php endif; ?>
+		</div>
+		<script type="text/javascript">
+			function confirmDelete() {
+				if (confirm('Да ли сте сигурни да желите да обришете овај рок?')) {
+					window.location.href = '/exam/delete/<?= $exam->id ?>';
+				}
 			}
-		}
-	</script>
+		</script>
+	<?php endif; ?>
 <?= $this->endSection(); ?>
