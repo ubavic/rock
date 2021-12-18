@@ -74,7 +74,7 @@ const setSubtitle = day => {
     }
 
     let date = `${day.date.getDate()}. ${monthNames[day.date.getMonth()]}`
-    d3.select('h3').text(`Најпосећенији рокови за дан ${date}`)
+    d3.select('h3').text(`${date}`)
 }
 
 const drawExamStatistics = exams => {
@@ -85,7 +85,7 @@ const drawExamStatistics = exams => {
         .data(exams)
         .enter()
         .append('a')
-        .attr('href', (e, i) => `/exam/view/${e[i].exam}`)
+        .attr('href', (e, i) => `/exam/${e[i].subject}`)
 
     groups.append('rect')
         .attr('x', margin)
@@ -109,9 +109,8 @@ const getStatisticsForDate = date => {
     return fetch(`/cp/getStatistics/${day}-${month}-${year}`)
         .then(j =>  j.json())
         .then(exams => {
-            const max = exams.reduce((a, b) => a > b.hits ? a : b.hits, 0)
-            exams = exams.map(e => ({...exams, width: e.hits/max}))
-            drawExamStatistics(exams)
+            const max = Math.max(...exams.map(o => o.hits))
+            drawExamStatistics(exams.map(e => ({...exams, width: e.hits/max})))
         })
 }
 
@@ -131,7 +130,6 @@ const drawHeatmap = () => {
     .attr('rx', 2)
     .attr('style', 'cursor: pointer')
     .on('click', (_, d) => {
-        console.log(d.index)
         toggleDay(d)
         drawHeatmap()
     })
