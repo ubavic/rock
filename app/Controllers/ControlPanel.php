@@ -156,7 +156,7 @@ class ControlPanel extends BaseController
 
 		$examLog = new ExamLogModel();
 		$query = $examLog->db->query("
-			SELECT hits, name FROM (
+			SELECT hits, name, subject FROM (
 				SELECT COUNT(*) AS hits, subject FROM exam_log
 				LEFT JOIN exams
 				ON exam = exams.id
