@@ -269,39 +269,29 @@ class Query implements QueryInterface
     /**
      * Escapes and inserts any binds into the finalQueryString object.
      *
-     * @see https://regex101.com/r/EUEhay/4
+     * @see https://regex101.com/r/EUEhay/5
      */
     protected function compileBinds()
     {
-        $sql = $this->finalQueryString;
+        $sql   = $this->finalQueryString;
+        $binds = $this->binds;
 
-        $hasNamedBinds = preg_match('/:((?!=).+):/', $sql) === 1;
-
-        if (empty($this->binds)
-            || empty($this->bindMarker)
-            || (! $hasNamedBinds && strpos($sql, $this->bindMarker) === false)
-        ) {
+        if (empty($binds)) {
             return;
         }
 
-        if (! is_array($this->binds)) {
-            $binds     = [$this->binds];
-            $bindCount = 1;
-        } else {
-            $binds     = $this->binds;
+        if (is_int(array_key_first($binds))) {
             $bindCount = count($binds);
-        }
+            $ml        = strlen($this->bindMarker);
 
-        // Reverse the binds so that duplicate named binds
-        // will be processed prior to the original binds.
-        if (! is_numeric(key(array_slice($binds, 0, 1)))) {
+            $this->finalQueryString = $this->matchSimpleBinds($sql, $binds, $bindCount, $ml);
+        } else {
+            // Reverse the binds so that duplicate named binds
+            // will be processed prior to the original binds.
             $binds = array_reverse($binds);
+
+            $this->finalQueryString = $this->matchNamedBinds($sql, $binds);
         }
-
-        $ml  = strlen($this->bindMarker);
-        $sql = $hasNamedBinds ? $this->matchNamedBinds($sql, $binds) : $this->matchSimpleBinds($sql, $binds, $bindCount, $ml);
-
-        $this->finalQueryString = $sql;
     }
 
     /**
@@ -365,50 +355,57 @@ class Query implements QueryInterface
     {
         // Key words we want bolded
         static $highlight = [
-            'SELECT',
+            'AND',
+            'AS',
+            'ASC',
+            'AVG',
+            'BY',
+            'COUNT',
+            'DESC',
             'DISTINCT',
             'FROM',
-            'WHERE',
-            'AND',
-            'LEFT&nbsp;JOIN',
-            'RIGHT&nbsp;JOIN',
-            'JOIN',
-            'ORDER&nbsp;BY',
-            'GROUP&nbsp;BY',
-            'LIMIT',
+            'GROUP',
+            'HAVING',
+            'IN',
+            'INNER',
             'INSERT',
             'INTO',
-            'VALUES',
-            'UPDATE',
-            'OR&nbsp;',
-            'HAVING',
-            'OFFSET',
-            'NOT&nbsp;IN',
-            'IN',
+            'IS',
+            'JOIN',
+            'LEFT',
             'LIKE',
-            'NOT&nbsp;LIKE',
-            'COUNT',
+            'LIMIT',
             'MAX',
             'MIN',
+            'NOT',
+            'NULL',
+            'OFFSET',
             'ON',
-            'AS',
-            'AVG',
+            'OR',
+            'ORDER',
+            'RIGHT',
+            'SELECT',
             'SUM',
-            '(',
-            ')',
+            'UPDATE',
+            'VALUES',
+            'WHERE',
         ];
 
         if (empty($this->finalQueryString)) {
             $this->compileBinds(); // @codeCoverageIgnore
         }
 
-        $sql = $this->finalQueryString;
+        $sql = esc($this->finalQueryString);
 
-        foreach ($highlight as $term) {
-            $sql = str_replace($term, '<strong>' . $term . '</strong>', $sql);
-        }
+        /**
+         * @see https://stackoverflow.com/a/20767160
+         * @see https://regex101.com/r/hUlrGN/4
+         */
+        $search = '/\b(?:' . implode('|', $highlight) . ')\b(?![^(&#039;)]*&#039;(?:(?:[^(&#039;)]*&#039;){2})*[^(&#039;)]*$)/';
 
-        return $sql;
+        return preg_replace_callback($search, static function ($matches) {
+            return '<strong>' . str_replace(' ', '&nbsp;', $matches[0]) . '</strong>';
+        }, $sql);
     }
 
     /**

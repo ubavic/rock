@@ -206,11 +206,11 @@ class FileHandler extends BaseHandler
         $key = static::validateKey($key, $this->prefix);
 
         if (false === $data = $this->getItem($key)) {
-            return false; // This will return null in a future release
+            return false; // @TODO This will return null in a future release
         }
 
         return [
-            'expire' => $data['time'] + $data['ttl'],
+            'expire' => $data['ttl'] > 0 ? $data['time'] + $data['ttl'] : null,
             'mtime'  => filemtime($this->path . $key),
             'data'   => $data['data'],
         ];
@@ -241,7 +241,6 @@ class FileHandler extends BaseHandler
             return false;
         }
 
-        // @phpstan-ignore-next-line
         if ($data['ttl'] > 0 && time() > $data['time'] + $data['ttl']) {
             // If the file is still there then try to remove it
             if (is_file($this->path . $filename)) {

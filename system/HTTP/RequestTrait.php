@@ -273,13 +273,12 @@ trait RequestTrait
             $value = $this->globals[$method][$index] ?? null;
         }
 
-        // @phpstan-ignore-next-line
         if (is_array($value)
             && (
                 $filter !== FILTER_DEFAULT
                 || (
                     (is_numeric($flags) && $flags !== 0)
-                    || is_array($flags) && count($flags) > 0
+                    || is_array($flags) && $flags !== []
                 )
             )
         ) {

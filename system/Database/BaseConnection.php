@@ -239,6 +239,13 @@ abstract class BaseConnection implements ConnectionInterface
     public $likeEscapeChar = '!';
 
     /**
+     * RegExp used to escape identifiers
+     *
+     * @var array
+     */
+    protected $pregEscapeChar = [];
+
+    /**
      * Holds previously looked up data
      * for performance reasons.
      *
@@ -251,14 +258,14 @@ abstract class BaseConnection implements ConnectionInterface
      *
      * @var float
      */
-    protected $connectTime;
+    protected $connectTime = 0.0;
 
     /**
      * How long it took to establish connection.
      *
      * @var float
      */
-    protected $connectDuration;
+    protected $connectDuration = 0.0;
 
     /**
      * If true, no queries will actually be
@@ -558,7 +565,7 @@ abstract class BaseConnection implements ConnectionInterface
      *
      * @param mixed ...$binds
      *
-     * @return BaseResult|bool|Query
+     * @return BaseResult|bool|Query BaseResult when “read” type query, bool when “write” type query, Query when prepared query
      *
      * @todo BC set $queryClass default as null in 4.1
      */
@@ -828,7 +835,7 @@ abstract class BaseConnection implements ConnectionInterface
     abstract protected function _transRollback(): bool;
 
     /**
-     * Returns an instance of the query builder for this connection.
+     * Returns a non-shared new instance of the query builder for this connection.
      *
      * @param array|string $tableName
      *
@@ -876,7 +883,6 @@ abstract class BaseConnection implements ConnectionInterface
         $this->pretend(false);
 
         if ($sql instanceof QueryInterface) {
-            // @phpstan-ignore-next-line
             $sql = $sql->getOriginalQuery();
         }
 
@@ -948,6 +954,8 @@ abstract class BaseConnection implements ConnectionInterface
      * the correct identifiers.
      *
      * @param array|string $item
+     * @param bool         $prefixSingle Prefix an item with no segments?
+     * @param bool         $fieldExists  Supplied $item contains a field name?
      *
      * @return array|string
      */
@@ -1005,7 +1013,8 @@ abstract class BaseConnection implements ConnectionInterface
             //
             // NOTE: The ! empty() condition prevents this method
             // from breaking when QB isn't enabled.
-            if (! empty($this->aliasedTables) && in_array($parts[0], $this->aliasedTables, true)) {
+            $firstSegment = trim($parts[0], $this->escapeChar);
+            if (! empty($this->aliasedTables) && in_array($firstSegment, $this->aliasedTables, true)) {
                 if ($protectIdentifiers === true) {
                     foreach ($parts as $key => $val) {
                         if (! in_array($val, $this->reservedIdentifiers, true)) {
@@ -1119,29 +1128,35 @@ abstract class BaseConnection implements ConnectionInterface
             return $item;
         }
 
-        static $pregEc = [];
-
-        if (empty($pregEc)) {
+        if ($this->pregEscapeChar === []) {
             if (is_array($this->escapeChar)) {
-                $pregEc = [
+                $this->pregEscapeChar = [
                     preg_quote($this->escapeChar[0], '/'),
                     preg_quote($this->escapeChar[1], '/'),
                     $this->escapeChar[0],
                     $this->escapeChar[1],
                 ];
             } else {
-                $pregEc[0] = $pregEc[1] = preg_quote($this->escapeChar, '/');
-                $pregEc[2] = $pregEc[3] = $this->escapeChar;
+                $this->pregEscapeChar[0] = $this->pregEscapeChar[1] = preg_quote($this->escapeChar, '/');
+                $this->pregEscapeChar[2] = $this->pregEscapeChar[3] = $this->escapeChar;
             }
         }
 
         foreach ($this->reservedIdentifiers as $id) {
             if (strpos($item, '.' . $id) !== false) {
-                return preg_replace('/' . $pregEc[0] . '?([^' . $pregEc[1] . '\.]+)' . $pregEc[1] . '?\./i', $pregEc[2] . '$1' . $pregEc[3] . '.', $item);
+                return preg_replace(
+                    '/' . $this->pregEscapeChar[0] . '?([^' . $this->pregEscapeChar[1] . '\.]+)' . $this->pregEscapeChar[1] . '?\./i',
+                    $this->pregEscapeChar[2] . '$1' . $this->pregEscapeChar[3] . '.',
+                    $item
+                );
             }
         }
 
-        return preg_replace('/' . $pregEc[0] . '?([^' . $pregEc[1] . '\.]+)' . $pregEc[1] . '?(\.)?/i', $pregEc[2] . '$1' . $pregEc[3] . '$2', $item);
+        return preg_replace(
+            '/' . $this->pregEscapeChar[0] . '?([^' . $this->pregEscapeChar[1] . '\.]+)' . $this->pregEscapeChar[1] . '?(\.)?/i',
+            $this->pregEscapeChar[2] . '$1' . $this->pregEscapeChar[3] . '$2',
+            $item
+        );
     }
 
     /**
@@ -1185,10 +1200,6 @@ abstract class BaseConnection implements ConnectionInterface
 
         if (is_bool($str)) {
             return ($str === false) ? 0 : 1;
-        }
-
-        if (is_numeric($str) && $str < 0) {
-            return "'{$str}'";
         }
 
         return $str ?? 'NULL';
@@ -1269,8 +1280,7 @@ abstract class BaseConnection implements ConnectionInterface
      */
     public function callFunction(string $functionName, ...$params): bool
     {
-        $driver = strtolower($this->DBDriver);
-        $driver = ($driver === 'postgre' ? 'pg' : $driver) . '_';
+        $driver = $this->getDriverFunctionPrefix();
 
         if (strpos($driver, $functionName) === false) {
             $functionName = $driver . $functionName;
@@ -1285,6 +1295,14 @@ abstract class BaseConnection implements ConnectionInterface
         }
 
         return $functionName(...$params);
+    }
+
+    /**
+     * Get the prefix of the function to access the DB.
+     */
+    protected function getDriverFunctionPrefix(): string
+    {
+        return strtolower($this->DBDriver) . '_';
     }
 
     //--------------------------------------------------------------------

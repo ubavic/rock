@@ -117,7 +117,6 @@ class Connection extends BaseConnection
             return $this->dataCache['version'];
         }
 
-        // @phpstan-ignore-next-line
         if (! $this->connID || ($pgVersion = pg_version($this->connID)) === false) {
             $this->initialize();
         }
@@ -142,6 +141,14 @@ class Connection extends BaseConnection
         }
 
         return false;
+    }
+
+    /**
+     * Get the prefix of the function to access the DB.
+     */
+    protected function getDriverFunctionPrefix(): string
+    {
+        return 'pg_';
     }
 
     /**
@@ -425,8 +432,11 @@ class Connection extends BaseConnection
             $this->DSN = "host={$this->hostname} ";
         }
 
-        if (! empty($this->port) && ctype_digit($this->port)) {
-            $this->DSN .= "port={$this->port} ";
+        // ctype_digit only accepts strings
+        $port = (string) $this->port;
+
+        if ($port !== '' && ctype_digit($port)) {
+            $this->DSN .= "port={$port} ";
         }
 
         if ($this->username !== '') {

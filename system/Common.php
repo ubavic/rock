@@ -23,6 +23,7 @@ use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\HTTP\URI;
+use CodeIgniter\Model;
 use CodeIgniter\Session\Session;
 use CodeIgniter\Test\TestLogger;
 use Config\App;
@@ -379,7 +380,7 @@ if (! function_exists('esc')) {
      * If $data is an array, then it loops over it, escaping each
      * 'value' of the key/value pairs.
      *
-     * Valid context values: html, js, css, url, attr, raw, null
+     * Valid context values: html, js, css, url, attr, raw
      *
      * @param array|string $data
      * @param string       $encoding
@@ -479,9 +480,9 @@ if (! function_exists('force_https')) {
         $uri = URI::createURIString(
             'https',
             $baseURL,
-            $request->uri->getPath(), // Absolute URIs should use a "/" for an empty path
-            $request->uri->getQuery(),
-            $request->uri->getFragment()
+            $request->getUri()->getPath(), // Absolute URIs should use a "/" for an empty path
+            $request->getUri()->getQuery(),
+            $request->getUri()->getFragment()
         );
 
         // Set an HSTS header
@@ -559,7 +560,7 @@ if (! function_exists('helper')) {
     {
         static $loaded = [];
 
-        $loader = Services::locator(true);
+        $loader = Services::locator();
 
         if (! is_array($filenames)) {
             $filenames = [$filenames];
@@ -595,18 +596,14 @@ if (! function_exists('helper')) {
 
                 $includes[] = $path;
                 $loaded[]   = $filename;
-            }
-
-            // No namespaces, so search in all available locations
-            else {
+            } else {
+                // No namespaces, so search in all available locations
                 $paths = $loader->search('Helpers/' . $filename);
 
                 foreach ($paths as $path) {
-                    if (strpos($path, APPPATH) === 0) {
-                        // @codeCoverageIgnoreStart
+                    if (strpos($path, APPPATH . 'Helpers' . DIRECTORY_SEPARATOR) === 0) {
                         $appHelper = $path;
-                    // @codeCoverageIgnoreEnd
-                    } elseif (strpos($path, SYSTEMPATH) === 0) {
+                    } elseif (strpos($path, SYSTEMPATH . 'Helpers' . DIRECTORY_SEPARATOR) === 0) {
                         $systemHelper = $path;
                     } else {
                         $localIncludes[] = $path;
@@ -616,10 +613,8 @@ if (! function_exists('helper')) {
 
                 // App-level helpers should override all others
                 if (! empty($appHelper)) {
-                    // @codeCoverageIgnoreStart
                     $includes[] = $appHelper;
                     $loaded[]   = $filename;
-                    // @codeCoverageIgnoreEnd
                 }
 
                 // All namespaced files get added in next
@@ -644,28 +639,17 @@ if (! function_exists('is_cli')) {
     /**
      * Check if PHP was invoked from the command line.
      *
-     * @codeCoverageIgnore Cannot be tested fully as PHPUnit always run in CLI
+     * @codeCoverageIgnore Cannot be tested fully as PHPUnit always run in php-cli
      */
     function is_cli(): bool
     {
-        if (PHP_SAPI === 'cli') {
+        if (in_array(PHP_SAPI, ['cli', 'phpdbg'], true)) {
             return true;
         }
 
-        if (defined('STDIN')) {
-            return true;
-        }
-
-        if (stristr(PHP_SAPI, 'cgi') && getenv('TERM')) {
-            return true;
-        }
-
-        if (! isset($_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_USER_AGENT']) && isset($_SERVER['argv']) && count($_SERVER['argv']) > 0) {
-            return true;
-        }
-
-        // if source of request is from CLI, the `$_SERVER` array will not populate this key
-        return ! isset($_SERVER['REQUEST_METHOD']);
+        // PHP_SAPI could be 'cgi-fcgi', 'fpm-fcgi'.
+        // See https://github.com/codeigniter4/CodeIgniter4/pull/5393
+        return ! isset($_SERVER['REMOTE_ADDR']) && ! isset($_SERVER['REQUEST_METHOD']);
     }
 }
 
@@ -725,8 +709,23 @@ if (! function_exists('lang')) {
      */
     function lang(string $line, array $args = [], ?string $locale = null)
     {
-        return Services::language($locale)
-            ->getLine($line, $args);
+        $language = Services::language();
+
+        // Get active locale
+        $activeLocale = $language->getLocale();
+
+        if ($locale && $locale !== $activeLocale) {
+            $language->setLocale($locale);
+        }
+
+        $line = $language->getLine($line, $args);
+
+        if ($locale && $locale !== $activeLocale) {
+            // Reset to active locale
+            $language->setLocale($activeLocale);
+        }
+
+        return $line;
     }
 }
 
@@ -769,7 +768,12 @@ if (! function_exists('model')) {
     /**
      * More simple way of getting model instances from Factories
      *
-     * @return mixed
+     * @template T of Model
+     *
+     * @param class-string<T> $name
+     *
+     * @return T
+     * @phpstan-return Model
      */
     function model(string $name, bool $getShared = true, ?ConnectionInterface &$conn = null)
     {
@@ -806,11 +810,6 @@ if (! function_exists('old')) {
             return $default;
         }
 
-        // If the result was serialized array or string, then unserialize it for use...
-        if (is_string($value) && (strpos($value, 'a:') === 0 || strpos($value, 's:') === 0)) {
-            $value = unserialize($value);
-        }
-
         return $escape === false ? $value : esc($value, $escape);
     }
 }
@@ -819,9 +818,7 @@ if (! function_exists('redirect')) {
     /**
      * Convenience method that works with the current global $request and
      * $router instances to redirect using named/reverse-routed routes
-     * to determine the URL to go to. If nothing is found, will treat
-     * as a traditional redirect and pass the string in, letting
-     * $response->redirect() determine the correct method and code.
+     * to determine the URL to go to.
      *
      * If more control is needed, you must use $response->redirect explicitly.
      *
@@ -1151,7 +1148,6 @@ if (! function_exists('class_uses_recursive')) {
 
         $results = [];
 
-        // @phpstan-ignore-next-line
         foreach (array_reverse(class_parents($class)) + [$class => $class] as $class) {
             $results += trait_uses_recursive($class);
         }

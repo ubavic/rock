@@ -69,7 +69,6 @@ class DatabaseHandler extends BaseHandler
             throw SessionException::forMissingDatabaseTable();
         }
 
-        // @phpstan-ignore-next-line
         $this->DBGroup = $config->sessionDBGroup ?? config(Database::class)->defaultGroup;
 
         $this->db = Database::connect($this->DBGroup);
@@ -172,11 +171,10 @@ class DatabaseHandler extends BaseHandler
             $insertData = [
                 'id'         => $id,
                 'ip_address' => $this->ipAddress,
-                'timestamp'  => 'now()',
                 'data'       => $this->platform === 'postgre' ? '\x' . bin2hex($data) : $data,
             ];
 
-            if (! $this->db->table($this->table)->insert($insertData)) {
+            if (! $this->db->table($this->table)->set('timestamp', 'now()', false)->insert($insertData)) {
                 return $this->fail();
             }
 
@@ -192,13 +190,13 @@ class DatabaseHandler extends BaseHandler
             $builder = $builder->where('ip_address', $this->ipAddress);
         }
 
-        $updateData = ['timestamp' => 'now()'];
+        $updateData = [];
 
         if ($this->fingerprint !== md5($data)) {
             $updateData['data'] = ($this->platform === 'postgre') ? '\x' . bin2hex($data) : $data;
         }
 
-        if (! $builder->update($updateData)) {
+        if (! $builder->set('timestamp', 'now()', false)->update($updateData)) {
             return $this->fail();
         }
 
@@ -257,7 +255,7 @@ class DatabaseHandler extends BaseHandler
         $separator = $this->platform === 'postgre' ? '\'' : ' ';
         $interval  = implode($separator, ['', "{$max_lifetime} second", '']);
 
-        return $this->db->table($this->table)->delete("timestamp < now() - INTERVAL {$interval}") ? 1 : $this->fail();
+        return $this->db->table($this->table)->where('timestamp <', "now() - INTERVAL {$interval}", false)->delete() ? 1 : $this->fail();
     }
 
     /**
